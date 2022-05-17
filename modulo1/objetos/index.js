@@ -103,16 +103,40 @@ porCarrinho(carrinho)
 // Desafios
 
 //1
-const perguntaUser = (par) => {
-    const nomeuser = prompt("Digite seu nome")
-    const idadeUser = Number(prompt("Digite sua idade"))
-    const profissaoUser = prompt("Digite sua profissao")
-    console.log(nomeuser, idadeUser, profissaoUser)
-}
-perguntaUser(`Nome:nomeuser, idade:idadeUser, profissao:profissaoUser`)
+// const perguntaUser = (par) => {
+//     const nomeuser = prompt("Digite seu nome")
+//     const idadeUser = Number(prompt("Digite sua idade"))
+//     const profissaoUser = prompt("Digite sua profissao")
+//     console.log(nomeuser, idadeUser, profissaoUser)
+// }
+// perguntaUser(`Nome:nomeuser, idade:idadeUser, profissao:profissaoUser`)
 
-//2
-const filmes = () =>
+// //2
+// const filmes = () =>
+
+// const minhaFuncao = (num1, num2) => {
+//      let num1User = Number(prompt("Digite um número."))
+//      let num2User = Number(prompt("Digite outro número."))
+//      let igual = num1User === num2User 
+//          igual =true
+//      if (condicao1) {
+//         let condicao1 = num1User === num2User
+//         condicao1 = true
+//         return condicao1
+//      }
+    
+//      if (condicao2) {
+//         let condicao2 = num1User !== num2User
+//         condicao2 = false
+//         return condicao2
+    
+//      }
+     
+// }
+
+
+
+
 
 
 
