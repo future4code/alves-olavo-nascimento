@@ -1,0 +1,40 @@
+
+header { 
+    background-color: gold;
+    color: rgb(78, 29, 238);
+    margin: 50px 60px 30px 100px;
+    inline-size: 18%;
+    
+    
+}
+
+body{
+    color: rgb(11, 9, 9);
+    background-color: aliceblue;
+}
+h2 {
+    color: rgb(255, 0, 0);
+    
+}
+ol{
+    color: rgb(18, 18, 14);
+    background-color: gold;
+    inline-size: 20%;
+
+    
+}
+h4{
+color: dodgerblue;
+}
+table{
+    background-color: chartreuse;
+    color: blue;
+}
+form{
+    background-color: crimson;
+    inline-size: 20%;
+}
+nav{
+    margin: 0px 110px  ;
+   
+}

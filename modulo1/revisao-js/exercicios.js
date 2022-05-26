@@ -32,24 +32,39 @@ retornaArrayOrdenado(array12)
 
 // EXERCÍCIO 04
 function retornaNumerosPares(array) {
-   array.filter((pares) => {
-          if(pares%2===0){
-              console.log(pares)
-          }
+   let soPar = array.filter((pares) => {
+         return pares % 2 === 0
     })
+    return soPar
 }
-let oi = [1, 2, 3, 4]
-retornaNumerosPares(oi)
+
 
 // EXERCÍCIO 05
 function retornaNumerosParesElevadosADois(array) {
- 
+    let numerosElevados = array.filter((elevados) => {
+        let pares = elevados % 2 === 0
+        for(let i = 0; i <= pares.length; i++){
+            pares[i]**2
+         }
+        return pares
+    })
+    return numerosElevados
 }
+let arrayElevado = [1,2,3,4,5,6]
+console.log(retornaNumerosParesElevadosADois(arrayElevado))
 
 // EXERCÍCIO 06
 function retornaMaiorNumero(array) {
-  
+    let maior = array[0]
+    for (let elemento of array) {
+        if (elemento > maior){
+            maior = elemento
+        }
+   }
+    return maior
 }
+let numeros = [1,2,2,3,4,5,6]
+retornaMaiorNumero(numeros)
 
 // EXERCÍCIO 07
 function retornaObjetoEntreDoisNumeros(num1, num2) {
