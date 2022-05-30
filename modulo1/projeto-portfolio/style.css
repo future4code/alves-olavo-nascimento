@@ -5,25 +5,6 @@
     padding: 0;
 }
 
-body, h1, h4{
-    text-align: center;
-    color: yellow;
-    padding-top: 3%;
-    
-}
-
-h3{
-    color: yellow;  
-}
-
-
-#imagemteste{
-    display: inline;
-    margin-left: auto;
-    margin-right: auto;
-    
-    
-}
 
 #imagemhtml{
     display: block;
@@ -32,36 +13,76 @@ h3{
     padding-top: 6%;
 }
 
-body{
-    color: black;
-    background-color: yellow;
-}
-
-h4{
+h1, h3, h4{
     color: yellow;
     text-align: center;
-    padding-left: 30px;
-    padding-right: 30px;
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: black;
 }
 
-body>head{
+h2{
+    color: red;
+}
+
+head{
     background-color: yellow;
     text-align: center;
 }
 
-div{
-    display: block;
-    background-color: indigo;
-    border-radius: 2%;
-    border-style: dashed;
-    padding-bottom: 20px;
+nav{
+    color: blue;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-top: 50px;
+    
 }
+
 
 footer{
     padding-top: 120px;
     display: block;
+    text-align: center;
+    padding-bottom: 40px;
 }
 
-ol{
+.contato{
+    color: red;
+    margin-left: 15px;
+}
+
+h2, li{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 20px;
+}
+
+nav, a{
+    padding-left: 20px;
+
+}
+
+nav, a:hover{
+    color: yellow;
+}
+
+
+body{
+    background-color:  lightblue;
     
 }
+
+.habilidades{
+    margin-left: 40px;
+    margin-right: 20px;
+}
+
+form{
+    padding-top: 40px;
+    color: red;
+
+}
+
