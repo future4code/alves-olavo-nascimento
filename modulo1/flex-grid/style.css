@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+div{
+    display: flex;
+    background-color: mediumvioletred;
+    flex-direction: row;
+    column-gap: 20px;
+    padding: 10px;
+    padding-right: 20px;
+
+}
+
+#vasio {
+    flex: auto
+}
+
+td{
+    padding: 10px;
+    padding-left: 10px;
+    justify-content: space-between;
+}
+
+#seta{
+    padding-left: 50%;
+}
+
+
+
