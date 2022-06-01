@@ -1,0 +1,71 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+nav{
+    color: blue;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding-top: 50px;
+      
+}
+
+body, head{
+    
+    text-align: center;
+    background-color:hnjbc
+}
+
+h2{
+    color: yellow;
+    margin-top: 30px;
+}
+
+div{
+    display: block;
+    background-color: black;
+    padding-bottom: 20px;
+    padding-top: 47px;
+    
+}
+video{
+    padding-top: 50px;
+    border-radius: 5%;
+}
+
+img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 40px;
+    border-radius: 5%;
+}
+
+nav, a:hover{
+    padding-left: 20px;
+    color: yellow;
+
+}
+
+nav, a{
+    padding-left: 20px;
+
+}
+
+body{
+    background-color:  lightblue;
+    color: blue;
+}
+
+.descriçao{
+    margin-top: 10px;
+    
+}
+
+.descriçao:hover{
+    color: yellow;
+    
+}
