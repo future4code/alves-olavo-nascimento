@@ -1,66 +1,140 @@
 *{
     border: 0;
     padding: 0;
+    margin: 0;
 }
 
-header{
+header {
     display: grid;
-    border: 1px solid black;
+    height: 7vh;
     grid-template-columns: auto 1fr auto;
     background-color: red;
     padding-left: 10px;
     padding-right: 20px;
     align-items: center;
 
+
 }
 
-input{
+h4{
+    padding-left: 3vw;
+}
+
+input {
     grid-column: 3/-1;
     border: 1px black;
     padding: 5px 0 5px 0;
-    
+
 }
 
-body > div{
+body>div {
     display: grid;
     min-height: 100vh;
     grid-template-rows: auto 1fr 50px;
 
 }
 
-/* main{
-    border: 1px  ;
-} */
-
-section{
+section {
     display: grid;
     flex-wrap: wrap;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     column-gap: 15px;
     row-gap: 15px;
-    padding: 15px;
+    padding: 3vh;
+    padding-left: 5vw;
+}
+
+.video {
+    width: 300px;
+    display: grid;
     
 }
 
-.video{
-    width: 300px;
-    border: 1px solid red;
-    display: grid;
-}
-
-.video video{
+.video video {
     width: 100%;
 }
-footer{
+
+video{
+    border-radius: 10%;
+    margin-bottom: 5%;
+
+}
+
+footer {
     text-align: center;
-    
     background-color: red;
-   
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-#pagina{
-    text-align: center;
+
+@media (min-device-width:320px) and (max-device-width:480px) {
+    *{
+        margin: 0;
+    }
+    
+    header {
+        display: grid;
+        height: 10vh;
+        width: 94vw; 
+
+    }
+    
+    .pesquisar{
+        border-style: inset;
+    }
+    
+
+    section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 92vw;
+        padding-top: 5vh;
+        border: 0;
+        margin: 0;
+    }
+
+    footer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: brown;
+        height: 8vh;
+
+    }
+
+    body, div{
+        border: 0;
+        margin: 0;
+        padding: 0;
+        width: 88vw;
+    }
+
+    .video{
+        width: 90vw;
+    }
+
+
 }
+        
+@media (min-device-width : 481px) and (max-device-width : 1380px) {
 
+    header{
+        width: 105vw;
+    }
 
+    body, div{
+        width: 100vw;
+        margin: 0;
+        
+    }
+
+    section{
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+    }
+}

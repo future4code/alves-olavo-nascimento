@@ -1,11 +1,11 @@
-*{
+* {
     border: 0;
     padding: 0;
+    margin: 0;
 }
 
-header{
+header {
     display: grid;
-    border: 1px solid black;
     grid-template-columns: auto 1fr auto;
     background-color: red;
     padding-left: 10px;
@@ -15,27 +15,39 @@ header{
 }
 
 
-input{
+input {
     grid-column: 3/-1;
     border: 1px black;
     padding: 5px 0 5px 0;
-    
+
 }
 
-#pagina{
+video{
+    border-radius: 10%;
+}
+
+#pagina {
     text-align: center;
 }
 
-footer{
-    display: grid;
+footer {
+    display: flex;
+    justify-content: center;
     text-align: center;
     background-color: red;
     padding: 10px;
 }
 
-body{
+body {
     display: grid;
     min-height: 100vh;
     grid-template-rows: 70px 1fr 70px;
 
 }
+
+h3{
+    margin: 20px 0 20px 0;
+   
+}
+
+
