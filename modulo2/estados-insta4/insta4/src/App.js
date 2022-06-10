@@ -10,27 +10,53 @@ const MainContainer = styled.div`
 `
 
 class App extends React.Component {
+  state = {
+    // Lista de pessoas colocada no estado
+    posts: [
+      // O objeto abaixo representa uma pessoa. Ele possui
+      // duas propridades: nome e email.
+      {
+        nomeUsuario: "paulinha",
+        fotoUsuario: "https://picsum.photos/50/50",
+        fotoPost: "https://picsum.photos/200/150"
+      },
+      {
+        nomeUsuario: "pedro",
+        fotoUsuario: "https://picsum.photos/60/60",
+        fotoPost: "https://picsum.photos/200/160"
+      },
+      {
+        nomeUsuario: "patrick",
+        fotoUsuario: "https://picsum.photos/70/70",
+        fotoPost: "https://picsum.photos/200/170"
+      }
+    ]
+  }
   render() {
-    return (
-      <MainContainer>
-        <Post
-          nomeUsuario={'paulinha'}
-          fotoUsuario={'https://picsum.photos/50/50'}
-          fotoPost={'https://picsum.photos/200/150'}
-        />
-        <Post
-          nomeUsuario={'pedro'}
-          fotoUsuario={'https://picsum.photos/60/60'}
-          fotoPost={'https://picsum.photos/200/160'}
-        />
-        <Post
-          nomeUsuario={'patrick'}
-          fotoUsuario={'https://picsum.photos/70/70'}
-          fotoPost={'https://picsum.photos/200/170'}
-        />
-      </MainContainer>
-    );
+    const listasDosPosts = this.state.posts.map((post) => {
+          return(
+            <p>
+              {post.nomeUsuario} - {post.fotoUsuario} - {post.fotoPost}
+
+            </p>
+          )
+         
+      return (
+        <MainContainer>
+          <Post
+            {post.nomeUsuario}
+          />
+          <Post
+            {post.fotoUsuario}
+          />
+          <Post
+            {post.fotoPost}
+          />
+        </MainContainer>
+        
+      );
+    })
+    {listasDosPosts}
   }
 }
-
 export default App;
