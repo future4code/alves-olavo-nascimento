@@ -3,9 +3,8 @@ import styled from "styled-components";
 
 export const ImputMensagem = styled.input`
     border: 1px solid black;
-    width: 425px;
+    width: 410px;
     height: 25px;
-    border-radius: 10px;
     `
 
 export const ImputRemetente = styled.input`
@@ -13,10 +12,16 @@ export const ImputRemetente = styled.input`
     margin-right: 2px;
     width: 100px;
     height: 25px;
-    border-radius: 10px;
     `
 
 export const DivPai = styled.div`
     display: flex; 
+    flex-direction: column;
     margin: 10px;
+    justify-content:end;
 `
+export const DivFilho = styled.div`
+    display: flex; 
+`
+
+

@@ -1,15 +1,10 @@
 import React from "react";
-import { ImputMensagem, ImputRemetente, DivPai } from "./styled"
+import { ImputMensagem, ImputRemetente, DivPai, DivFilho} from "./styled"
 
 class Mensagem extends React.Component {
 
     state = {
-        mensagem: [
-            {
-                remetentes: "",
-                conteudo: ""
-            }
-        ],
+        mensagem: [],
 
         valorImputRemetente: "",
         valorImputConteudo: ""
@@ -42,30 +37,33 @@ class Mensagem extends React.Component {
         const listaDeComponentes = this.state.mensagem.map((remetente) => {
             return (
                 <p>
-                    {remetente.remetentes} - {remetente.conteudo}
+                    {remetente.remetente} : {remetente.conteudo}
                 </p>
             )
         })
 
         return (
             <DivPai>
+                {listaDeComponentes}
+                <DivFilho>
+                    <div>
+                        <ImputRemetente 
+                            value={this.state.valorImputRemetente}
+                            onChange={this.onChangeImputRemetente}
+                            placeholder={"Remetente"}
+                        />
+                    </div>
+                    <div>
+                        <ImputMensagem
+                            value={this.state.valorImputConteudo}
+                            onChange={this.onChangeImputConteudo}
+                            placeholder={"Mensagem"}
+                        />
+                    </div>
 
-                <div>
-                    <ImputRemetente
-                        value={this.state.valorImputRemetente}
-                        onChange={this.onChangeImputRemetente}
-                        placeholder={"Remetente"}
-                    />
-                </div>
-                <div>
-                    <ImputMensagem
-                        value={this.state.valorImputConteudo}
-                        onChange={this.onChangeImputConteudo}
-                        placeholder={"Mensagem"}
-                    />
-                </div>
+                    <button onClick={this.adicionaPessoa}>Enviar</button>
+                </DivFilho>
 
-                <button onClick={this.adicionaPessoa}>Enviar</button>
 
             </DivPai>
 

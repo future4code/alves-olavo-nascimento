@@ -3,12 +3,7 @@
   background-color: aqua;
   margin: auto;
   width: 600px; 
-  /* padding-left: 25vw; */
-  padding-top: 99vh;
   border: 2px solid black;
-  justify-content: space-around;
-
-  
-  
+  height: 100vh;
   
 }
