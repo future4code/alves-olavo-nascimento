@@ -1,0 +1,9 @@
+.whatz{
+  display: flex;
+  background-color: aqua;
+  margin: auto;
+  width: 600px; 
+  border: 2px solid black;
+  height: 100vh;
+  
+}
