@@ -1,93 +1,58 @@
-import './App.css';
 import React from 'react';
-import axios from 'axios';
+import Cadastro from './components/Cadastro';
+import Lista from './components/Lista';
+import styled from 'styled-components';
+
+const Corpo = styled.div`
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ margin-left: 50px;
+ @media screen and (min-width: 350px) and (max-width: 500px) {
+        display: flex;
+        margin-right: 40px;
+    }
+`
 
 export default class App extends React.Component {
   state = {
-    listaPessoa: [],
-    nome: "",
-    emailUsuario: "",
-    error:""
+    telaAtual: "cadastro"
   }
 
-  adicionaPessoa = () => {
-    console.log("Clicou")
-    const body = {
-      name: this.state.nome,
-      emailUsuario: this.state.emailUsuario
+  escolheTela = () => {
+    switch (this.state.telaAtual) {
+      case "lista":
+        return <Lista irParaCadastro={this.irParaCadastro} />
+      case "cadastro":
+        return <Cadastro irParaLista={this.irParaLista} />
+      default:
+        return <div>Erro! Pagina não encontrada 😭</div>
+
     }
-    axios.post("https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users", body, 
-    {
-      headers: {
-        Authorization: "olavo-marques-alves"
-      }
-    
-    }
-    ).then((resposta) => {
-        console.log(resposta)
-        console.log("entrou no then")
-        resposta.status === 201 ? alert("Seu Usúario foi Adicionado") : alert("Usário não Cadastrado.")
-      })
-      // .catch((erro) => {
-      //   console.log("entrou no catch")
-      //   alert(erro.response.data.message)
-      // })
-
-
-
   }
 
-  // listaDeNomes = () => {
-  //   axios.get("https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users", 
-  //   {
-  //     headers: {
-  //       Authorization:"olavo-marques-alves"
-  //       }
-  //   }).then((respostaLista) => {
-  //     console.log(respostaLista)
-  //     this.setState({listaPessoa: respostaLista.data})
-  //   }).catch((erroLista)=>{
-  //     this.setState({error: erroLista.response.data})
-  //   })
-  // }
+  irParaCadastro = () => {
+    this.setState({ telaAtual: "cadastro" })
+  }
 
-  onChangeNome = (event) => {
-    console.log("entrou nome")
-    this.setState({ nome: event.target.value });
-  };
+  irParaLista = () => {
+    this.setState({ telaAtual: "lista" })
+  }
 
-  onChangeEmail = (event) => {
-    console.log("entrou emailUsuario")
-    this.setState({ emailUsuario: event.target.value });
-  };
 
-  // componentDidMount() {
-  //   this.listaDeNomes()
-  // }
 
   render() {
     return (
-      <div>
-        {/* <button>Troca de tela</button> */}
-        <hr />
-        <input
-          onChange={this.onChangeNome}
-          value={this.state.nome}
-          placeholder='Nome'
-        />
-        <input
-          onChange={this.onChangeEmail}
-          value={this.state.emailUsuario}
-          placeholder='Email'
-        />
-        <button onClick={this.adicionaPessoa} > Criar Usuário 🤠</button>
-        {/* <button> Criar Usuário </button> */}
-        <hr />
-        {/* <Tela2 /> */}
-      </div>
+      <Corpo>
+        <h2>Projeto Labenusers-Olavo</h2>
+        <div>
+          {this.escolheTela()}
+        </div>
+      </Corpo>
     );
   }
 }
+
 
 
 
