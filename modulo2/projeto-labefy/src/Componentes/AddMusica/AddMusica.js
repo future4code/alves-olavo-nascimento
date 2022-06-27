@@ -5,6 +5,7 @@ import styled from "styled-components";
 const Div = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 300px;
 
 `
@@ -16,66 +17,46 @@ export default class AddMusica extends React.Component {
         musica: "",
         cantor: "",
         linkUrl: "",
-        idPlay: []
+        idPlay: "",
+        albumDeMusicas:[],
+        istaDeMusicas:[],
+        idAlbumDeMusicas:[]
     }
 
-    
+
+
     onChangeMusica = (event) => {
-        console.log("entrou musica")
+        // console.log("entrou musica")
         this.setState({ musica: event.target.value })
     }
 
     onChangeCantor = (event) => {
-        console.log("entrou cantor")
+        // console.log("entrou cantor")
         this.setState({ cantor: event.target.value })
     }
 
     onChangeLinkUrl = (event) => {
-        console.log("entrou musica")
+        // console.log("entrou musica")
         this.setState({ linkUrl: event.target.value })
     }
 
-    componentDidMount() {
-        this.playLists()
-    }
-
-    playLists = () => {
-        console.log("entrou em pesquisa play")
-        const url = "https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists"
-        axios.get(url, {
-            headers: { Authorization: "olavo-marques-alves" }
-        })
-            .then((resposta) => {
-                // console.log(resposta.data.result.list)
-                this.setState({ idPlay: resposta.data.result.list })
-            })
-            .catch((erro) => {
-                console.log(erro)
-            })
-
-    }
-
-
     onClickAdicionaMusica = (id) => {
-        console.log("entrou em onclic")
+        // console.log("entrou em onclic")
         const urll = `https://us-central1-labenu-apis.cloudfunctions.net/labefy/playlists/${id}/tracks`
         const body = {
             name: this.state.nome,
             artist: this.state.musica,
             url: this.state.linkUrl
         }
-        const idAtuali = {
-            id: this.state.idPlay
-        }
-        axios.post(urll, body, idAtuali, {
+        axios.post(urll, body, {
             headers: { Authorization: "olavo-marques-alves" }
         })
             .then((resposta) => {
-                // console.log(resposta)
+                console.log(resposta)
                 // resposta.status === 200 && alert("Playlist adicicona!")
             })
             .catch((erro) => {
-                // console.log(erro)
+                console.log(erro)
                 // erro && alert("Ocorreu um erro, tente")
 
 
@@ -86,16 +67,12 @@ export default class AddMusica extends React.Component {
     }
 
     render() {
-        const playListsAtualizada = this.state.idPlay.map((lista) => {
-            return (
-                <div key={lista.id}>
-                    {lista.name}
-                </div>
-            )
-        })
 
         return (
             <Div>
+                <button onClick={() => this.props.irParaTodasPLay} >Todas as Playlists</button>
+                <button onClick={() => this.props.irParaAddMusica} >Adicionar Música</button>
+                <button onClick={() => this.props.irParaAddPlaylist} >Adicionar PlayLists</button>
                 <input
                     onChange={this.onChangeMusica}
                     value={this.state.musica}
@@ -113,7 +90,6 @@ export default class AddMusica extends React.Component {
                     placeholder="Endereço url"
                 />
                 <button onClick={this.onClickAdicionaMusica}>Adicionar Música</button>
-                {playListsAtualizada}
             </Div>
         )
     }
