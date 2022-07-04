@@ -1,8 +1,7 @@
-
 import React, { useState } from 'react';
+import * as C from './styled'
 
 function Post(props) {
-    // Passo5
     const [inputValue, setInputValue] = useState("");
     const [comentarios, setComentarios] = useState([]);
     const [numeroComentarios, setNumeroComentarios] = useState(0);
@@ -10,7 +9,6 @@ function Post(props) {
     const [numeroCurtidas, setNumeroCurtidas] = useState(0);
     const [curtido, setCurtido] = useState(false);
 
-    // Passo7
     const onClickCurtida = () => {
         if (curtido) {
             setCurtido(!curtido)
@@ -21,17 +19,14 @@ function Post(props) {
         };
     };
 
-    // Passo7
     const onClickComentario = () => {
         setComentando(!comentando)
     };
 
-    // Passo7
     const onChangeComentario = (event) => {
         setInputValue(event.target.value)
     };
 
-    // Passo7
     const enviarComentario = (comentario) => {
         const listaDeComentarios = [...comentarios, comentario]
         setComentarios(listaDeComentarios)
@@ -40,22 +35,17 @@ function Post(props) {
         setInputValue("")
     };
 
-    {/* Passo6 */ }
     const caixaDeComentario = comentando ? (
         <>
             <label htmlFor={"comentario"} >Comente: </label>
-            {/* Passo4 */}
             <input
                 id={"comentario"}
                 value={inputValue}
                 onChange={onChangeComentario}
             />
-            {/* Passo4 */}
             <button onClick={() => { enviarComentario(inputValue) }}>Enviar</button>
         </>
     ) : (
-        // Passo8
-        // <>Lógica de exibir lista de comentarios</>
         comentarios.map((comentario, index) => {
             return (
                 <div key={index}>
@@ -66,46 +56,41 @@ function Post(props) {
     );
 
     return (
-        <main>
+        <C.Main>
             <header>
-                <figure>
-                    {/* Passo3 */}
+                <C.FotoUser>
                     <img src={props.fotoUsuario} alt={'Imagem do usuario'} />
-                    <span>{props.nomeUsuario}</span>
-                </figure>
+                    <C.NomeUser>{props.nomeUsuario}</C.NomeUser>
+                </C.FotoUser>
             </header>
             <hr />
             <main>
-                <figure>
-                    {/* Passo3 */}
+                <C.ConteinerPost>
                     <p>{`"Acordar para quem você é requer desapego de quem você imagina ser" (Alan Watts)`}</p>
-                    <img src={props.fotoPost} alt={'Imagem do post'} />
-                </figure>
+                    <C.FotoPost src={props.fotoPost} alt={'Imagem do post'} />
+                </C.ConteinerPost>
             </main>
             <hr />
-            <footer>
-                <section>
-                    {/* Passo6 */}
+            <C.Footer>
+                <C.CurtidasCome>
                     <span>Número de curtidas: {numeroCurtidas}</span>
-                    {/* Passo4 */}
                     <button onClick={onClickCurtida} >
-                        {/* Passo6 */}
                         {numeroCurtidas === 1 ? "Like" : "Dislike"}
                     </button >
-                </section>
-                <section>
-                    {/* Passo6 */}
+                </C.CurtidasCome>
+                <C.CurtidasCome>
                     <span>Número de comentários: {numeroComentarios}</span>
-                    {/* Passo4 */}
                     <button onClick={onClickComentario} >
-                        {/* Passo6 */}
                         {comentando === false ? "Fechar comentário" : "Adicionar comentário"}
                     </button>
-                    <h4>Comentários</h4>
-                    {caixaDeComentario}
-                </section>
-            </footer>
-        </main>
+                    <span>
+                        <h4>Comentários</h4>
+                        {caixaDeComentario}
+                    </span>
+
+                </C.CurtidasCome>
+            </C.Footer>
+        </C.Main>
     );
 };
 
