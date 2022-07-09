@@ -3,6 +3,7 @@ import axios from "axios";
 import Perfil from "../perfil/Perfil";
 import Match from "../match/Match";
 import * as S from './styled'
+import { url_base } from "../../components/url";
 
 export default function Home() {
 
@@ -29,7 +30,6 @@ export default function Home() {
             clickListaCurtidos={clickListaCurtidos}
             clickListaDesCurtidos={clickListaDesCurtidos}
             PegaCurtidos={PegaCurtidos}
-            resetMatch={resetMatch}
           />
         )
       case "telaMatch":
@@ -38,6 +38,7 @@ export default function Home() {
             telaPerfil={onclickTelaPerfil}
             curtidos={curtidos}
             clickListaDesCurtidos={clickListaDesCurtidos}
+            resetMatch={resetMatch}
           />
         )
       default:
@@ -52,10 +53,7 @@ export default function Home() {
   }, [])
 
   const PegaPerfis = () => {
-    console.log("entrou PegaPerfis")
-
-    const url = "https://us-central1-missao-newton.cloudfunctions.net/astroMatch/olavo-marques-alves/person"
-    axios.get(url)
+    axios.get(`${url_base}/person`)
       .then((res) => {
         // console.log(res.data.profile)
         setPerfil(res.data.profile)
@@ -67,9 +65,7 @@ export default function Home() {
   }
 
   const PegaCurtidos = () => {
-    console.log("entrou PegaMatch")
-    const url = "https://us-central1-missao-newton.cloudfunctions.net/astroMatch/olavo-marques-alves/matches"
-    axios.get(url)
+    axios.get(`${url_base}/matches`)
       .then((res) => {
         console.log(res.data.matches)
         setCurtidos(res.data.matches)
@@ -82,8 +78,7 @@ export default function Home() {
   }
 
   const DeuMatch = () => {
-    const url = "https://us-central1-missao-newton.cloudfunctions.net/astroMatch/olavo-marques-alves/choose-person"
-    axios.post(url,
+    axios.post(`${url_base}/choose-person `,
       {
         "id": perfil.id,
         "choice": true
@@ -97,16 +92,14 @@ export default function Home() {
   }
 
   const resetMatch = () => {
-    const url = "https://us-central1-missao-newton.cloudfunctions.net/astroMatch/olavo-marques-alves/clear"
-    axios.put(url)
+    axios.put(`${url_base}/clear`)
       .then((res) => {
         alert("Os Perfis Foram resetados")
+        onclickTelaPerfil()
       }).catch((erro) => {
         console.log(erro)
       })
   }
-
-
 
   const clickListaCurtidos = () => {
     console.log("entro no clickListaCurtidos")
@@ -123,6 +116,7 @@ export default function Home() {
     <S.DivPerfil>
       <h2>Astro Match</h2>
       {mudaTela()}
+      <button onClick={resetMatch}>reset</button>
     </S.DivPerfil>
   );
 }
