@@ -1,43 +1,64 @@
 import styled from 'styled-components'
 
-export const DivPerfil = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 500px;
-height: 600px;
-border-radius: 3%;
-background: linear-gradient(18deg, rgba(30,19,150,1) 57%, rgba(212,47,141,0.9855072463768116) 81%);
-/* background: linear-gradient(27deg, rgba(213,68,126) 0%, rgba(213,68,126) 35%, rgba(242,122,66) 100%); */
+export const Div = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+    height: 600px;
+    border-radius: 1%;
+    margin-top: 150px;
+    border:solid 2px #BF2ABA;
 `
 export const Main = styled.main`
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 30vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 400px;
 `
 export const Botoes = styled.div`
-display: flex;
-justify-content: space-between;
-align-items: center;
-width: 200px;
-margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
+    margin-top: 60px;
 `
 export const Imagem = styled.img`
-width: 200px;
-height: 300px;
-object-fit: contain;
-margin: 0;
+    width: 300px;
+    height: 370px;
+    object-fit: contain;
+    margin: 0;
+    border-radius: 2%;
+    margin-top: 10px;
 `
 export const InforPerfil = styled.p`
-color: wheat;
-margin: 0;
-width: 190px;
+    margin: 0;
+    width: 350px;
+`
+export const InforNome = styled.p`
+    font-size: 24px;
+    margin: 0;
 `
 export const NomeProjeto = styled.h3`
-margin: 0;
+    margin: 0;
 `
 export const ImgGosteiNaoGostei = styled.img`
-width: 60px;
-color: red;
+    width: 60px;
+    color: red;
+`
+export const BotaoMatchs = styled.img`
+    width: 40px;
+    height: 40px;
+`
+export const Header = styled.header`
+    display: flex; 
+    flex-direction: row;
+    align-items: center; 
+    border-bottom: solid 2px #BF2ABA;
+    width: 400px;
+    height:50px;
+`
+export const DivCompHea = styled.p`
+    margin-left: 135px;
+    margin-right: 60px;
 `

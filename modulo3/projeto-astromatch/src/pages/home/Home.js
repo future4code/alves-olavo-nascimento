@@ -3,14 +3,14 @@ import axios from "axios";
 import Perfil from "../perfil/Perfil";
 import Match from "../match/Match";
 import * as S from './styled'
-import { url_base } from "../../components/url";
+import { url_base } from "../../components/endereço-urls/url";
+import Img_reset from './../../imagens/reset.png'
 
 export default function Home() {
 
   const [telaAtual, setTelaAtual] = useState("telaPerfil")
   const [perfil, setPerfil] = useState({})
   const [curtidos, setCurtidos] = useState([])
-
 
   const onclickTelaPerfil = () => {
     setTelaAtual("telaPerfil")
@@ -47,33 +47,31 @@ export default function Home() {
   }
 
   useEffect(() => {
-    console.log("useEffect")
     PegaPerfis()
-    // PegaCurtidos()
   }, [])
 
   const PegaPerfis = () => {
     axios.get(`${url_base}/person`)
       .then((res) => {
-        // console.log(res.data.profile)
         setPerfil(res.data.profile)
       })
       .catch((erro) => {
-        // console.log("entrou no erro")
         console.log(erro)
+        erro.message === "Network Error" && resetMatch()
+
+        // setTelaAtual("telaPerfil")
       })
   }
 
   const PegaCurtidos = () => {
     axios.get(`${url_base}/matches`)
       .then((res) => {
-        console.log(res.data.matches)
         setCurtidos(res.data.matches)
         setTelaAtual("telaMatch")
       })
       .catch((erro) => {
-        console.log("entrou no erro")
         console.log(erro)
+        alert("Aconteceu um erro, tente novamente")
       })
   }
 
@@ -84,9 +82,11 @@ export default function Home() {
         "choice": true
       }
     ).then((res) => {
-      console.log(res.data)
+      console.log(res.data.isMatch)
+      res.data.isMatch === true && alert("Prepara o xaveco que deu match!")
     }).catch((erro) => {
       console.log(erro)
+      alert("Aconteceu um erro, tente novamente")
 
     })
   }
@@ -98,25 +98,24 @@ export default function Home() {
         onclickTelaPerfil()
       }).catch((erro) => {
         console.log(erro)
+        alert("Aconteceu um erro, tente novamente")
+
       })
   }
 
   const clickListaCurtidos = () => {
-    console.log("entro no clickListaCurtidos")
     DeuMatch()
     PegaPerfis()
   };
 
   const clickListaDesCurtidos = () => {
-    console.log("Entrou clickListaDesCurtidos")
     PegaPerfis()
   }
 
   return (
     <S.DivPerfil>
-      <h2>Astro Match</h2>
       {mudaTela()}
-      <button onClick={resetMatch}>reset</button>
+      <S.ImgReset src={Img_reset} onClick={resetMatch} />
     </S.DivPerfil>
   );
 }
