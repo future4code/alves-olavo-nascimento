@@ -1,8 +1,9 @@
+import { Router } from "./routes/Router";
 
 function App() {
   return (
     <div>
-      <h1>Componente  App</h1>
+      <Router />
     </div>
   );
 }
