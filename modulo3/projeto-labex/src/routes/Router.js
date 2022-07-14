@@ -11,9 +11,7 @@ export const Router = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route index element={<HomePage 
-                
-                />} />
+                <Route index element={<HomePage />} />
                 <Route path="adminHome" element={<AdminHomePage />} />
                 <Route path="applicationForm" element={<ApplicationFormPage />} />
                 <Route path="createTrip" element={<CreateTripPage />} />

@@ -1,10 +1,10 @@
 import React from "react"
 
-export const SelectPais = () => {
+export const SelectPais = (props) => {
     return(
         <div>
 
-            <select name="Escolha um País">
+            <select onChange={props.onChangePais} value={props.pais} >
                 <option value="">Escolha um País</option>
                 <option value="AF">Afghanistan</option>
                 <option value="AL">Albania</option>

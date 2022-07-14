@@ -16,21 +16,24 @@ export const CreateTripPage = () => {
         navigate("/adminHome")
     }
 
-
     return (
         <DivCreateTrip>
             <h1>Criar Viagem</h1>
             <input placeholder="Nome" type="text" />
+
             <select>
                 <option>Escolha um planeta</option>
             </select>
+
             <input type="date" />
             <input placeholder="Descrição" type="text" />
             <input placeholder="Duração em dias" type="Number" />
+
             <section>
                 <button onClick={gotToAdminHomePage} >Voltar</button>
                 <button>Criar</button>
             </section>
+
         </DivCreateTrip>
     )
 }
