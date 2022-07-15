@@ -2,6 +2,7 @@ import React, {useState} from "react"
 import styled from "styled-components"
 import { useNavigate } from 'react-router-dom'
 import axios from "axios"
+import { goToHomePage } from "../../routes/cordinator"
 
 export const DivLogin = styled.div`
 display: flex;
@@ -23,10 +24,6 @@ export const LoginPage = () => {
     const onChangeSenha = (e) => {
         console.log("entrou onChangeSenha")
         setSenha(e.target.value)
-    }
-
-    const gotoHomePage = () => {
-        navigate(-1)
     }
 
     const fazerLogin = () => {
@@ -62,7 +59,7 @@ export const LoginPage = () => {
                 placeholder="Senha"
             />
             <section>
-                <button onClick={gotoHomePage} >Voltar</button>
+                <button onClick={()=>goToHomePage(navigate)} >Voltar</button>
                 <button onClick={fazerLogin} >Entrar</button>
             </section>
         </DivLogin>

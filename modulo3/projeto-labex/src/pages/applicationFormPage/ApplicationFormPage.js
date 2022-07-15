@@ -3,6 +3,8 @@ import styled from "styled-components"
 import { useNavigate } from "react-router-dom"
 import { SelectPais } from "./selectPais/SelectPais"
 import axios from "axios"
+import { usePegaViagens } from "../../hooks/usePegaViagens"
+import { goToListTripsPage } from "../../routes/cordinator"
 
 export const DivAppli = styled.div`
 display: flex;
@@ -12,7 +14,7 @@ align-items:center;
 margin-top: 30vh;
 `
 
-export const ApplicationFormPage = (props) => {
+export const ApplicationFormPage = () => {
     const navigate = useNavigate()
     const [viagem, setViagem] = useState("")
     const [nome, setNome] = useState("")
@@ -20,10 +22,7 @@ export const ApplicationFormPage = (props) => {
     const [texto, setTexto] = useState("")
     const [profissao, setProfissao] = useState("")
     const [pais, setPais] = useState("")
-
-    const goToListTripsPage = () => {
-        navigate(-1)
-    }
+    const { listaViagens } = usePegaViagens()
 
     const inscrevaseViagem = () => {
 
@@ -73,12 +72,19 @@ export const ApplicationFormPage = (props) => {
         setPais(e.target.value)
     }
 
+    const listaAtualizada = listaViagens.map((viagem) => {
+        return (
+            <option key={viagem.name} value={viagem.name} >{viagem.name}</option>
+        )
+    })
+
     return (
         <DivAppli>
 
             <h1>Inscreva-se para uma viagem</h1>
-            <select onChange={onChangeViagem} value={viagem} >
-                <option>Escolha Uma Viagem</option>
+            <select>
+                <option>Escolha uma Viagem</option>
+                {listaAtualizada}
             </select>
 
             <input
@@ -109,7 +115,7 @@ export const ApplicationFormPage = (props) => {
             <SelectPais onChangePais={onChangePais} pais={pais} />
 
             <section>
-                <button onClick={goToListTripsPage} >Voltar</button>
+                <button onClick={() => goToListTripsPage(navigate)} >Voltar</button>
                 <button onClick={inscrevaseViagem} >Enviar</button>
             </section>
 

@@ -3,7 +3,6 @@ import React from "react"
 export const SelectPais = (props) => {
     return(
         <div>
-
             <select onChange={props.onChangePais} value={props.pais} >
                 <option value="">Escolha um País</option>
                 <option value="AF">Afghanistan</option>
