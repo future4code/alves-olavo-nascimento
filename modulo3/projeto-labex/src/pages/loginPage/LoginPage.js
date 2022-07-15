@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import styled from "styled-components"
 import { useNavigate } from 'react-router-dom'
 import axios from "axios"
@@ -36,7 +36,7 @@ export const LoginPage = () => {
         axios.post(url, body)
         .then((res)=>{
             localStorage.setItem('token', res.data.token)
-            navigate("/adminHome")
+             navigate("/adminHome")
         })
         .catch((err)=>{
             alert(err.response.data.message)

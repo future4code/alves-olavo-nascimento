@@ -35,11 +35,11 @@ export const TripDetailsPage = () => {
             }
         })
             .then((res) => {
-                console.log(res.data.trip.approved)
+                // console.log(res.data.trip.approved)
                 setDetalhe(res.data.trip)
             })
             .catch((err) => {
-                console.log("Deu err", err.response)
+                // console.log("Deu err", err.response)
             })
     }
 

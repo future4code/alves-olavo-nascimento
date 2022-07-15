@@ -1,12 +1,9 @@
-import React from "react"
-import { isCompositeComponent } from "react-dom/test-utils"
+import React, { useEffect, useState } from "react"
+import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { usePegaViagens, } from "../../hooks/usePegaViagens"
 import { goToHomePage, goToTripDetailsPage, goToCreateTripPage, fazLogout } from "../../routes/cordinator"
-// import { goToTripDetailsPage } from "../../routes/cordinator"
-// import { goToCreateTripPage } from "../../routes/cordinator"
-// import { fazLogout } from "../../routes/cordinator"
 
 export const DivAdimHome = styled.div`
 display: flex;
@@ -21,15 +18,45 @@ border: solid 2px black;
 margin-top: 10px;
 padding: 20px;
 `
+export const Botões = styled.section`
+display: flex;
+flex-direction: column;
+`
 export const AdminHomePage = () => {
     const navigate = useNavigate()
     const { listaViagens } = usePegaViagens()
+    const token = localStorage.getItem('token')
+    const [apagado, setApagado] = useState(false)
+
+    const excluiViagem = (id) => {
+        console.log(id)
+        const url = `https://us-central1-labenu-apis.cloudfunctions.net/labeX/olavo-marques-alves/trips/${id}`
+        axios.delete(url, {
+            headers: {
+                auth: token
+            }
+        }).then((res) => {
+            console.log(res.data.success)
+            setApagado(res.data.success)
+            alert("Viagem Excluida Com Scesso")
+        })
+            .cath((err) => {
+                console.log(err)
+            })
+    }
+    useEffect(() => {
+
+    }, [apagado])
+
 
     const listaAtualizada = listaViagens.map((viagem) => {
         return (
-            <InfoViagens key={viagem.id} onClick={() => goToTripDetailsPage(navigate, viagem.id)} >
+            <InfoViagens key={viagem.id} >
                 {viagem.name}
-                <button>Excluir Viagem</button>
+                <section>
+                    <button onClick={() => goToTripDetailsPage(navigate, viagem.id)} >Detalhes Da Viagem</button>
+                    <button onClick={() => excluiViagem(viagem.id)} >Excluir Viagem</button>
+                </section>
             </InfoViagens>
         )
     })
