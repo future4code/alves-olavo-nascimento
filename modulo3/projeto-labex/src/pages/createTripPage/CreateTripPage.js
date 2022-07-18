@@ -50,12 +50,7 @@ export const CreateTripPage = () => {
         }).catch((err) => {
             err && alert("Verifique os campos e tente novamente.")
         })
-
-        setData(""),
-            setNome(""),
-            setPlaneta(""),
-            setDescriçao(""),
-            setDuracaoDias("")
+        
     }
 
     return (

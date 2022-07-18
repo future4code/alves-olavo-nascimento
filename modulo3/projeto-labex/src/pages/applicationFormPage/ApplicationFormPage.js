@@ -35,15 +35,7 @@ export const ApplicationFormPage = () => {
                 alert("Ocorreu um erro, tente novamente.")
             })
 
-            setViagem(""),
-            setNome(""),
-            setIdade(""),
-            setTexto(""),
-            setProfissao(""),
-            setPais("")
-
     }
-
 
     const onChangeViagem = (e) => {
         setViagem(e.target.value)
