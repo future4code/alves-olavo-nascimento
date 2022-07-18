@@ -1,20 +1,10 @@
-import styled from "styled-components"
 import { useNavigate } from 'react-router-dom'
 import { usePegaViagens } from "../../hooks/usePegaViagens"
 import { goToApplicationFormPage, goToHomePage } from "../../routes/cordinator"
+import { Header } from "../../components/header/Header"
+import { Footer } from "../../components/footer/Footer"
+import *as S from './styled-ListTrips'
 
-export const DivList = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-margin-top: 20vh;
-`
-export const InfoViagens = styled.section`
-width: 500px;
-border: solid 1px black;
-margin-top: 20px;
-padding: 20px;
-`
 
 export const ListTripsPage = () => {
     const navigate = useNavigate()
@@ -22,25 +12,34 @@ export const ListTripsPage = () => {
 
     const listaAtualizada = listaViagens.map((viagem) => {
         return (
-            <InfoViagens key={viagem.id}>
+            <S.InfoViagens key={viagem.id}>
                 <p>Nome: {viagem.name}</p>
                 <p>Planeta: {viagem.planet}</p>
                 <p>Quantidade em Dias: {viagem.durationInDays}</p>
                 <p>Descrição: {viagem.description}</p>
                 <p>Dia da Viagem: {viagem.date}</p>
-                <p>Id: {viagem.id}</p>
-            </InfoViagens>
+            </S.InfoViagens>
         )
     })
 
     return (
-        <DivList>
-            <div>
-                <button onClick={() => goToHomePage(navigate)} >Voltar</button>
-                <button onClick={() => goToApplicationFormPage(navigate)} >Inscrever-se</button>
-            </div>
-            <h1>Lista de Viagens</h1>
-            {listaAtualizada}
-        </DivList>
+        <S.DivListTrip>
+                <Header />
+            <S.DivList>
+
+                <div>
+                    <S.Botoes onClick={() => goToHomePage(navigate)} >Voltar</S.Botoes>
+                    <S.Botoes onClick={() => goToApplicationFormPage(navigate)} >Inscreva-se</S.Botoes>
+                </div>
+
+                <h2>Lista de Viagens</h2>
+
+                {listaAtualizada}
+
+            </S.DivList>
+            
+                <Footer />
+
+        </S.DivListTrip>
     )
 }

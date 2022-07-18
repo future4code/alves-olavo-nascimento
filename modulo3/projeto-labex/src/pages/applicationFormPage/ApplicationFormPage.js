@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react"
-import styled from "styled-components"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { SelectPais } from "./selectPais/SelectPais"
-import axios from "axios"
 import { usePegaViagens } from "../../hooks/usePegaViagens"
 import { goToListTripsPage } from "../../routes/cordinator"
-
-export const DivAppli = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items:center;
-margin-top: 30vh;
-`
+import { Header } from "../../components/header/Header"
+import { Footer } from "../../components/footer/Footer"
+import *as S from './styled-Application'
+import axios from "axios"
+import { URL_BASE } from "../../constants/Url"
 
 export const ApplicationFormPage = () => {
     const navigate = useNavigate()
@@ -24,10 +19,8 @@ export const ApplicationFormPage = () => {
     const [pais, setPais] = useState("")
     const { listaViagens } = usePegaViagens()
 
-    const inscrevaseViagem = () => {
-
-        console.log("entrou inscrevaseViagem")
-        const url = "https://us-central1-labenu-apis.cloudfunctions.net/labeX/olavo-marques-alves/trips/:id/apply"
+    const inscrevaseViagem = (id) => {
+        const url = `${URL_BASE}/trips/${id}/apply`
         const body = {
             name: nome,
             age: idade,
@@ -37,16 +30,20 @@ export const ApplicationFormPage = () => {
         }
         axios.post(url, body)
             .then((res) => {
-                console.log(res)
                 res.data.message === "Application registered successfully" && alert("Cadidatura registrado com sucesso!")
             }).catch((err) => {
-                console.log(err.response)
+                alert("Ocorreu um erro, tente novamente.")
             })
+
+            setViagem(""),
+            setNome(""),
+            setIdade(""),
+            setTexto(""),
+            setProfissao(""),
+            setPais("")
+
     }
 
-    useEffect(() => {
-
-    }, [])
 
     const onChangeViagem = (e) => {
         setViagem(e.target.value)
@@ -74,51 +71,57 @@ export const ApplicationFormPage = () => {
 
     const listaAtualizada = listaViagens.map((viagem) => {
         return (
-            <option key={viagem.name} value={viagem.name} >{viagem.name}</option>
+            <option key={viagem.id} value={viagem.name}>{viagem.name}</option>
         )
     })
 
     return (
-        <DivAppli>
+        <S.DivApplication>
 
-            <h1>Inscreva-se para uma viagem</h1>
-            <select>
-                <option>Escolha uma Viagem</option>
-                {listaAtualizada}
-            </select>
+            <Header />
 
-            <input
-                placeholder="Nome"
-                type="text"
-                onChange={onChangeNome}
-                value={nome}
-            />
-            <input
-                placeholder="Idade"
-                type="Number"
-                onChange={onChangeIdade}
-                value={idade}
-            />
-            <input
-                placeholder="Texto de Candidadtura"
-                type="text"
-                onChange={onChangeTexto}
-                value={texto}
-            />
-            <input
-                placeholder="profissão"
-                type="text"
-                onChange={onChangeProfissao}
-                value={profissao}
-            />
+            <S.Main>
+                <h2>Inscreva-se para uma viagem</h2>
+                <select onChange={onChangeViagem} value={viagem} >
+                    <option>Escolha uma Viagem</option>
+                    {listaAtualizada}
+                </select>
 
-            <SelectPais onChangePais={onChangePais} pais={pais} />
+                <input
+                    placeholder="Nome"
+                    type="text"
+                    onChange={onChangeNome}
+                    value={nome}
+                />
+                <input
+                    placeholder="Idade"
+                    type="Number"
+                    onChange={onChangeIdade}
+                    value={idade}
+                />
+                <input
+                    placeholder="Texto de Candidadtura"
+                    type="text"
+                    onChange={onChangeTexto}
+                    value={texto}
+                />
+                <input
+                    placeholder="profissão"
+                    type="text"
+                    onChange={onChangeProfissao}
+                    value={profissao}
+                />
 
-            <section>
-                <button onClick={() => goToListTripsPage(navigate)} >Voltar</button>
-                <button onClick={inscrevaseViagem} >Enviar</button>
-            </section>
+                <SelectPais onChangePais={onChangePais} pais={pais} />
 
-        </DivAppli>
+                <section>
+                    <S.Botoes onClick={() => goToListTripsPage(navigate)} >Voltar</S.Botoes>
+                    <S.Botoes onClick={inscrevaseViagem} >Enviar</S.Botoes>
+                </section>
+            </S.Main>
+
+            <Footer />
+
+        </S.DivApplication>
     )
 }

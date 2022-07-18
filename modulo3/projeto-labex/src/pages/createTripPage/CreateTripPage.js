@@ -1,22 +1,13 @@
 import axios from "axios"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import styled from "styled-components"
+import { Footer } from "../../components/footer/Footer"
+import { Header } from "../../components/header/Header"
 import { goToAdminHomePage } from "../../routes/cordinator"
+import * as S from './styled-CreatTrips'
+import { URL_BASE } from "../../constants/Url"
 
-export const DivCreateTrip = styled.div`
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-margin-top: 30vh;
-`
-export const InfoViagens = styled.section`
-width: 500px;
-border: solid 1px black;
-margin-top: 20px;
-padding: 20px;
-`
+
 export const CreateTripPage = () => {
     const navigate = useNavigate()
     const token = localStorage.getItem('token')
@@ -42,8 +33,7 @@ export const CreateTripPage = () => {
         setData(e.target.value)
     }
     const criarViagem = () => {
-        console.log("entrou em criarViagem")
-        const url = "https://us-central1-labenu-apis.cloudfunctions.net/labeX/olavo-marques-alves/trips"
+        const url = `${URL_BASE}/trips`
         const body = {
             name: nome,
             planet: planeta,
@@ -56,59 +46,73 @@ export const CreateTripPage = () => {
                 auth: token
             }
         }).then((res) => {
-            console.log(res)
+            alert("Viagem Criada com Sucesso.")
         }).catch((err) => {
-            console.log(err)
+            err && alert("Verifique os campos e tente novamente.")
         })
+
+        setData(""),
+            setNome(""),
+            setPlaneta(""),
+            setDescriçao(""),
+            setDuracaoDias("")
     }
 
     return (
-        <DivCreateTrip>
-            <h1>Criar Viagem</h1>
+        <S.DivCreateTrip>
 
-            <input
-                placeholder="Nome"
-                onChange={onChangeNome}
-                value={nome}
-            />
+            <Header />
 
-            <select onChange={onChangePlaneta} value={planeta} >
-                <option>Escolha um Planeta</option>
-                <option value="Mercúrio">Mercúrio</option>
-                <option value="Vênus">Vênus</option>
-                <option value="Terra">Terra</option>
-                <option value="Marte">Marte</option>
-                <option value="Jupiter">Jupiter</option>
-                <option value="Saturno">Saturno</option>
-                <option value="Urano">Urano</option>
-                <option value="Netuno">Netuno</option>
-                <option value="Plutão">Plutão</option>
-            </select>
+            <S.DivMain>
+                <h2>Criar Viagem</h2>
 
-            <input
-                onChange={onChangeData}
-                value={data}
-                type="date"
-            />
+                <input
+                    placeholder="Nome"
+                    onChange={onChangeNome}
+                    value={nome}
+                />
 
-            <input
-                placeholder="Descrição"
-                onChange={onChangeDescriçao}
-                value={descriçao}
-            />
+                <select onChange={onChangePlaneta} value={planeta} >
+                    <option>Escolha um Planeta</option>
+                    <option value="Mercúrio">Mercúrio</option>
+                    <option value="Vênus">Vênus</option>
+                    <option value="Terra">Terra</option>
+                    <option value="Marte">Marte</option>
+                    <option value="Jupiter">Jupiter</option>
+                    <option value="Saturno">Saturno</option>
+                    <option value="Urano">Urano</option>
+                    <option value="Netuno">Netuno</option>
+                    <option value="Plutão">Plutão</option>
+                </select>
 
-            <input
-                placeholder="Duração em dias"
-                onChange={onChangeDuracaoDias}
-                value={duracaoDias}
-                type="Number"
-            />
+                <input
+                    onChange={onChangeData}
+                    value={data}
+                    type="date"
+                />
 
-            <section>
-                <button onClick={()=>goToAdminHomePage(navigate)} >Voltar</button>
-                <button onClick={criarViagem} >Criar</button>
-            </section>
+                <input
+                    placeholder="Descrição"
+                    onChange={onChangeDescriçao}
+                    value={descriçao}
+                />
 
-        </DivCreateTrip>
+                <input
+                    placeholder="Duração em dias"
+                    onChange={onChangeDuracaoDias}
+                    value={duracaoDias}
+                    type="Number"
+                />
+
+                <section>
+                    <S.Botoes onClick={() => goToAdminHomePage(navigate)} >Voltar</S.Botoes>
+                    <S.Botoes onClick={criarViagem} >Criar</S.Botoes>
+                </section>
+
+            </S.DivMain>
+
+            <Footer />
+
+        </S.DivCreateTrip>
     )
 }

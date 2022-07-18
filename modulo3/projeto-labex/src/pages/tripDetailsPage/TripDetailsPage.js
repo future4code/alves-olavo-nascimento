@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from 'axios'
-import styled from "styled-components"
 import { goToAdminHomePage } from "../../routes/cordinator"
+import * as S from './styled-Details'
+import { Footer } from "../../components/footer/Footer"
+import { Header } from "../../components/header/Header"
+import { URL_BASE } from "../../constants/Url"
 
-export const DivDetalhes = styled.div`
-padding: 20px;
-display: flex;
-flex-direction: column;
-align-items: center;
-margin-top: 100px;
-`
-export const DetalhesViagem = styled.p`
-width: 400px;
-display: flex;
-flex-direction: column;
-align-items: center;
-`
 export const TripDetailsPage = () => {
     const navigate = useNavigate()
     const token = localStorage.getItem('token')
@@ -28,32 +18,41 @@ export const TripDetailsPage = () => {
     }, [])
 
     const pegaDetalhesViagens = () => {
-        const url = `https://us-central1-labenu-apis.cloudfunctions.net/labeX/olavo-marques-alves/trip/${params.id}`
+        const url = `${URL_BASE}/trip/${params.id}`
         axios.get(url, {
             headers: {
                 auth: token
             }
         })
             .then((res) => {
-                // console.log(res.data.trip.approved)
                 setDetalhe(res.data.trip)
             })
             .catch((err) => {
-                // console.log("Deu err", err.response)
+                console.log(err)
+                alert("Ocorreu um erro tente novamente.")
             })
     }
 
+    console.log(detalhe)
     return (
-        <DivDetalhes>
-                <h1>Detalhes da viagem</h1>
-            <section>
-                <DetalhesViagem>Nome: {detalhe.name}</DetalhesViagem>
-                <DetalhesViagem>Planeta: {detalhe.planet}</DetalhesViagem>
-                <DetalhesViagem>Descrição: {detalhe.description}</DetalhesViagem>
-                <DetalhesViagem>Data: {detalhe.date}</DetalhesViagem>
-                <DetalhesViagem>Dyuração em dias {detalhe.durationInDays}</DetalhesViagem>
-            </section>
-            <button onClick={() => goToAdminHomePage(navigate)} >Voltar</button>
-        </DivDetalhes>
+        <S.DivDetalhes>
+            
+            <Header />
+
+            <S.DivMain>
+                <h2>Detalhes da viagem</h2>
+                <section>
+                    <S.DetalhesViagem>Nome: {detalhe.name}</S.DetalhesViagem>
+                    <S.DetalhesViagem>Planeta: {detalhe.planet}</S.DetalhesViagem>
+                    <S.DetalhesViagem>Descrição: {detalhe.description}</S.DetalhesViagem>
+                    <S.DetalhesViagem>Data: {detalhe.date}</S.DetalhesViagem>
+                    <S.DetalhesViagem>Dyuração em dias {detalhe.durationInDays}</S.DetalhesViagem>
+                </section>
+                <S.BotaoVoltar onClick={() => goToAdminHomePage(navigate)} >Voltar</S.BotaoVoltar>
+            </S.DivMain>
+
+            <Footer />
+
+        </S.DivDetalhes>
     )
 }
