@@ -1,19 +1,19 @@
 import styled from "styled-components"
 import { useNavigate } from "react-router-dom"
-import { goToFeedPage, goToLoginPage } from '../../routes/cordinator'
+import { goToFeedPage } from '../../routes/cordinator'
 
 export const DivHeader = styled.div`
     display: flex;
     justify-content: space-between;
     height: 80px;
-    border: solid 1px red;
+    /* border: solid 1px red; */
     align-items: center;
-    background-color: black;
+    background-color: #F9B24E;
 `
 export const TextoLogo = styled.h1`
     cursor: pointer;
     margin: 8px;
-    color: red;
+    color: #45525B;
 `
 
 const Header = () => {
@@ -22,7 +22,6 @@ const Header = () => {
     return (
         <DivHeader>
             <TextoLogo onClick={() => goToFeedPage(navigate)} >LaBeddit</TextoLogo>
-            <button onClick={() => goToLoginPage(navigate)} >Login</button>
         </DivHeader>
     )
 }

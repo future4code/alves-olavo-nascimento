@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const FormLogin = styled.form`
+export const FormRegistration = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,18 +16,10 @@ export const DivLogin = styled.div`
     flex-direction: column;
     justify-content: center; 
     align-items: center;
-    margin-top: 10vh;
+    margin-top: 25vh;
     /* border: solid 1px red; */
 `
 export const Botons = styled.button`
     width: 40vh;
-    /* border: solid 1px red; */
-`
-export const ImgLogo = styled.img`
-    width: 20vh;
-    /* border: solid 1px red; */
-`
-export const TextoLogo = styled.h3`
-    margin-bottom: 40px;
     /* border: solid 1px red; */
 `

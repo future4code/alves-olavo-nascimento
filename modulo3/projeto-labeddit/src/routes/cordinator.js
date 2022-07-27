@@ -1,17 +1,17 @@
 
 export const goToRegistrationPage = (navigate) => {
     console.log("Entrou em goToRegistrationPage ")
-    navigate('registration')
+    navigate('/registration')
 }
 export const goToLoginPage = (navigate) => {
     console.log("Entrou em goToLoginPage ")
-    navigate('login')
+    navigate('/login')
 }
 export const goToFeedPage = (navigate) => {
     console.log("Entrou em goToFeedPage ")
     navigate("/")
 }
-export const goToPostPage = (navigate) => {
+export const goToPostPage = (navigate, id) => {
     console.log("Entrou em goToPostPage ")
-    navigate("list")
+    navigate(`/post/${id}`)
 }

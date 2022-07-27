@@ -14,7 +14,7 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
-    background-color: red;
+    background-color: #FE7E02;
     border: none;
     border-radius: 5px;
     color: white;
