@@ -11,12 +11,12 @@ export const FormPost = styled.form`
     margin-bottom: 5vh;
 `
 
-export const Botons = styled.button`
-    width: 50vh;
-    height: 5vh;
-    font-size: 18px;
-    /* border: solid 1px red; */
-`
+// export const Botons = styled.button`
+//     width: 50vh;
+//     height: 5vh;
+//     font-size: 18px;
+//     /* border: solid 1px red; */
+// `
 
 export const InputPost = styled.textarea`
     width: 50vh;
@@ -72,5 +72,45 @@ export const MainCard = styled.div`
     flex-basis: 80%;
     
 `
+//============================
+
+export const FormFeed = styled.form`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50vh;
+    height: 30vh;
+    border-bottom: 1px solid;
+    margin-bottom: 5vh;
+`
+export const DivFeed = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    margin-top: 10vh;
+    /* border: solid 1px red; */
+`
+export const Botons = styled.button`
+    width: 50vh;
+    height: 10vh;
+    font-size: 18px;
+    /* border: solid 1px red; */
+`
+export const InputTitulo = styled.textarea`
+    width: 50vh;
+    height: 10vh;
+    display:flex;
+    align-items: flex-start;
+    padding-bottom: 50px;
+    padding: 10px;
+    font-family: sans-serif;
+    font-size: 18px;
+    border-radius: 12px;
+    /* border: solid 1px red; */
+`
+
+
 
 

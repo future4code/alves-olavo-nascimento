@@ -6,6 +6,7 @@ import { goToRegistrationPage, goToFeedPage } from "../../routes/cordinator";
 import { useNavigate } from "react-router-dom";
 import Logo_labeedit from '../../assets/imagens/logo-labeddit.png'
 import postLogin from "../../services/requisitions/postLogin";
+import CardPosts from "../../componets/cardPosts/CardPosts";
 
 const LoginPage = () => {
     const navigate = useNavigate()
@@ -51,11 +52,12 @@ const LoginPage = () => {
                                     title={"Mínimo oito caracteres"}
                                 />
                                 <S.Botons>Enviar</S.Botons>
-                            </S.FormLogin>
+                            </S.FormLogin> 
                         )
                     }
                     <S.Botons onClick={() => goToRegistrationPage(navigate)} >Criar sua conta</S.Botons>
-
+                    
+                    < CardPosts /> 
                 </S.DivLogin>
             </>
         </div>

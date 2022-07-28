@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from '../../assets/url'
 import { goToPostPage } from "../../routes/cordinator";
+import CardPosts from "../../componets/cardPosts/CardPosts";
+< CardPosts /> 
 
 const FeedPage = () => {
     const [loading, setLoading] = useState()
-    const [loading2, setLoading2] = useState()
+    // const [loading2, setLoading2] = useState()
     const [listPost, setListPost] = useState([])
     const navigate = useNavigate()
     const token = localStorage.getItem("token")
@@ -18,22 +20,25 @@ const FeedPage = () => {
         body: ""
     })
 
-    useEffect(() => {
-        getPosts()
-    }, [])
+    // useEffect(() => {
+    //     getPosts()
+    // }, [])
 
-    useEffect(() => {
-    }, [listPost])
+    // useEffect(() => {
+
+    // }, [listPost])
 
     const onSubmit = (event) => {
+        console.log("Entrou em onSubmit")
         event.preventDefault()
-        console.log("Entrou em onSubmit", form)
+        // console.log("Entrou em onSubmit", form)
         cleanFields()
         createPost()
-        getPosts()
+        // getPosts()
     }
 
     const createPost = () => {
+        console.log("entrou em createPost")
         setLoading(true)
         axios
             .post(`${BASE_URL}/posts`, form,
@@ -43,48 +48,52 @@ const FeedPage = () => {
                     }
                 })
             .then(res => {
+                console.log(res.data)
                 setLoading(false)
                 alert(res.data)
             })
             .catch(err => {
+                console.log()
                 setLoading(true)
-                alert(err.response.data)
+                alert('erro de createPost', err.response.data)
             })
     }
 
-    const getPosts = () => {
-        setLoading2(true)
-        axios
-            .get(`${BASE_URL}/posts`,
-                {
-                    headers: {
-                        Authorization: token
-                    }
-                })
-            .then(res => {
-                setLoading2(false)
-                setListPost(res.data)
-            })
-            .catch(err => {
-                setLoading2(false)
-                alert(err.response.data)
-            })
-    }
+    // const getPosts = () => {
+    //     console.log("entrou em getPosts")
+    //     setLoading2(true)
+    //     axios
+    //         .get(`${BASE_URL}/posts`,
+    //             {
+    //                 headers: {
+    //                     Authorization: token
+    //                 }
+    //             })
+    //         .then(res => {
+    //             setLoading2(false)
+    //             console.log(res.data)
+    //             setListPost(res.data)
+    //         })
+    //         .catch(err => {
+    //             setLoading2(false)
+    //             alert('erro de getPosts', err.response.data)
+    //         })
+    // }
 
-    const updatedListPosts = listPost.map((post) => {
-        return (
-            <S.CardPosts key={post.id} onClick={() => goToPostPage(navigate, post.id)} >
-                <S.EnviadoPor>
-                    <p>Enviado por: {post.username}</p>
-                    <p>Postado em: {post.createdAt.split('T')[0]}</p>
-                </S.EnviadoPor>
+    // const updatedListPosts = listPost.map((post) => {
+    //     return (
+    //         <S.CardPosts key={post.id} onClick={() => goToPostPage(navigate, post.id)} >
+    //             <S.EnviadoPor>
+    //                 <p>Enviado por: {post.username}</p>
+    //                 <p>Postado em: {post.createdAt.split('T')[0]}</p>
+    //             </S.EnviadoPor>
 
-                <p>Título: {post.title}</p>
-                <span>Corpo:{post.body}</span>
+    //             <p>Título: {post.title}</p>
+    //             <span>Corpo:{post.body}</span>
 
-            </S.CardPosts>
-        )
-    })
+    //         </S.CardPosts>
+    //     )
+    // })
 
     return (
         <div>
@@ -114,11 +123,14 @@ const FeedPage = () => {
                         </S.FormFeed>
                     )
                 }
-                {loading2 ? (<p>Carregando posts, aguarde...</p>) :
 
-                    updatedListPosts
+                {/* {loading2 ? (<p>Carregando posts, aguarde...</p>) :
+                    // updatedListPosts
+                    
+                } */}
+                
+                < CardPosts /> 
 
-                }
             </S.DivFeed>
         </div>
     )
