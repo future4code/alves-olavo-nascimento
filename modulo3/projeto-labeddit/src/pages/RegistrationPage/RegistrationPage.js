@@ -2,12 +2,13 @@ import React from "react";
 import * as S from './styled-Registration'
 import Header from "../../componets/header/Header";
 import useForm from "../../hooks/useForm";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from '../../assets/url'
+import { goToLoginPage } from "../../routes/cordinator";
 
 const RegistrationPage = () => {
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
     const { form, onChange, cleanFields } = useForm({
         username: "",
         email: "",
@@ -26,9 +27,12 @@ const RegistrationPage = () => {
         axios.post(`${BASE_URL}/users/signup`, form)
             .then(res => {
                 console.log(res)
+                alert("Usuaário cadastrado com sucesso!")
+                goToLoginPage(navigate)
             })
             .catch(err => {
                 console.log(err.response.data)
+                alert("Ocorreu um erro tente novamente")
 
             })
     }
@@ -68,6 +72,11 @@ const RegistrationPage = () => {
                         pattern={"^.{8,}"}
                         title={"Mínimo oito caracteres"}
                     />
+                    <S.TextContract> Ao continuar, você concorda com o nosso Contrato de usuário e nossa Política de Privacidade.</S.TextContract>
+                    <S.ConteinerAgree>
+                        <S.InputAgree type="checkbox" required />
+                        <S.TextContract>Eu concordo em receber emails sobre coisas legais no Labeddit</S.TextContract>
+                    </S.ConteinerAgree>
                     <S.Botons >Criar conta</S.Botons>
                 </S.FormRegistration>
 

@@ -4,8 +4,11 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BASE_URL } from '../../assets/url'
 import useForm from "../../hooks/useForm";
+// import useProtectedPage from "../../hooks/useProtectedPage";
 
 const PostPage = () => {
+    // useProtectedPage()
+    // const navigate = useNavigate()
     const token = localStorage.getItem("token")
     const [loading2, setLoading2] = useState()
     const [loading3, setLoading3] = useState()
@@ -34,8 +37,8 @@ const PostPage = () => {
                     <span>Corpo:{list.body}</span>
                 </S.MainCard>
                 <S.IconsSection>
-                    <p>⬆️</p> <p>{list.voteSum}</p> <p>⬇️</p>
-                    <p>💬</p>  <p>{list.commentCount}</p>
+                    <p>⬆️</p><p>{list.voteSum === 0 ? 0 : list.voteSum}</p><p>⬇️</p>
+                    <p>💬</p>  <p>{list.commentCount === 0 ? 0 : list.commentCount}</p>
                 </S.IconsSection>
             </S.CardPosts>
         )
@@ -52,6 +55,7 @@ const PostPage = () => {
     }, [])
 
     const postComment = (id) => {
+        console.log("entrou em postComment Pagina postPage")
         setLoading2(true)
         axios.post(`${BASE_URL}/posts/${params.id}/comments`, form,
             {
@@ -72,6 +76,7 @@ const PostPage = () => {
     }
 
     const getComment = () => {
+        console.log("entrou em getComment Pagina postPage")
         setLoading3(true)
         axios.get(`${BASE_URL}/posts/${params.id}/comments`,
             {

@@ -10,14 +10,6 @@ export const FormPost = styled.form`
     border-bottom: 1px solid;
     margin-bottom: 5vh;
 `
-
-// export const Botons = styled.button`
-//     width: 50vh;
-//     height: 5vh;
-//     font-size: 18px;
-//     /* border: solid 1px red; */
-// `
-
 export const InputPost = styled.textarea`
     width: 50vh;
     height: 15vh;
@@ -45,6 +37,7 @@ export const CardPosts = styled.div`
     font-family: sans-serif;
     font-size: 18px;
     margin: 10px 20px;
+    padding: 0;
     border: solid 2px #FE7E02;
     border-radius: 12px;
     cursor: pointer;
@@ -57,59 +50,42 @@ export const EnviadoPor = styled.h6`
     color: green;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     flex-basis: 10%;
-`
-export const IconsSection = styled.section`
-    display: flex;
-    /* border: 1px solid black; */
-    align-items: center;
-    flex-basis: 10%;
+    /* border: 1px solid blue; */
 `
 export const MainCard = styled.div`
     display: flex;
     flex-direction: column;
-    flex-basis: 80%;
-    
+    flex-basis: 90%;
+    /* border: 1px solid violet; */
+    /* width: 48vh; */
+    /* height: 100%; */
+    max-width: 100%;
 `
-//============================
-
-export const FormFeed = styled.form`
+export const IconsSection = styled.section`
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    /* border: 1px solid green; */
     align-items: center;
-    width: 50vh;
-    height: 30vh;
-    border-bottom: 1px solid;
-    margin-bottom: 5vh;
 `
-export const DivFeed = styled.div`
+export const CorpoClicavel = styled.p`
     display: flex;
-    flex-direction: column;
-    justify-content: center; 
-    align-items: center;
-    margin-top: 10vh;
-    /* border: solid 1px red; */
-`
-export const Botons = styled.button`
-    width: 50vh;
-    height: 10vh;
-    font-size: 18px;
-    /* border: solid 1px red; */
-`
-export const InputTitulo = styled.textarea`
-    width: 50vh;
-    height: 10vh;
-    display:flex;
+    /* border: 1px solid black; */
     align-items: flex-start;
-    padding-bottom: 50px;
-    padding: 10px;
+    /* width: 48vh; */
+    width: 100%;
+    /* height: 15vh; */
+    height: 100%;
     font-family: sans-serif;
     font-size: 18px;
-    border-radius: 12px;
-    /* border: solid 1px red; */
+    cursor: pointer;
+    flex-direction: column;
+    /* overflow: hidden;  */
+    /* max-block-size: writing-mode; */
+    word-break: break-word;
 `
+
+
 
 
 

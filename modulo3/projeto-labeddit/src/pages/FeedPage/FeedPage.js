@@ -7,26 +7,20 @@ import axios from "axios";
 import { BASE_URL } from '../../assets/url'
 import { goToPostPage } from "../../routes/cordinator";
 import CardPosts from "../../componets/cardPosts/CardPosts";
-< CardPosts /> 
+// import useProtectedPage from "../../hooks/useProtectedPage";
+
 
 const FeedPage = () => {
+    // useProtectedPage()
     const [loading, setLoading] = useState()
     // const [loading2, setLoading2] = useState()
-    const [listPost, setListPost] = useState([])
+    const [postVote, setPostVote] = useState()
     const navigate = useNavigate()
     const token = localStorage.getItem("token")
     const { form, onChange, cleanFields } = useForm({
         title: "",
         body: ""
     })
-
-    // useEffect(() => {
-    //     getPosts()
-    // }, [])
-
-    // useEffect(() => {
-
-    // }, [listPost])
 
     const onSubmit = (event) => {
         console.log("Entrou em onSubmit")
@@ -48,52 +42,17 @@ const FeedPage = () => {
                     }
                 })
             .then(res => {
-                console.log(res.data)
+                console.log("entrou em res createPost pagina feePage",res)
                 setLoading(false)
                 alert(res.data)
             })
             .catch(err => {
                 console.log()
                 setLoading(true)
-                alert('erro de createPost', err.response.data)
+                // alert('erro de createPost', err.response.data)
+                alert("erro na requisição createPost")
             })
     }
-
-    // const getPosts = () => {
-    //     console.log("entrou em getPosts")
-    //     setLoading2(true)
-    //     axios
-    //         .get(`${BASE_URL}/posts`,
-    //             {
-    //                 headers: {
-    //                     Authorization: token
-    //                 }
-    //             })
-    //         .then(res => {
-    //             setLoading2(false)
-    //             console.log(res.data)
-    //             setListPost(res.data)
-    //         })
-    //         .catch(err => {
-    //             setLoading2(false)
-    //             alert('erro de getPosts', err.response.data)
-    //         })
-    // }
-
-    // const updatedListPosts = listPost.map((post) => {
-    //     return (
-    //         <S.CardPosts key={post.id} onClick={() => goToPostPage(navigate, post.id)} >
-    //             <S.EnviadoPor>
-    //                 <p>Enviado por: {post.username}</p>
-    //                 <p>Postado em: {post.createdAt.split('T')[0]}</p>
-    //             </S.EnviadoPor>
-
-    //             <p>Título: {post.title}</p>
-    //             <span>Corpo:{post.body}</span>
-
-    //         </S.CardPosts>
-    //     )
-    // })
 
     return (
         <div>
