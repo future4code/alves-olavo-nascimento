@@ -77,9 +77,10 @@ const CardPosts = () => {
 
     const changePostVote = (id, voteSum) => {
         console.log("entrou em changePostVote -1 pagina CardPost")
+        console.log(id)
         console.log(voteSumState)
         const body = {
-            direction: -1
+            direction: - 1
         }
         axios
             .put(`${BASE_URL}/posts/${id}/votes`, body,
@@ -152,7 +153,7 @@ const CardPosts = () => {
                                     onClick={() => createPostVote(post.id, post.voteSum)}
                                 />
 
-                                <p>{post.voteSum === null ? 0 : post.voteSum}</p>
+                                <p>{post.voteSum == null ? 0 : post.voteSum}</p>
 
                                 <S.IconsUpDownBaloon
                                     src={Button_Down} alt='ícone não gostei'
@@ -162,7 +163,7 @@ const CardPosts = () => {
                                     src={Button_Baloon} alt='ícone comentarios'
                                 />
 
-                                <p>{post.commentCount === null ? 0 : post.commentCount}</p>
+                                <p>{post.commentCount == null ? 0 : post.commentCount}</p>
 
                             </S.ConteinerIcons>
                         </S.CardPosts>
