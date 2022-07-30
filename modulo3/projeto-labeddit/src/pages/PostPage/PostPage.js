@@ -4,6 +4,13 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BASE_URL } from '../../assets/url'
 import useForm from "../../hooks/useForm";
+import Button_Baloon from '../../assets/imagens/baloon.png'
+import Button_Up from '../../assets/imagens/up.png'
+import Button_Down from '../../assets/imagens/down.png'
+import Button_Up_black from '../../assets/imagens/up2.png'
+import Button_Down_black from '../../assets/imagens/down2.png'
+import Header from "../../componets/header/Header";
+
 // import useProtectedPage from "../../hooks/useProtectedPage";
 
 const PostPage = () => {
@@ -28,18 +35,27 @@ const PostPage = () => {
         console.log(list)
         return (
             <S.CardPosts key={list.id}>
-                <S.EnviadoPor>
-                    <p>Enviado por: {list.username}</p>
-                    <p>Postado em: {list.createdAt.split('T')[0]}</p>
-                </S.EnviadoPor>
-                <S.MainCard>
-                    <p>Título: {list.title}</p>
-                    <span>Corpo:{list.body}</span>
-                </S.MainCard>
-                <S.IconsSection>
-                    <p>⬆️</p><p>{list.voteSum === 0 ? 0 : list.voteSum}</p><p>⬇️</p>
-                    <p>💬</p>  <p>{list.commentCount === 0 ? 0 : list.commentCount}</p>
-                </S.IconsSection>
+                <S.CorpoClicavel>
+                    <S.SentBy>
+                        <p>Enviado por: {list.username}</p>
+                        <p>Postado em: {list.createdAt.split('T')[0]}</p>
+                    </S.SentBy>
+                    <S.MainCard>
+                        <p>Título: {list.title}</p>
+                        <span>Corpo:{list.body}</span>
+                    </S.MainCard>
+                </S.CorpoClicavel>
+                <S.ConteinerIcons>
+                    <S.IconsUpDownBaloon src={Button_Up} alt='ícone gostei' />
+
+                    <p>{list.voteSum === null ? 0 : list.voteSum}</p>
+
+                    <S.IconsUpDownBaloon src={Button_Down} alt='ícone não gostei' />
+                    <S.IconsUpDownBaloon src={Button_Baloon} alt='ícone comentarios' />
+
+                    <p>{list.commentCount === null ? 0 : list.commentCount}</p>
+
+                </S.ConteinerIcons>
             </S.CardPosts>
         )
     })
@@ -97,46 +113,55 @@ const PostPage = () => {
     }
 
     return (
-        <S.DivPost>
-            {listPostConverted}
-            {loading2 ? (<p>Enviando comentário...</p>) :
-                <S.FormPost onSubmit={onSubmit} >
-                    <S.InputPost
-                        placeholder="Escreva seu comntário..."
-                        type='text'
-                        required
-                        value={form.body}
-                        name={"body"}
-                        onChange={onChange}
-                    />
-                    <S.Botons>Comentar</S.Botons>
-                </S.FormPost>
-            }
+        <div>
+            <Header />
+            <S.DivPost>
+                {listPostConverted}
+                {loading2 ? (<p>Enviando comentário...</p>) :
+                    <S.FormPost onSubmit={onSubmit} >
+                        <S.InputPost
+                            placeholder="Escreva seu comntário..."
+                            type='text'
+                            required
+                            value={form.body}
+                            name={"body"}
+                            onChange={onChange}
+                        />
+                        <S.Botons>Comentar</S.Botons>
+                    </S.FormPost>
+                }
 
-            <h3>Conmentários</h3>
-            <></>
-            {numberComments === 0 ? (<p>Ainda não existe nenhum comentário neste post, seja o primeiro a comentar.</p>) :
-                <div>
-                    {loading3 ? (<p> Carregando comentários, aguarde...</p>) :
-                        comments && comments.map((comme) => {
-                            return (
-                                <S.CardPosts key={comme.id}>
+                <h3>Conmentários</h3>
+                <></>
+                {numberComments === 0 ? (<p>Ainda não existe nenhum comentário neste post, seja o primeiro a comentar.</p>) :
+                    <div>
+                        {loading3 ? (<p> Carregando comentários, aguarde...</p>) :
+                            comments && comments.map((comme) => {
+                                return (
+                                    <S.CardCommet key={comme.id}>
 
-                                    <S.EnviadoPor>
-                                        <p>Enviado por: {comme.username}</p>
-                                        <p>Postado em: {comme.createdAt.split('T')[0]}</p>
-                                    </S.EnviadoPor>
+                                        <S.EnviadoPor>
+                                            <p>Enviado por: {comme.username}</p>
+                                            <p>Postado em: {comme.createdAt.split('T')[0]}</p>
+                                        </S.EnviadoPor>
+                                        <S.MainCardComment>
+                                            <p>Corpo:  {comme.body}</p>
+                                        </S.MainCardComment>
+                                        <S.IconsUpDownComment>
+                                            <S.IconsUpDownBaloon src={Button_Up} alt='ícone gostei' />
+                                            <p>{comme.voteSum === null ? 0 : comme.voteSum}</p>
+                                            <S.IconsUpDownBaloon src={Button_Down} alt='ícone não gostei' />
+                                        </S.IconsUpDownComment>
 
-                                    <p>Corpo:  {comme.body}</p>
+                                    </S.CardCommet>
+                                )
+                            })
+                        }
+                    </div>
+                }
 
-                                </S.CardPosts>
-                            )
-                        })
-                    }
-                </div>
-            }
-
-        </S.DivPost >
+            </S.DivPost >
+        </div>
     )
 }
 

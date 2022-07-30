@@ -46,12 +46,14 @@ export const CardPosts = styled.div`
     /* border: 1px solid green; */
 `
 
-export const EnviadoPor = styled.h6`
+export const EnviadoPor = styled.div`
     color: green;
     display: flex;
     justify-content: space-between;
     /* margin-bottom: 10px; */
     flex-basis: 10%;
+    font-size: 12px;
+    margin-left: 5px;
     /* border: 1px solid blue; */
 `
 export const MainCard = styled.div`
@@ -62,27 +64,30 @@ export const MainCard = styled.div`
     /* width: 48vh; */
     /* height: 100%; */
     max-width: 100%;
+    margin-left: 5px;
 `
-export const IconsSection = styled.section`
+export const ConteinerIcons = styled.section`
     display: flex;
     /* border: 1px solid green; */
     align-items: center;
 `
-export const CorpoClicavel = styled.p`
+export const IconsUpDownBaloon = styled.img`
+    width: 20px;
+    margin: 0 8px 0 8px;
+`
+export const CorpoClicavel = styled.div`
     display: flex;
     /* border: 1px solid black; */
     align-items: flex-start;
     /* width: 48vh; */
     width: 100%;
-    /* height: 15vh; */
     height: 100%;
     font-family: sans-serif;
     font-size: 18px;
     cursor: pointer;
     flex-direction: column;
-    /* overflow: hidden;  */
-    /* max-block-size: writing-mode; */
     word-break: break-word;
+    margin-left: 5px;
 `
 
 
