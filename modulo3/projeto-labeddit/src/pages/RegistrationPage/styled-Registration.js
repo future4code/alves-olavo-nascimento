@@ -8,7 +8,6 @@ export const FormRegistration = styled.form`
     width: 40vh;
     height: 35vh;
     border-bottom: 1px solid;
-    /* border: solid 1px black; */
 
 `
 export const DivLogin = styled.div`
@@ -17,23 +16,31 @@ export const DivLogin = styled.div`
     justify-content: center; 
     align-items: center;
     margin-top: 25vh;
-    /* border: solid 1px red; */
+    @media screen and (min-device-width : 320px) and (max-device-width : 480px) {
+        height: 50vh;
+    }
     `
 export const Botons = styled.button`
     width: 40vh;
-    /* border: solid 1px red; */
     `
 export const ConteinerAgree = styled.section`
-    /* border: solid 1px red; */
     display: flex;
     flex-direction: row;
 `
 export const InputAgree = styled.input`
    width: 20px;
    height: 20px;
-
+`
+export const TextHello = styled.h2`
+     @media screen and (min-device-width : 320px) and (max-device-width : 480px) {
+         font-size: 16px;
+         margin-bottom: 10px;
+    }
 `
 export const TextContract = styled.p`
    margin: 15px 15px;
-
+   @media screen and (min-device-width : 320px) and (max-device-width : 480px) {
+        font-size: 12px;
+        margin: 5px 5px;
+    }
 `

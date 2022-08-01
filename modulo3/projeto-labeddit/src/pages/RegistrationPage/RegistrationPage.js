@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import * as S from './styled-Registration'
 import Header from "../../componets/header/Header";
 import useForm from "../../hooks/useForm";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { BASE_URL } from '../../assets/url'
-import { goToLoginPage } from "../../routes/cordinator";
+import { goToFeedPage } from "../../routes/cordinator";
+import useUnProtectedPage from "../../hooks/useUnProtectedPage";
+import { postSignup } from "../../services/app-access/app-access";
 
 const RegistrationPage = () => {
+    useUnProtectedPage()
     const navigate = useNavigate()
+    const [loading, setLoading] = useState()
     const { form, onChange, cleanFields } = useForm({
         username: "",
         email: "",
@@ -16,70 +18,56 @@ const RegistrationPage = () => {
     })
 
     const onSubmit = (event) => {
+        setLoading(true)
         event.preventDefault()
-        console.log("Entrou em onSubmit", form)
-        postSignup()
+        postSignup(form, setLoading, goToFeedPage, navigate)
         cleanFields()
-    }
-
-    const postSignup = () => {
-        console.log("entrou em postSignup")
-        axios.post(`${BASE_URL}/users/signup`, form)
-            .then(res => {
-                console.log(res)
-                alert("Usuaário cadastrado com sucesso!")
-                goToLoginPage(navigate)
-            })
-            .catch(err => {
-                console.log(err.response.data)
-                alert("Ocorreu um erro tente novamente")
-
-            })
     }
 
     return (
         <div>
             <Header />
             <S.DivLogin>
-                <h2>Olá, boas vindas ao LabEddit ;)</h2>
-                <h2>Registrar-se</h2>
-                <S.FormRegistration onSubmit={onSubmit} >
-                    <input
-                        placeholder="Nome de usuário"
-                        type='text'
-                        required
-                        value={form.username}
-                        name={"username"}
-                        onChange={onChange}
-                        pattern={"^.{6,}"}
-                        title={"Mínimo seis caracteres"}
-                    />
-                    <input
-                        placeholder="E-mail"
-                        type='email'
-                        required
-                        value={form.email}
-                        name={"email"}
-                        onChange={onChange}
-                    />
-                    <input
-                        placeholder="Senha"
-                        type='password'
-                        required
-                        value={form.password}
-                        name={"password"}
-                        onChange={onChange}
-                        pattern={"^.{8,}"}
-                        title={"Mínimo oito caracteres"}
-                    />
-                    <S.TextContract> Ao continuar, você concorda com o nosso Contrato de usuário e nossa Política de Privacidade.</S.TextContract>
-                    <S.ConteinerAgree>
-                        <S.InputAgree type="checkbox" required />
-                        <S.TextContract>Eu concordo em receber emails sobre coisas legais no Labeddit</S.TextContract>
-                    </S.ConteinerAgree>
-                    <S.Botons >Criar conta</S.Botons>
-                </S.FormRegistration>
-
+                <S.TextHello>Olá, boas vindas ao LabEddit ;)</S.TextHello>
+                <S.TextHello>Registrar-se</S.TextHello>
+                {loading ? (<p>Criando conta, aguarde...</p>) :
+                    <S.FormRegistration onSubmit={onSubmit} >
+                        <input
+                            placeholder="Nome de usuário"
+                            type='text'
+                            required
+                            value={form.username}
+                            name={"username"}
+                            onChange={onChange}
+                            pattern={"^.{6,}"}
+                            title={"Mínimo seis caracteres"}
+                        />
+                        <input
+                            placeholder="E-mail"
+                            type='email'
+                            required
+                            value={form.email}
+                            name={"email"}
+                            onChange={onChange}
+                        />
+                        <input
+                            placeholder="Senha"
+                            type='password'
+                            required
+                            value={form.password}
+                            name={"password"}
+                            onChange={onChange}
+                            pattern={"^.{8,}"}
+                            title={"Mínimo oito caracteres"}
+                        />
+                        <S.TextContract> Ao continuar, você concorda com o nosso Contrato de usuário e nossa Política de Privacidade.</S.TextContract>
+                        <S.ConteinerAgree>
+                            <S.InputAgree type="checkbox" required />
+                            <S.TextContract>Eu concordo em receber emails sobre coisas legais no Labeddit</S.TextContract>
+                        </S.ConteinerAgree>
+                        <S.Botons >Criar conta</S.Botons>
+                    </S.FormRegistration>
+                }
             </S.DivLogin>
         </div>
     )

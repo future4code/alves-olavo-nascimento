@@ -16,13 +16,11 @@ export const DivFeed = styled.div`
     justify-content: center; 
     align-items: center;
     margin-top: 10vh;
-    /* border: solid 1px red; */
 `
 export const Botons = styled.button`
     width: 50vh;
     height: 10vh;
     font-size: 18px;
-    /* border: solid 1px red; */
 `
 export const InputTitulo = styled.textarea`
     width: 50vh;
@@ -34,7 +32,9 @@ export const InputTitulo = styled.textarea`
     font-family: sans-serif;
     font-size: 18px;
     border-radius: 12px;
-    /* border: solid 1px red; */
+    @media screen and (min-device-width : 320px) and (max-device-width : 480px) {
+      font-size: 14px;
+    }
 `
 export const InputPost = styled.textarea`
     width: 50vh;
@@ -45,7 +45,9 @@ export const InputPost = styled.textarea`
     font-family: sans-serif;
     font-size: 18px;
     border-radius: 12px;
-    /* border: solid 1px red; */
+    @media screen and (min-device-width : 320px) and (max-device-width : 480px) {
+      font-size: 14px;
+    }
 `
 export const CardPosts = styled.div`
     width: 50vh;
@@ -59,14 +61,6 @@ export const CardPosts = styled.div`
     cursor: pointer;
 `
 export const EnviadoPor = styled.h6`
-    /* width: 50vh;
-    height: 20vh;
-    padding: 10px;
-    font-family: sans-serif;
-    font-size: 18px;
-    margin: 10px 20px;
-    border: solid 2px #FE7E02;
-    border-radius: 12px; */
     color: green;
     display: flex;
     justify-content: space-between;

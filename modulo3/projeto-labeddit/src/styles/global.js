@@ -21,6 +21,7 @@ export default createGlobalStyle`
     width: 100px;
     height: 40px;
     margin: 8px;
+    
   }
 
   input {
@@ -28,5 +29,9 @@ export default createGlobalStyle`
     height: 30px;
     border-radius: 5px;
     margin: 5px;
+  }
+  
+  button:hover{
+    background-color: red;
   }
 ` 
