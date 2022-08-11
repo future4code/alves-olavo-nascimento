@@ -1,0 +1,19 @@
+{
+  "name": "intro-typescript",
+  "version": "1.0.0",
+  "description": "Exercício typescript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startExer1": "tsc && node ./build/exercicio-1.js",
+    "startExer2": "tsc && node ./build/exercicio-2.js",
+    "startExer3": "tsc && node ./build/exercicio-3.js",
+    "startExer4": "tsc && node ./build/exercicio-4.js",
+    "startExer5": "tsc && node ./build/exercicio-5.js"
+  },
+  "author": "Olavo",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.6.1"
+  }
+}
