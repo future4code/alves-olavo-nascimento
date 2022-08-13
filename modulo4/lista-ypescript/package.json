@@ -1,0 +1,14 @@
+{
+  "name": "lista-ypescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "startExer1": "tsc && node ./build/exercicio-1.js",
+    "startExer2": "tsc && node ./build/exercicio-2.js",
+    "startExer3": "tsc && node ./build/exercicio-3.js",
+    "startExer4": "tsc && node ./build/exercicio-4.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
