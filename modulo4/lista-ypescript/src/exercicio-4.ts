@@ -19,27 +19,25 @@ const collaborators = [
 // presencialmente. 
 
 enum SECTOR {
-    VENDAS = 'vendas',
-    MARKETING = 'marketing',
-    FINANCEIRO = 'financeiro'
+    VENDAS = "vendas",
+    MARKETING = "marketing",
+    FINANCEIRO = "financeiro"
 }
 
 type person = {
-    name: string,
-    wage: number,
-    sector: string,
-    presential: boolean
+    nome: string,
+    salário: number,
+    setor: string,
+    presencial: boolean
 }
 
-// console.log(collaborators)
-
-const getPersonMarketing = (teste: any[]): any[] => {
-    const arrayFilter = teste.filter(a => {
-        return a.setor === 'marketing' && a.presencial === true
+function getPersonMarketing(teste: person[], setor: { VENDAS: string; MARKETING: string; FINANCEIRO: string }): person[] {
+    const resultTeste = teste.filter((tes) => {
+        return tes.presencial === true && tes.setor === setor.MARKETING
     })
-    console.table(arrayFilter)
-    return arrayFilter
+    console.table(resultTeste)
+    return resultTeste
 }
-getPersonMarketing(collaborators)
+getPersonMarketing(collaborators, SECTOR)
 
 
