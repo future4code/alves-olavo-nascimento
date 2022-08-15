@@ -11,5 +11,8 @@
 // - Para pessoas acima dos 50 anos, deve ser renovada de 15 em 15 anos
 
 const renovarCarteira = (nascimento: string, identidade: string) => {
-
+    const teste = newData(nascimento)
+    return  teste
 }
+
+console.log(renovarCarteira(process.argv[2], process.argv[3]))
