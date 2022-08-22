@@ -12,7 +12,7 @@ export type Spending = {
     description: string
 }
 
-export const users: User[] = [
+export let users: User[] = [
     {
         name: "João",
         cpf: 12345678910,
