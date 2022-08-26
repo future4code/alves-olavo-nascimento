@@ -1,0 +1,21 @@
+{
+  "name": "sistema-bancario",
+  "version": "1.0.0",
+  "description": "sistema-bancario",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node ./build/sistema-bancario.js",
+    "dev": "tsc && ts-node-dev ./src/sistema-bancario.ts"
+  },
+  "author": "Olavo",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "ts-node-dev": "^2.0.0"
+  }
+}
