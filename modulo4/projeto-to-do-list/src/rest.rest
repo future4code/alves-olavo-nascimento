@@ -1,0 +1,22 @@
+POST http://localhost:3003/user
+Content-Type: application/json
+
+{
+    "name": "Juca Feliz",
+	"nickname": "juca",
+	"email": "Juca@gmail.com"
+}
+
+###
+GET http://localhost:3003/user/1661553042400
+
+###
+PUT http://localhost:3003/user/edit/1661552337806
+Content-Type: application/json
+
+{
+	"name": "Pantera Black",
+	"nickname": ""
+}
+
+###
