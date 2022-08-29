@@ -1,4 +1,4 @@
-import connection from "../connection"
+import connection from "./baseDataBase"
 
 export const creatUser = async (name: string, nickname: string, email: string): Promise<void> => {
     await connection.raw(`

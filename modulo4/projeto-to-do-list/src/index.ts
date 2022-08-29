@@ -1,61 +1,27 @@
-import { Request, Response } from "express"
-import app from "./app";
-import { User } from "./data";
-import { creatUser } from "./functions-of-requisitions/creatUser";
-import { editUserId } from "./functions-of-requisitions/editUserId";
-import { getUserId } from "./functions-of-requisitions/getUserId";
+import express from "express"
+import cors from 'cors'
+import reqCreatTask from "./endpoints/reqCreatTask";
+import reqCreatUser from "./endpoints/reqCreatUser";
+import reqEditUserId from "./endpoints/reqEditUserId";
+import reqGetTaskId from "./endpoints/reqGetTaskId";
+import reqGetUserId from "./endpoints/reqGetUserId";
+import reqGetAllUsers from "./endpoints/reqGetAllUsers";
 
+const app = express();
 
-app.post("/user", async (req: Request, res: Response) => {
-    try {
-        const { name, nickname, email } = req.body
+app.use(express.json());
+app.use(cors());
 
-        if (!name || !nickname || !email) {
-            res.statusCode = 401
-            throw new Error('Verifique se todos os campos estão preechidos e tente novamente.')
-        }
+app.listen(3003, () => console.log('Server is running in http://localhost:3003'))
 
-        await creatUser(name, nickname, email)
-        res.status(201).send("O usuário criado com sucesso!");
-    } catch (error: any) {
-        console.log(error)
-        console.log({ message: error.message })
-        res.status(res.statusCode || 500).send({ message: error.message })
-    }
-})
+app.get("/user/all", reqGetAllUsers)
 
-app.get("/user/:id", async (req: Request, res: Response) => {
-    try {
-        const idParams: string = req.params.id
-        const user: User[] = await getUserId(idParams)
+app.get("/user/:id", reqGetUserId)
 
-        if (!user) {
-            res.statusCode = 500
-            throw new Error('Erro no servidor, tente mais tarde.')
-        }
+app.get("/task/:id", reqGetTaskId)
 
-        res.status(200).send(user);
-    } catch (error: any) {
-        console.log(error)
-        console.log({ message: error.message })
-        res.status(res.statusCode || 500).send({ message: error.message })
-    }
-})
+app.post("/user", reqCreatUser)
 
-app.put("/user/edit/:id", async (req: Request, res: Response) => {
-    try {
-        const idParams: string = req.params.id
-        const { name, nickname } = req.body
-        if(!name && !nickname){
-            res.statusCode = 401
-            throw new Error('E necessário inserir ao menos um campo.')
-        }
+app.post("/task", reqCreatTask)
 
-        await editUserId(idParams, name, nickname)
-        res.status(200).send('Usuário atualizado com sucesso.');
-    } catch (error: any) {
-        console.log(error)
-        console.log({ message: error.message })
-        res.status(res.statusCode || 500).send({ message: error.message })
-    }
-})
+app.put("/user/edit/:id", reqEditUserId)
