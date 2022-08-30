@@ -1,0 +1,44 @@
+GET http://localhost:3003/users/002
+
+###
+GET http://localhost:3003/actor/name
+Content-Type: application/json
+
+{
+    "name": "marcos palmeira"
+}
+
+###
+GET http://localhost:3003/actor/gender
+Content-Type: application/json
+
+{
+    "gender": "female"
+}
+
+###
+PUT http://localhost:3003/actor/salary/002
+Content-Type: application/json
+
+{
+    "salary": 4000500
+}
+
+###
+DELETE http://localhost:3003/actor/002
+
+###
+get http://localhost:3003/actor/salary/gender
+Content-Type: application/json
+
+{
+    "gender": "female"
+}
+
+###
+GET http://localhost:3003/actor/004
+
+###
+GET http://localhost:3003/actor?gender=male
+
+###
