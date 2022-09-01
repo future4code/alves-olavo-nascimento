@@ -39,6 +39,7 @@ const getAddess = async (req: Request, res: Response): Promise<any> => {
         
         res.status(200).send('Endereço salvo com sucesso!')
     } catch (error: any) {
+        console.log(error)
         res.status(res.statusCode || 500).send({ error: error.message })
     }
 }
