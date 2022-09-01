@@ -1,0 +1,12 @@
+POST http://localhost:3003/users/address
+Content-Type: application/json
+
+{
+    "cep": "09171729",
+    "logradouro": "bla",
+    "numero": 2133213,
+    "complemento": "dfsgdfgfd",
+    "bairro": "sdffdvdd"
+}
+
+
