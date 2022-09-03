@@ -1,12 +1,12 @@
 import { Request, Response } from "express"
-import getAllProducts from "../data/getAllProducts"
+import allProducts from "../data/allProducts"
 import purchases from "../data/purchases"
 
 const purchasesEndpoint = async (req: Request, res: Response): Promise<any> => {
     try {
         const { user_id, product_id, quantity } = req.body
 
-        const products = await getAllProducts()
+        const products = await allProducts()
 
         const productFilter = products.filter((prod) => prod.id === product_id)
 

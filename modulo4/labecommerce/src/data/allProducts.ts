@@ -1,10 +1,10 @@
 import connection from "./connnection"
 
-const getAllProducts = async (): Promise<any[]> => {
+const allProducts = async (): Promise<any[]> => {
     try {
         const products = await connection.raw(`
-    SELECT * FROM labecommerce_products
-`)
+            SELECT * FROM labecommerce_products
+        `)
         console.log(products[0])
         return products[0]
     } catch (error) {
@@ -13,4 +13,4 @@ const getAllProducts = async (): Promise<any[]> => {
 
 }
 
-export default getAllProducts
+export default allProducts
