@@ -1,0 +1,42 @@
+POST http://localhost:3003/user
+Content-Type: application/json
+
+{
+    "name": "Gabriel",
+	"nickname": "gabi",
+	"email": "gabriel@gmail.com"
+}
+
+###
+
+GET http://localhost:3003/user/1661630193295
+
+###
+
+PUT http://localhost:3003/user/edit/1661630169293
+Content-Type: application/json
+
+{
+	"name": "Olavo Marques",
+	"nickname": "OCASCAVEL"
+}
+
+###
+
+POST http://localhost:3003/task
+Content-Type: application/json
+
+{
+	"title": "Dormir.",
+	"description": "Descansar bastante.",
+	"limitdate": "28/09/2022",
+	"user_id": "1661630193295"
+}
+
+###
+
+GET http://localhost:3003/task/1661636145556
+
+###
+
+GET http://localhost:3003/user/all
