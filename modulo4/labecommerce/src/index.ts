@@ -4,18 +4,19 @@ import createProdutsEndpoint from "./endpoints/createProdutsEndpoint";
 import getAllProductsEndpoint from "./endpoints/getAllProductsByOrderEndpoint";
 import getAllUsersEndpoint from "./endpoints/getAllUsersEndpoint";
 import getPurchasesByIdEndpoint from "./endpoints/getPurchasesByIdEndpoint";
-import purchasesEndpoint from "./endpoints/purchasesEndpoint";
+import createPurchasesEndpoint from "./endpoints/createPurchasesEndpoint";
 
 app.get('/users', getAllUsersEndpoint)
 
 app.get('/products', getAllProductsEndpoint)
 
+app.get('/users/:user_id/purchases', getPurchasesByIdEndpoint)
+
 app.post('/users', createdUserEndpiont)
 
 app.post('/products', createProdutsEndpoint)
 
-app.post('/purchases', purchasesEndpoint)
+app.post('/purchases', createPurchasesEndpoint)
 
-app.get('/users/:user_id/purchases', getPurchasesByIdEndpoint)
 
 

@@ -1,7 +1,8 @@
 import { Request, Response } from "express"
-import getAllProductsByOrder from "../data/getAllProductsByOrder"
+import getAllProductsByOrder from "../data/queries/getAllProductsByOrder"
+import { Products } from "../types"
 
-const getAllProductsByOrderEndpoint = async (req: Request, res: Response): Promise<any> => {
+const getAllProductsByOrderEndpoint = async (req: Request, res: Response): Promise<void> => {
     try {
         let nameOrPrice = req.query.nameOrPrice as string
         let order = req.query.order as string
@@ -9,18 +10,15 @@ const getAllProductsByOrderEndpoint = async (req: Request, res: Response): Promi
 
         if (!nameOrPrice) {
             nameOrPrice = "name"
-        } else
-            if (!order) {
-                order = "ASC"
-            } else
-                if (!search) {
-                    search = "a"
-                }
-                
-        console.log(nameOrPrice, order)
+        }
+        if (!order) {
+            order = "ASC"
+        }
+        if (!search) {
+            search = ""
+        }
 
         const products = await getAllProductsByOrder(nameOrPrice, order, search)
-        console.log(products)
 
         res.status(200).send(products)
     } catch (error: any) {

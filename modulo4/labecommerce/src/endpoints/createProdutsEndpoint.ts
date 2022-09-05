@@ -1,9 +1,24 @@
 import { Request, Response } from "express"
-import createProducts from "../data/createProduts"
+import allProducts from "../data/queries/allProducts"
+import createProducts from "../data/queries/createProduts"
 
-const createProdutsEndpoint = async (req: Request, res: Response): Promise<any> => {
+const createProdutsEndpoint = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, price, image_url } = req.body
+
+        if (!name || !price || !image_url) {
+            res.statusCode = 401
+            throw new Error('Todos os campos devem estar preenchidos.')
+        }
+
+        const products = await allProducts()
+
+        products.filter((prod) => {
+            if (prod.name === name) {
+                res.statusCode = 401
+                throw new Error('Name já esta sendo usado, tente outro.')
+            }
+        })
 
         await createProducts(name, price, image_url)
 

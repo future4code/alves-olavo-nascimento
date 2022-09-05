@@ -1,10 +1,10 @@
-import connection from "./connnection"
+import connection from "../connnection"
 
 const createProducts = async (
     name: string,
     price: string,
     image_url: string
-): Promise<any> => {
+): Promise<void> => {
     try {
         const id = Date.now()
 
@@ -17,8 +17,9 @@ const createProducts = async (
             "${image_url}"
             )
         `)
+        
     } catch (error) {
-        throw new Error("Ops! Um erro inesperado ocorreu =/");
+        throw new Error("Erro em Criar produto.");
     }
 }
 

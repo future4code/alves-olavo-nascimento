@@ -1,0 +1,44 @@
+GET http://localhost:3003/users                                                                                                                                   
+                                                                                                                                                                                                     
+###
+
+GET http://localhost:3003/products?nameOrPrice=name&search=p&order=desc
+
+###
+
+GET  http://localhost:3003/users/1662056325178/purchases
+
+###
+
+POST http://localhost:3003/users
+Content-Type: application/json
+
+{
+    "name": "Antonio1234",
+    "email": "tonho123@gmail.com",
+    "password": "1234567"
+}
+
+###
+
+POST http://localhost:3003/products
+Content-Type: application/json
+
+{
+    "name": "Cadeira de Escritório Presidente Giratória com Relax Clark Preta e Dourada",
+    "price": "885.58",
+    "image_url": "https://staticmobly.akamaized.net/p/Keva-Cadeira-de-EscritC3B3rio-Presidente-GiratC3B3ria-com-Relax-Clark-Preta-e-Dourada-6385-714611-1-zoom.jpg"
+}
+
+###
+
+POST http://localhost:3003/purchases
+Content-Type: application/json
+
+{
+    "user_id": "42234234200",
+    "product_id": "1662060245646",
+    "quantity": 7
+}
+
+###

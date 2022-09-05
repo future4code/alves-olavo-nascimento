@@ -1,11 +1,12 @@
-import connection from "./connnection"
+import { Products } from "../../types"
+import connection from "../connnection"
 
-const allProducts = async (): Promise<any[]> => {
+const allProducts = async (): Promise<Products[]> => {
     try {
         const products = await connection.raw(`
             SELECT * FROM labecommerce_products
         `)
-        console.log(products[0])
+        
         return products[0]
     } catch (error) {
         throw new Error("Erro em pegar os produtos");

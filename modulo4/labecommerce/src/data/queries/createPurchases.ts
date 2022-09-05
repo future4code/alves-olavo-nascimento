@@ -1,6 +1,6 @@
-import connection from "./connnection"
+import connection from "../connnection"
 
-const purchases = async (
+const createPurchases = async (
     user_id: string,
     product_id: string,
     quantity: number,
@@ -26,4 +26,4 @@ const purchases = async (
 
 }
 
-export default purchases
+export default createPurchases

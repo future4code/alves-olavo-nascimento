@@ -1,10 +1,15 @@
 import { Request, Response } from "express"
-import allProducts from "../data/allProducts"
-import purchases from "../data/purchases"
+import allProducts from "../data/queries/allProducts"
+import createPurchases from "../data/queries/createPurchases"
 
-const purchasesEndpoint = async (req: Request, res: Response): Promise<any> => {
+const createPurchasesEndpoint = async (req: Request, res: Response): Promise<any> => {
     try {
         const { user_id, product_id, quantity } = req.body
+
+        if (!user_id || !product_id || !quantity) {
+            res.statusCode = 401
+            throw new Error('Todos os campos devem estar preenchidos.')
+        }
 
         const products = await allProducts()
 
@@ -17,7 +22,7 @@ const purchasesEndpoint = async (req: Request, res: Response): Promise<any> => {
 
         const total_price = Number(sumPrice)
 
-        await purchases(user_id, product_id, quantity, total_price)
+        await createPurchases(user_id, product_id, quantity, total_price)
 
         res.status(201).send('Compra registrada com sucesso!')
     } catch (error: any) {
@@ -25,4 +30,4 @@ const purchasesEndpoint = async (req: Request, res: Response): Promise<any> => {
     }
 }
 
-export default purchasesEndpoint
+export default createPurchasesEndpoint
