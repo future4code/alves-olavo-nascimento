@@ -1,0 +1,12 @@
+GET http://localhost:3003/users?name=amanda
+
+###
+GET http://localhost:3003/users/cx
+
+###
+GET http://localhost:3003/users/order?sort=name&order=desc
+
+###
+GET http://localhost:3003/pagination?page=1
+
+###
