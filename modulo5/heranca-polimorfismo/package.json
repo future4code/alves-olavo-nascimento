@@ -1,0 +1,20 @@
+{
+  "name": "heranca-polimorfismo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "exer1": "tsc && ts-node-dev ./src/exer1.ts",
+    "exer2": "tsc && ts-node-dev ./src/exer2.ts",
+    "exer3": "tsc && ts-node-dev ./src/exer3.ts",
+    "exer4": "tsc && ts-node-dev ./src/exer4.ts",
+    "exer5": "tsc && ts-node-dev ./src/exer5.ts",
+    "exer6": "tsc && ts-node-dev ./src/exer6.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ts-node-dev": "^2.0.0"
+  }
+}
