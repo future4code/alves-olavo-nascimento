@@ -50,31 +50,37 @@ export class User {
         try {
             const { email, password } = req.body
 
-
-
-            // if (!email || !password) {
-            //     res.statusCode = 401
-            //     throw new Error('Credenciais incoretas.')
-            // }
+            if (!email || !password) {
+                res.statusCode = 401
+                throw new Error('Preencha todos os campos antes do envio.')
+            }
 
             const userData = new UserData()
             const userDataBase = await userData.selectUserByEmail(email)
             console.log(userDataBase)
 
-            if (userDataBase) {
-                res.statusCode = 409
-                throw new Error('Email já cadastrado no banco de dados.')
+            const idDataBase = userDataBase[0].id
+            const emailDataBase = userDataBase[0].email
+            const hashDataBase = userDataBase[0].password
+            console.log(idDataBase, emailDataBase, hashDataBase)
+
+            const hashManager = new HashManager()
+            const hashIsValid = await hashManager.compare(password, hashDataBase)
+
+            console.log(hashIsValid)
+
+            if (email !== emailDataBase || hashIsValid === false) {
+                res.statusCode = 401
+                throw new Error('Credencias incorretas.')
             }
 
-            // const token =  userDataBase[0].email
+            const authenticator = new Authenticator()
+            const token = authenticator.generateToken(password)
 
-            // const authenticator = new Authenticator()
-            // const token = authenticator.verifyToken( id )
-
-            // res.status(201).send({ message: 'Usuário criado com sucesso!', token })
+            res.status(200).send({ token })
 
         } catch (error: any) {
-            res.status(500).send({ error: error.message })
+            res.status(res.statusCode || 500).send({ error: error.message })
         }
     }
 }
