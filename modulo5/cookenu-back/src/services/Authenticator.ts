@@ -8,11 +8,10 @@ export interface IdTokenPayload {
 }
 
 export class Authenticator {
-    generateToken = (normalPassword: IdTokenPayload): string => {
+    generateToken = (idUser: IdTokenPayload): string => {
+        console.log('entrei no generateToken')
         const token = jwt.sign(
-            {
-                normalPassword
-            },
+            idUser,
             process.env.JWT_KEY as string,
             {
                 expiresIn: process.env.EXPIRES_IN as string
@@ -20,11 +19,13 @@ export class Authenticator {
         )
         return token
     }
-
+    
     verifyToken = (token: string): IdTokenPayload => {
-        const payload: IdTokenPayload = jwt.verify(token, process.env.JWT_KEY as string) as any
+        const payload = jwt.verify(token, process.env.JWT_KEY as string) as any
+        console.log('entrei no verifyToken')
 
-        return payload
+        return payload as IdTokenPayload
     }
 }
+
 
