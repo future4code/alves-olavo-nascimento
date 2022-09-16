@@ -35,3 +35,7 @@ Authorization: {{token}}
     "title":"Bolo de cenoura",
     "description":"cenoura e chocolate, ta pronto"
 }
+
+###
+GET  http://localhost:3003/recipe/633d59e9-d354-43dd-8bcc-3a1b1e353d10
+Authorization: {{token}}

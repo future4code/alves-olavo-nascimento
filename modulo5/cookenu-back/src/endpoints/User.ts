@@ -77,7 +77,7 @@ export class User {
             }
 
             const authenticator = new Authenticator()
-            const token = authenticator.generateToken({id:idDataBase})
+            const token = authenticator.generateToken({ id: idDataBase })
 
             console.log(token)
 
@@ -88,7 +88,7 @@ export class User {
         }
     }
 
-    profile = async (req: Request, res: Response) => {
+    getProfile = async (req: Request, res: Response) => {
         try {
             const token = req.headers.authorization as string
 
@@ -97,7 +97,7 @@ export class User {
                 throw new Error('Token deve ser passado nos headers.')
             }
             console.log(token)
-            
+
             const authorization = new Authenticator()
             const normalPassword = authorization.verifyToken(token)
 
@@ -105,14 +105,14 @@ export class User {
                 res.statusCode = 401
                 throw new Error('token invalid.')
             }
-            
+
             const userId = normalPassword.id
 
             if (!userId) {
                 res.statusCode = 401
                 throw new Error('Token deve ser passado nos headers.')
             }
-            
+
             console.log("normalPassword =", normalPassword)
             console.log("userId =", userId)
 
@@ -203,13 +203,38 @@ export class User {
 
             const new_date = dateNow.split("/")
             const deadlineInReverse = new_date.reverse()
-            const deadlineForAmerican = deadlineInReverse.join("-") 
+            const deadlineForAmerican = deadlineInReverse.join("-")
 
             const newRecipe = new Recipes(IdRecipe, title, description, deadlineForAmerican, timeNow, Iduser)
 
             await userData.insertRecipe(newRecipe)
 
             res.status(201).send("Receita criada com sucesso!")
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ error: error.message })
+        }
+    }
+
+    getRecipeByid = async (req: Request, res: Response) => {
+        try {
+            const idRecipe = req.params.id
+            const token = req.headers.authorization as string
+
+            if (!token) {
+                res.statusCode = 401
+                throw new Error('Token deve ser passado nos headers.')
+            }
+            if (!idRecipe) {
+                res.statusCode = 401
+                throw new Error('O id a ser buscado deve ser informado por params.')
+            }
+            
+            console.log(idRecipe)
+            const userData = new UserData()
+            const recipeDataBase = await userData.selectRecipeById(idRecipe)
+
+            res.status(200).send(recipeDataBase)
 
         } catch (error: any) {
             res.status(res.statusCode || 500).send({ error: error.message })
