@@ -13,8 +13,8 @@ POST http://localhost:3003/login
 Content-Type: application/json
 
 {
-    "email": "teste@samurai.com",
-    "password": "teste"
+    "email": "invasor@vikins.com",
+    "password": "curupita"
 }
 
 ###
@@ -37,5 +37,23 @@ Authorization: {{token}}
 }
 
 ###
-GET  http://localhost:3003/recipe/633d59e9-d354-43dd-8bcc-3a1b1e353d10
+GET  http://localhost:3003/recipe/633d59e9-d354-43dd-8bcc-3a1b1e353d10 
 Authorization: {{token}}
+
+###
+POST http://localhost:3003/user/follow
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "idUserFollow":"c0caafdb-d713-4e24-a79e-0462a78ffa28"
+}
+
+###
+POST http://localhost:3003/user/unfollow
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "idUserUnfollow":"c0caafdb-d713-4e24-a79e-0462a78ffa28"
+}

@@ -1,4 +1,4 @@
-export class Recipes {
+export class RecipesBase {
     constructor(
         private id: string,
         private title: string,
