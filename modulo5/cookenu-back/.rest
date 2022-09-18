@@ -2,9 +2,10 @@ POST http://localhost:3003/signup
 Content-Type: application/json
 
 {
-    "name": "teste",
-    "email": "teste@samurai.com",
-    "password": "teste"
+    "name": "xz",
+    "email": "xz@samurai.com",
+    "password": "xz",
+    "role": "admin"
 }
 
 ###
@@ -13,8 +14,8 @@ POST http://localhost:3003/login
 Content-Type: application/json
 
 {
-    "email": "invasor@vikins.com",
-    "password": "curupita"
+    "email": "xz@samurai.com",
+    "password": "xz"
 }
 
 ###
@@ -32,8 +33,8 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "title":"Bolo de cenoura",
-    "description":"cenoura e chocolate, ta pronto"
+    "title":"recita 7",
+    "description":"recita 7."
 }
 
 ###
@@ -56,4 +57,18 @@ Authorization: {{token}}
 
 {
     "idUserUnfollow":"c0caafdb-d713-4e24-a79e-0462a78ffa28"
+}
+
+###
+GET  http://localhost:3003/feed
+Authorization: {{token}}
+
+###
+PUT http://localhost:3003/recipe/884b82d3-e795-43dc-afe7-2ce24493d371
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "title":"ddddd",
+    "description":"dddddd"
 }

@@ -11,6 +11,8 @@ app.get('/profile', user.getProfile)
 
 app.get('/user/:id', user.getUserById)
 
+app.get('/feed', recipe.geAlltRecipeByIdUser)
+
 app.get('/recipe/:id', recipe.getRecipeByid)
 
 app.post('/signup', user.signup)
@@ -22,3 +24,5 @@ app.post('/recipe', recipe.createRecipe)
 app.post('/user/follow', follow.userFollow)
 
 app.post('/user/unfollow', follow.userUnfollow)
+
+app.put('/recipe/:id', recipe.editRecipeById)

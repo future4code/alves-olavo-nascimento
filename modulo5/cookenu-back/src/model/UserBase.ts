@@ -1,9 +1,16 @@
+
+
+export enum Role {
+    NORMAL = "NORMAL",
+    ADMIN = "ADMIN"
+}
 export class UserBase {
     constructor(
         private id: string,
         private name: string,
         private email: string,
-        private password: string
+        private password: string,
+        private role: Role
     ) { }
 
     public getId = () => {
@@ -17,5 +24,8 @@ export class UserBase {
     }
     public getPassword = () => {
         return this.password
+    }
+    public getRole = () => {
+        return this.role
     }
 }

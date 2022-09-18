@@ -1,17 +1,19 @@
 import * as jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { Role } from '../model/UserBase'
 
 dotenv.config()
 
 export interface IdTokenPayload {
-    id: string
+    id: string,
+    role: Role
 }
 
 export class Authenticator {
-    generateToken = (idUser: IdTokenPayload): string => {
+    generateToken = (payload: IdTokenPayload): string => {
         console.log('entrei no generateToken')
         const token = jwt.sign(
-            idUser,
+            payload,
             process.env.JWT_KEY as string,
             {
                 expiresIn: process.env.EXPIRES_IN as string

@@ -11,7 +11,8 @@ export class UserData extends BaseDataBase {
                     id: user.getId(),
                     name: user.getName(),
                     email: user.getEmail(),
-                    password: user.getPassword()
+                    password: user.getPassword(),
+                    role: user.getRole()
                 })
                 .into("cookenu_back_users")
 

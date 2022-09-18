@@ -21,7 +21,6 @@ export class RecipeData extends BaseDataBase {
     }
 
     selectRecipeById = async (id: string): Promise<any> => {
-        console.log(id)
         try {
             const [recipes] = await this.getConnection()
                 .from("cookenu_back_recipes")
@@ -38,6 +37,38 @@ export class RecipeData extends BaseDataBase {
                 .where("cookenu_back_recipes.id", id)
 
             return recipes
+
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+    selectAllRecipeByIdUser = async (id: string): Promise<any> => {
+        try {
+            const recipes = await this.getConnection()
+                .from("cookenu_back_recipes")
+                .select("*")
+                .where("user_id", id)
+
+            return recipes
+
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+    updateRecipeByIdUser = async (
+        idRecipeParams: string,
+        title: string,
+        description: string,
+        dateNow: string
+    ): Promise<any> => {
+        try {
+            await this.getConnection().raw(`
+                update cookenu_back_recipes
+                set title="${title}", description="${description}" , last_update="${dateNow}"
+                where id='${idRecipeParams}'
+            `)
 
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message)

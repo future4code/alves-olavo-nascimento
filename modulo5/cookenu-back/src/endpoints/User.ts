@@ -12,7 +12,7 @@ export class User {
 
             console.log('entrou em signup')
 
-            const { name, email, password } = req.body
+            const { name, email, password, role } = req.body
 
             if (!name || !email || !password) {
                 res.statusCode = 401
@@ -33,12 +33,17 @@ export class User {
             const generateId = new GenerateId()
             const id = generateId.generate()
 
-            const newUser = new UserBase(id, name, email, hashPassword)
+            const newUser = new UserBase(id, name, email, hashPassword, role)
 
             await userData.insertUserData(newUser)
 
+            const payload: IdTokenPayload = {
+                id,
+                role
+            }
+
             const authenticator = new Authenticator()
-            const token = authenticator.generateToken({ id })
+            const token = authenticator.generateToken(payload)
 
             res.status(201).send({ message: 'Usuário criado com sucesso!', token })
 
@@ -60,9 +65,12 @@ export class User {
             const userData = new UserData()
             const userDataBase = await userData.selectUserByEmail(email)
 
+            console.log(userDataBase)
+
             const idDataBase = userDataBase[0].id
             const emailDataBase = userDataBase[0].email
             const hashDataBase = userDataBase[0].password
+            const roleDataBase = userDataBase[0].role
 
             console.log(idDataBase, emailDataBase, hashDataBase)
 
@@ -76,8 +84,13 @@ export class User {
                 throw new Error('Credencias incorretas.')
             }
 
+            const payload: IdTokenPayload = {
+                id: idDataBase,
+                role: roleDataBase
+            }
+
             const authenticator = new Authenticator()
-            const token = authenticator.generateToken({ id: idDataBase })
+            const token = authenticator.generateToken(payload)
 
             console.log(token)
 
@@ -96,7 +109,6 @@ export class User {
                 res.statusCode = 401
                 throw new Error('Token deve ser passado nos headers.')
             }
-            console.log(token)
 
             const authorization = new Authenticator()
             const normalPassword = authorization.verifyToken(token)
@@ -112,9 +124,6 @@ export class User {
                 res.statusCode = 401
                 throw new Error('Token deve ser passado nos headers.')
             }
-
-            console.log("normalPassword =", normalPassword)
-            console.log("userId =", userId)
 
             const userData = new UserData()
             const userDataBase = await userData.selectUserById(userId)

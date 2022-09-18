@@ -1,3 +1,4 @@
+import { compareSync } from "bcryptjs";
 import { Request, Response } from "express";
 import { RecipeData } from "../data/RecipeData";
 import { UserData } from "../data/UserData"
@@ -37,13 +38,22 @@ export class Recipe {
             const date = new Date()
             const dateNow = date.toLocaleDateString()
 
+            console.log(dateNow)
+
             const timeNow = new Date().toLocaleTimeString()
 
             const new_date = dateNow.split("/")
             const deadlineInReverse = new_date.reverse()
             const deadlineForAmerican = deadlineInReverse.join("-")
 
-            const newRecipe = new RecipesBase(IdRecipe, title, description, deadlineForAmerican, timeNow, Iduser)
+            const newRecipe = new RecipesBase(
+                IdRecipe,
+                title,
+                description,
+                deadlineForAmerican,
+                timeNow,
+                Iduser
+            )
 
             const recipeData = new RecipeData()
             await recipeData.insertRecipe(newRecipe)
@@ -74,6 +84,79 @@ export class Recipe {
             const recipeDataBase = await recipeData.selectRecipeById(idRecipe)
 
             res.status(200).send(recipeDataBase)
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ error: error.message })
+        }
+    }
+
+    geAlltRecipeByIdUser = async (req: Request, res: Response) => {
+        console.log("entrei em geAlltRecipeByIdUser")
+        try {
+            const token = req.headers.authorization as string
+
+            if (!token) {
+                res.statusCode = 401
+                throw new Error('Token deve ser passado nos headers.')
+            }
+
+            const authorization = new Authenticator()
+            const tokenId = authorization.verifyToken(token)
+
+            const recipeData = new RecipeData()
+            const recipeDataBase = await recipeData.selectAllRecipeByIdUser(tokenId.id)
+
+            if (!recipeDataBase.length) {
+                res.statusCode = 404
+                throw new Error('Você ainda não criou nenhuma receita.')
+            }
+
+            res.status(200).send(recipeDataBase)
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ error: error.message })
+        }
+    }
+
+    editRecipeById = async (req: Request, res: Response) => {
+        console.log("entrei em editRecipeById")
+        try {
+            const token = req.headers.authorization as string
+            const idRecipeParams = req.params.id
+            let title = req.body.title
+            let description = req.body.description
+
+            if (!token) {
+                res.statusCode = 401
+                throw new Error('Token deve ser passado nos headers.')
+            }
+
+            const authorization = new Authenticator()
+            const userIdToken = authorization.verifyToken(token)
+
+            const recipeData = new RecipeData()
+            const recipeDataBase = await recipeData.selectRecipeById(idRecipeParams)
+
+            if (recipeDataBase.idUser !== userIdToken.id) {
+                res.statusCode = 401
+                throw new Error('Você pode editar apenas suas receitas.')
+            }
+
+            const titleDataBase = recipeDataBase.title
+            const descriptionDataBase = recipeDataBase.description
+
+            if (!title) {
+                title = titleDataBase
+            }
+            if (!description) {
+                description = descriptionDataBase
+            }
+
+            const dateNow = new Date().toLocaleDateString()
+
+            await recipeData.updateRecipeByIdUser(idRecipeParams, title, description, dateNow)
+
+            res.status(200).send("Receita atualizada com sucesso!")
 
         } catch (error: any) {
             res.status(res.statusCode || 500).send({ error: error.message })
