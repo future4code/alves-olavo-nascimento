@@ -1,11 +1,10 @@
-import { RecipesBase } from "../model/RecipesBase";
 import { UserBase } from "../model/UserBase";
+import { UserType } from "../services/types";
 import BaseDataBase from "./baseDataBase";
 
 export class UserData extends BaseDataBase {
-    insertUserData = async (user: UserBase) => {
+    insertUserData = async (user: UserBase): Promise<void> => {
         try {
-            console.log('entrei em insertUserData')
             await this.getConnection()
                 .insert({
                     id: user.getId(),
@@ -21,7 +20,7 @@ export class UserData extends BaseDataBase {
         }
     }
 
-    selectUserByEmail = async (email: string): Promise<any[]> => {
+    selectUserByEmail = async (email: string): Promise<UserType[]> => {
         try {
             const userFound = await this.getConnection()
                 .select("*")
@@ -35,15 +34,26 @@ export class UserData extends BaseDataBase {
         }
     }
 
-    selectUserById = async (id: string): Promise<any[]> => {
+    selectUserById = async (id: string): Promise<UserType[]> => {
         try {
             const userFound = await this.getConnection()
                 .select("*")
                 .into("cookenu_back_users")
-                // .where("id", id)
                 .where({ id })
 
             return userFound
+
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+    removeUserById = async (id: string): Promise<void> => {
+        try {
+            await this.getConnection()
+                .delete("*")
+                .into("cookenu_back_users")
+                .where("id", id)
 
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message)

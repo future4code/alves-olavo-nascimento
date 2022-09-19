@@ -4,6 +4,7 @@ export enum Role {
     NORMAL = "NORMAL",
     ADMIN = "ADMIN"
 }
+
 export class UserBase {
     constructor(
         private id: string,

@@ -1,12 +1,12 @@
+import { FollowType } from "../services/types";
 import BaseDataBase from "./baseDataBase";
 
 export class FollowData extends BaseDataBase {
-    
     followedUser = async (
         id: string,
         idUserFollowing: string,
         idUserFollowed: string
-    ): Promise<any> => {
+    ): Promise<void> => {
         try {
             await this.getConnection()
                 .insert({
@@ -21,25 +21,22 @@ export class FollowData extends BaseDataBase {
         }
     }
 
-    selectFollowers = async (idUserFollowed: string): Promise<any> => {
-        console.log("idUserFollowed em selectFollowers", idUserFollowed)
+    selectFollowers = async (idUserFollowing: string, idUserFollowed: string): Promise<FollowType[]> => {
         try {
-            const followers = await this.getConnection().raw(`
-                select * from cookenu_back_follow where user_id_followed='${idUserFollowed}'
-            `)
+            const [followers] = await this.getConnection().raw(`
+                    select * 
+                    from cookenu_back_follow 
+                    where (user_id_following='${idUserFollowing}' and user_id_followed='${idUserFollowed}')
+                `)
 
-            // .from("cookenu_back_follow")
-            // .select("*")
-            // .where("user_id_followed", idUserFollowed)
-
-            return followers[0]
+            return followers
 
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message)
         }
     }
 
-    unfollowedUser = async (idUserUnfollow: string, userId: string): Promise<any> => {
+    unfollowedUser = async (idUserUnfollow: string, userId: string): Promise<void> => {
         try {
             await this.getConnection()
                 .delete("*")
@@ -48,6 +45,18 @@ export class FollowData extends BaseDataBase {
                     user_id_followed: idUserUnfollow,
                     user_id_following: userId
                 })
+
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+    deleteFollowedUser = async (idUser: string): Promise<void> => {
+        try {
+            await this.getConnection()
+                .delete("*")
+                .from("cookenu_back_follow")
+                .where({ user_id_following: idUser })
 
         } catch (error: any) {
             throw new Error(error.sqlMessage || error.message)

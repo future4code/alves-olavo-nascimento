@@ -1,8 +1,9 @@
 import { RecipesBase } from "../model/RecipesBase";
+import { RecipePersonType, RecipeType } from "../services/types";
 import BaseDataBase from "./baseDataBase";
 
 export class RecipeData extends BaseDataBase {
-    insertRecipe = async (recipesBase: RecipesBase): Promise<any> => {
+    insertRecipe = async (recipesBase: RecipesBase): Promise<void> => {
         try {
             await this.getConnection()
                 .insert({
@@ -20,7 +21,7 @@ export class RecipeData extends BaseDataBase {
         }
     }
 
-    selectRecipeById = async (id: string): Promise<any> => {
+    selectRecipeById = async (id: string): Promise<RecipePersonType> => {
         try {
             const [recipes] = await this.getConnection()
                 .from("cookenu_back_recipes")
@@ -43,7 +44,7 @@ export class RecipeData extends BaseDataBase {
         }
     }
 
-    selectAllRecipeByIdUser = async (id: string): Promise<any> => {
+    selectAllRecipeByIdUser = async (id: string): Promise<RecipeType[]> => {
         try {
             const recipes = await this.getConnection()
                 .from("cookenu_back_recipes")
@@ -62,7 +63,7 @@ export class RecipeData extends BaseDataBase {
         title: string,
         description: string,
         dateNow: string
-    ): Promise<any> => {
+    ): Promise<void> => {
         try {
             await this.getConnection().raw(`
                 update cookenu_back_recipes
@@ -75,4 +76,27 @@ export class RecipeData extends BaseDataBase {
         }
     }
 
+    deleteRecipeByIdUser = async (idRecipeParams: string): Promise<void> => {
+        try {
+            await this.getConnection()
+                .from("cookenu_back_recipes")
+                .delete("*")
+                .where("id", idRecipeParams)
+
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
+
+    deleteAllRecipeUser = async (idUser: string): Promise<void> => {
+        try {
+            await this.getConnection()
+                .delete("*")
+                .from("cookenu_back_recipes")
+                .where({ user_id: idUser })
+
+        } catch (error: any) {
+            throw new Error(error.sqlMessage || error.message)
+        }
+    }
 }

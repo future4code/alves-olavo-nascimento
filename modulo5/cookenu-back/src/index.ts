@@ -1,4 +1,5 @@
 import app from "./app";
+import { UserData } from "./data/UserData";
 import { Follow } from "./endpoints/Follow";
 import { Recipe } from "./endpoints/Recipe";
 import { User } from "./endpoints/User";
@@ -26,3 +27,7 @@ app.post('/user/follow', follow.userFollow)
 app.post('/user/unfollow', follow.userUnfollow)
 
 app.put('/recipe/:id', recipe.editRecipeById)
+
+app.delete('/recipe/:id/remove', recipe.deleteRecipeById)
+
+app.delete('/user/remove', user.deleteUserById)

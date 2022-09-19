@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
+import { FollowData } from "../data/FollowData";
+import { RecipeData } from "../data/RecipeData";
 import { UserData } from "../data/UserData";
-import { RecipesBase } from "../model/RecipesBase";
-import { UserBase } from "../model/UserBase";
+import { Role, UserBase } from "../model/UserBase";
 import { Authenticator, IdTokenPayload } from "../services/Authenticator";
 import { GenerateId } from "../services/GenerateId";
 import { HashManager } from "../services/HashManager";
@@ -9,9 +10,6 @@ import { HashManager } from "../services/HashManager";
 export class User {
     signup = async (req: Request, res: Response): Promise<void> => {
         try {
-
-            console.log('entrou em signup')
-
             const { name, email, password, role } = req.body
 
             if (!name || !email || !password) {
@@ -52,8 +50,7 @@ export class User {
         }
     }
 
-    login = async (req: Request, res: Response) => {
-        console.log('entrei em login')
+    login = async (req: Request, res: Response): Promise<void> => {
         try {
             const { email, password } = req.body
 
@@ -65,19 +62,13 @@ export class User {
             const userData = new UserData()
             const userDataBase = await userData.selectUserByEmail(email)
 
-            console.log(userDataBase)
-
             const idDataBase = userDataBase[0].id
             const emailDataBase = userDataBase[0].email
             const hashDataBase = userDataBase[0].password
             const roleDataBase = userDataBase[0].role
 
-            console.log(idDataBase, emailDataBase, hashDataBase)
-
             const hashManager = new HashManager()
             const hashIsValid = await hashManager.compare(password, hashDataBase)
-
-            console.log(hashIsValid)
 
             if (email !== emailDataBase || hashIsValid === false) {
                 res.statusCode = 401
@@ -92,8 +83,6 @@ export class User {
             const authenticator = new Authenticator()
             const token = authenticator.generateToken(payload)
 
-            console.log(token)
-
             res.status(200).send({ token })
 
         } catch (error: any) {
@@ -101,7 +90,7 @@ export class User {
         }
     }
 
-    getProfile = async (req: Request, res: Response) => {
+    getProfile = async (req: Request, res: Response): Promise<void> => {
         try {
             const token = req.headers.authorization as string
 
@@ -129,8 +118,8 @@ export class User {
             const userDataBase = await userData.selectUserById(userId)
 
             if (!userDataBase) {
-                res.statusCode = 500
-                throw new Error('Erro no servidor.')
+                res.statusCode = 404
+                throw new Error('Usuário não encontrado.')
             }
 
             const id = userDataBase[0].id
@@ -144,7 +133,7 @@ export class User {
         }
     }
 
-    getUserById = async (req: Request, res: Response) => {
+    getUserById = async (req: Request, res: Response): Promise<void> => {
         try {
             const idParams = req.params.id
             const token = req.headers.authorization as string
@@ -162,8 +151,8 @@ export class User {
             const userSearched = await userData.selectUserById(idParams)
 
             if (!userSearched) {
-                res.statusCode = 500
-                throw new Error('Erro no servidor.')
+                res.statusCode = 404
+                throw new Error('Usuário não encontrado.')
             }
 
             const id = userSearched[0].id
@@ -171,6 +160,51 @@ export class User {
             const email = userSearched[0].email
 
             res.status(200).send({ id, name, email })
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ error: error.message })
+        }
+    }
+
+    deleteUserById = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const { idUSerForRemove } = req.body
+            const token = req.headers.authorization as string
+
+            if (!token) {
+                res.statusCode = 401
+                throw new Error('Token deve ser passado nos headers.')
+            }
+            if (!idUSerForRemove) {
+                res.statusCode = 404
+                throw new Error('informe o id do usuário a ser removido.')
+            }
+
+            const authenticator = new Authenticator()
+            const payload = authenticator.verifyToken(token)
+
+            const userData = new UserData()
+            const userDataBase = await userData.selectUserById(idUSerForRemove)
+
+            if (!userDataBase.length) {
+                res.statusCode = 404
+                throw new Error('Usuário não encontrado.')
+            }
+
+            if (payload.role !== Role.ADMIN) {
+                res.statusCode = 401
+                throw new Error('Autorização insulficiente, somente um ADM pode executar essa função.')
+            }
+
+            const follow = new FollowData()
+            await follow.deleteFollowedUser(idUSerForRemove)
+
+            const recipeData = new RecipeData()
+            await recipeData.deleteAllRecipeUser(idUSerForRemove)
+
+            await userData.removeUserById(idUSerForRemove)
+
+            res.status(200).send('Todas as informações deste usuário foram removido!')
 
         } catch (error: any) {
             res.status(res.statusCode || 500).send({ error: error.message })

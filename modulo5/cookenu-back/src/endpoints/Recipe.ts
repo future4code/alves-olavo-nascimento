@@ -1,13 +1,13 @@
-import { compareSync } from "bcryptjs";
 import { Request, Response } from "express";
 import { RecipeData } from "../data/RecipeData";
 import { UserData } from "../data/UserData"
 import { RecipesBase } from "../model/RecipesBase"
+import { Role } from "../model/UserBase";
 import { Authenticator } from "../services/Authenticator"
 import { GenerateId } from "../services/GenerateId"
 
 export class Recipe {
-    createRecipe = async (req: Request, res: Response) => {
+    createRecipe = async (req: Request, res: Response): Promise<void> => {
         try {
             const token = req.headers.authorization as string
             const { title, description } = req.body
@@ -20,7 +20,6 @@ export class Recipe {
             const authorization = new Authenticator()
             const normalPassword = authorization.verifyToken(token)
             const userId = normalPassword.id
-            console.log(normalPassword)
 
             const userData = new UserData()
             const userSearched = await userData.selectUserById(userId)
@@ -37,8 +36,6 @@ export class Recipe {
 
             const date = new Date()
             const dateNow = date.toLocaleDateString()
-
-            console.log(dateNow)
 
             const timeNow = new Date().toLocaleTimeString()
 
@@ -65,7 +62,7 @@ export class Recipe {
         }
     }
 
-    getRecipeByid = async (req: Request, res: Response) => {
+    getRecipeByid = async (req: Request, res: Response): Promise<void> => {
         try {
             const idRecipe = req.params.id
             const token = req.headers.authorization as string
@@ -79,7 +76,6 @@ export class Recipe {
                 throw new Error('O id a ser buscado deve ser informado por params.')
             }
 
-            console.log(idRecipe)
             const recipeData = new RecipeData()
             const recipeDataBase = await recipeData.selectRecipeById(idRecipe)
 
@@ -90,8 +86,8 @@ export class Recipe {
         }
     }
 
-    geAlltRecipeByIdUser = async (req: Request, res: Response) => {
-        console.log("entrei em geAlltRecipeByIdUser")
+    geAlltRecipeByIdUser = async (req: Request, res: Response): Promise<void> => {
+
         try {
             const token = req.headers.authorization as string
 
@@ -118,8 +114,7 @@ export class Recipe {
         }
     }
 
-    editRecipeById = async (req: Request, res: Response) => {
-        console.log("entrei em editRecipeById")
+    editRecipeById = async (req: Request, res: Response): Promise<void> => {
         try {
             const token = req.headers.authorization as string
             const idRecipeParams = req.params.id
@@ -157,6 +152,45 @@ export class Recipe {
             await recipeData.updateRecipeByIdUser(idRecipeParams, title, description, dateNow)
 
             res.status(200).send("Receita atualizada com sucesso!")
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ error: error.message })
+        }
+    }
+
+    deleteRecipeById = async (req: Request, res: Response): Promise<void> => {
+        try {
+            const token = req.headers.authorization as string
+            const idRecipeParams = req.params.id
+
+
+            if (!idRecipeParams) {
+                res.statusCode = 401
+                throw new Error('Necessário informar o id da receita.')
+            }
+            if (!token) {
+                res.statusCode = 401
+                throw new Error('Token deve ser passado nos headers.')
+            }
+
+            const authorization = new Authenticator()
+            const userIdToken = authorization.verifyToken(token)
+
+            const recipeData = new RecipeData()
+            const recipeDataBase = await recipeData.selectRecipeById(idRecipeParams)
+
+            if (recipeDataBase === undefined) {
+                res.statusCode = 401
+                throw new Error('Esse id não existe.')
+            }
+            if (userIdToken.role !== Role.ADMIN && recipeDataBase.idUser !== userIdToken.id) {
+                res.statusCode = 401
+                throw new Error('Autorização insulficiente.')
+            }
+
+            await recipeData.deleteRecipeByIdUser(idRecipeParams)
+
+            res.status(200).send("Receita revemovida com sucesso!")
 
         } catch (error: any) {
             res.status(res.statusCode || 500).send({ error: error.message })
