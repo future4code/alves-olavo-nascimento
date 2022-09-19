@@ -1,0 +1,87 @@
+POST http://localhost:3003/signup
+Content-Type: application/json
+
+{
+    "name": "cinturião",
+    "email": "cinturiao@samurai.com",
+    "password": "cinturiao",
+    "role": "admin"
+}
+
+###
+# @name login
+POST http://localhost:3003/login
+Content-Type: application/json
+
+{
+    "email": "xz@samurai.com",
+    "password": "xz"
+}
+
+###
+@token={{login.response.body.token}}
+GET http://localhost:3003/profile
+Authorization: {{token}}
+
+###
+GET http://localhost:3003/user/66b2e613-06c0-4412-b937-0d1e3ed23159
+Authorization: {{token}}
+
+###
+post http://localhost:3003/recipe
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "title":"recita cinturiao@samurai.com",
+    "description":"recita cinturiao@samurai.com."
+}
+
+###
+GET  http://localhost:3003/recipe/b05dca92-2374-4754-b749-2ab1d6e8b518
+Authorization: {{token}}
+
+###
+POST http://localhost:3003/user/follow
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "idUserFollow":"66b2e613-06c0-4412-b937-0d1e3ed23159"
+}
+
+###
+POST http://localhost:3003/user/unfollow
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "idUserUnfollow":"66b2e613-06c0-4412-b937-0d1e3ed23159"
+}
+
+###
+GET  http://localhost:3003/feed
+Authorization: {{token}}
+
+###
+PUT http://localhost:3003/recipe/c6b6e8d9-9897-4aed-8d93-07416dac36b9
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "title":"shinobi editada",
+    "description":"shinobi editada"
+}
+
+###
+DELETE http://localhost:3003/recipe/c6b6e8d9-9897-4aed-8d93-07416dac36b9/remove
+Authorization: {{token}}
+
+###
+DELETE http://localhost:3003/user/remove
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "idUSerForRemove":"269b83ae-b95e-4596-b391-0587f756887c"
+}
