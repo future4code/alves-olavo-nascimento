@@ -8,7 +8,7 @@ To Do List
 
 ## Descrição
 
-O objetivo do projeto é, ao consumir a API e possível criar usuário, criar tarefa, consultar todos os usuários, também pode ser feito a busca de uma tarefa por por id, se necessário poder ser feita a edição das informações de usuário como nome e nickname.
+O objetivo do projeto é ser uma API onde ao consumi-la e possível criar usuário, criar tarefa, consultar todos os usuários, também pode ser feito a busca de uma tarefa por id, se necessário puder ser feita a edição das informações de usuário como nome e apelido.
 
 ## Como Rodar o projeto
 
