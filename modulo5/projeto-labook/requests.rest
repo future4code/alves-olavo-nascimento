@@ -30,4 +30,4 @@ Authorization: {{token}}
 
 ###
 GET http://localhost:3003/user/post
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY0NzM3MjNlLTkzYWEtNDEzNS1hYjAxLWFhMDI3MTNhZjMwNCIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjM4OTkyNTMsImV4cCI6MTY2MzkwMjg1M30.EpiEaIsTDmTmcD9JOQ4zdewxa36prvyBFHlWALvX9EM
+Authorization: {{token}}
