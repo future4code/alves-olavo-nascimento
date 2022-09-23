@@ -1,0 +1,33 @@
+### Endpoint de teste
+POST http://localhost:3003/user/signup
+Content-Type: application/json
+
+{
+    "name":"abc5",
+    "email":"abc5@gmai.com",
+    "password":"abc5"
+}
+
+###
+# @name login
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    "email":"abc4@gmai.com",
+    "password":"abc4"
+}
+
+###
+@token={{login.response.body.token}}  
+POST http://localhost:3003/user/post
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "content":"Tá friozinho hoje."
+}
+
+###
+GET http://localhost:3003/user/post
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY0NzM3MjNlLTkzYWEtNDEzNS1hYjAxLWFhMDI3MTNhZjMwNCIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjM4OTkyNTMsImV4cCI6MTY2MzkwMjg1M30.EpiEaIsTDmTmcD9JOQ4zdewxa36prvyBFHlWALvX9EM
