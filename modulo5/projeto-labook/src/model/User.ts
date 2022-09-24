@@ -12,7 +12,7 @@ export class User {
         private role: Role = Role.NORMAL
     ) { }
 
-    public getId = () => {
+    public getId = () => { 
         return this.id
     }
     public getName = () => {

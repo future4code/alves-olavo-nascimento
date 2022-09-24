@@ -18,6 +18,15 @@ const userController = new Usercontroller(
 )
 
 userRouter.get('/post', userController.allPosts)
+
 userRouter.post('/signup', userController.signup)
+
 userRouter.post('/login', userController.login)
+
 userRouter.post('/post', userController.post)
+
+userRouter.post('/post/like', userController.likePost)
+
+userRouter.delete('/post/id/:id', userController.deletePost)
+
+

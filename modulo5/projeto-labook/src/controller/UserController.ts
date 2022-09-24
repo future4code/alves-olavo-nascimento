@@ -2,6 +2,8 @@ import { strict } from "assert";
 import { triggerAsyncId } from "async_hooks";
 import { Request, Response } from "express";
 import { UseBusiness } from "../business/UseBusiness";
+import { ILikePostImputDTO } from "../model/Like";
+import { IPostImputDeletePostsDTO } from "../model/Post";
 import { IUserLoginInputDTO, IUserPostInputDTO, IUserSignupInputDTO } from "../model/User";
 
 export class Usercontroller {
@@ -67,6 +69,38 @@ export class Usercontroller {
             const allPostsByThisUser = await this.useBusiness.allPosts(token)
 
             res.status(201).send(allPostsByThisUser)
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ message: error.message })
+        }
+    }
+
+    public deletePost = async (req: Request, res: Response) => {
+        try {
+            const imput: IPostImputDeletePostsDTO = {
+                token: req.headers.authorization as string,
+                idPostForDelete: req.params.id
+            }
+
+            const response = await this.useBusiness.deletePost(imput)
+
+            res.status(201).send(response)
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ message: error.message })
+        }
+    }
+
+    public likePost = async (req: Request, res: Response) => {
+        try {
+            const imput: ILikePostImputDTO = {
+                token: req.headers.authorization as string,
+                idPostLiked: req.body.idPostLiked
+            }
+
+            const response = await this.useBusiness.likePost(imput)
+
+            res.status(201).send(response)
 
         } catch (error: any) {
             res.status(res.statusCode || 500).send({ message: error.message })

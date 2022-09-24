@@ -26,3 +26,7 @@ export interface IPostOutputDataBaseDTO {
     content: string,
     user_id: string
 }
+export interface IPostImputDeletePostsDTO {
+    token: string,
+    idPostForDelete: string
+}

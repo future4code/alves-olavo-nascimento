@@ -1,6 +1,7 @@
 import { UserBaseDataBase } from "../baseData/UserBaseDataBase"
-import { Post } from "../model/Post"
-import { IUserLoginInputDTO, IUserPostInputDTO, IUserSignupInputDTO, IUserSignupOuputDTO, User } from "../model/User"
+import { ILikePostImputDTO, IVerifyLikeDTO, Like } from "../model/Like"
+import { IPostImputDeletePostsDTO, Post } from "../model/Post"
+import { IUserLoginInputDTO, IUserPostInputDTO, IUserSignupInputDTO, IUserSignupOuputDTO, Role, User } from "../model/User"
 import { Authenticator, IdTokenPayload } from "../services/Authenticator"
 import { GenerateId } from "../services/GenerateId"
 import { HashManager } from "../services/HashManager"
@@ -143,5 +144,99 @@ export class UseBusiness {
         const allPostsDataBase = this.userBaseDataBase.selectAllPosts(payload.id)
 
         return allPostsDataBase
+    }
+
+    public deletePost = async (imput: IPostImputDeletePostsDTO) => {
+        console.log("entrou em deletePost")
+
+        const token = imput.token
+        const idPostForDelete = imput.idPostForDelete
+
+        if (!token) {
+            throw new Error('Necessário informar o token.')
+        }
+        if (!idPostForDelete) {
+            throw new Error('Necessário informar o id do post a ser deletado.')
+        }
+
+        // console.log(token)
+        // console.log(idPostForDelete)
+        const payload = this.authenticator.verifyToken(token)
+        // console.log(payload)
+
+        const postDataBase = await this.userBaseDataBase.selectPostById(idPostForDelete)
+
+        if (!postDataBase.length) {
+            throw new Error('Postagem não encontrada.')
+        }
+
+        const userDataBase = await this.userBaseDataBase.selectAllUserById(payload.id)
+
+        const userOfPostDataBase = await this.userBaseDataBase.selectAllUserById(postDataBase[0].user_id)
+
+        if (!userDataBase.length) {
+            throw new Error('token inválido.')
+        }
+        if (userDataBase[0].role === Role.NORMAL && payload.id !== postDataBase[0].user_id) {
+            throw new Error('E possível deletar apenas as suas próprias postagens.')
+        }
+
+        await this.userBaseDataBase.removePost(idPostForDelete)
+
+        const response: string = `Você deletou a postagem de ${userOfPostDataBase[0].name} com sucesso.`
+
+        return response
+    }
+
+    public likePost = async (imput: ILikePostImputDTO) => {
+        console.log("entrou em deletePost")
+
+        const token = imput.token
+        const idPostLiked = imput.idPostLiked
+
+        if (!token) {
+            throw new Error('Necessário informar o token.')
+        }
+        if (!idPostLiked) {
+            throw new Error('Necessário informar o id do post.')
+        }
+
+        const payload = this.authenticator.verifyToken(token)
+
+        const postDataBase = await this.userBaseDataBase.selectPostById(idPostLiked)
+
+        if (!postDataBase.length) {
+            throw new Error('Postagem não encontrada.')
+        }
+
+        const userDataBase = await this.userBaseDataBase.selectAllUserById(payload.id)
+
+        const userPostDataBase = await this.userBaseDataBase.selectAllUserById(postDataBase[0].user_id)
+
+        const verifyLike: IVerifyLikeDTO = {
+            idUser: payload.id,
+            idUserPost: postDataBase[0].user_id
+        }
+
+        const likeExist = await this.userBaseDataBase.selectLikePostByUser(verifyLike)
+
+        console.log(likeExist)
+
+        if (!likeExist.length) {
+            throw new Error('Você ja curtiu essa postagem.')
+        }
+        if (!userDataBase.length) {
+            throw new Error('token inválido.')
+        }
+
+        const id = this.generateId.generateId()
+
+        const newLike = new Like(id, idPostLiked, payload.id)
+
+        await this.userBaseDataBase.insertLikePost(newLike)
+
+        const response: string = `Você curtiu a postagem de ${userPostDataBase[0].name}.`
+
+        return response
     }
 }
