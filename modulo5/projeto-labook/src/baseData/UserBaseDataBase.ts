@@ -1,4 +1,4 @@
-import { IInsertLikeDataBaseDTO, ISelectLikeDataBaseDTO, IVerifyLikeDTO, Like } from "../model/Like";
+import { IInsertLikeDataBaseDTO, ISelectLikeDataBaseDTO, IVerifyLikeInDataBaseDTO, IVerifyLikeOutDataBaseDTO, Like } from "../model/Like";
 import { IPostImputDataBaseDTO, IPostOutputDataBaseDTO, Post } from "../model/Post";
 import { IUserImputDataBaseDTO, IUserOuputDataBaseDTO, User } from "../model/User";
 import BaseDataBase from "./BaseDataBase";
@@ -81,18 +81,18 @@ export class UserBaseDataBase extends BaseDataBase {
             .into(UserBaseDataBase.TableNamePost)
     }
 
-    public selectAllPosts = async (idUser: string) => {
+    public selectAllPosts = async () => {
 
         const allPostsDataBase: IPostOutputDataBaseDTO[] = await this.getConnection()
             .select("*")
-            .from(UserBaseDataBase.TableNamePost)
-            .where({ user_id: idUser })
+            .from("labook_Posts")
+
 
         return allPostsDataBase
     }
 
     public selectPostById = async (idPost: string) => {
-        console.log('selectPostById')
+
         const postFound: IPostOutputDataBaseDTO[] = await this.getConnection()
             .select("*")
             .from(UserBaseDataBase.TableNamePost)
@@ -111,6 +111,7 @@ export class UserBaseDataBase extends BaseDataBase {
     }
 
     public insertLikePost = async (like: Like) => {
+
         const newLike = await this.likeDataBaseModel(like)
 
         await this.getConnection()
@@ -119,14 +120,40 @@ export class UserBaseDataBase extends BaseDataBase {
 
     }
 
-    public selectLikePostByUser = async (verifyLike: IVerifyLikeDTO) => {
+    public selectLikePostByUser = async (verifyLike: IVerifyLikeInDataBaseDTO): Promise<ISelectLikeDataBaseDTO[]> => {
 
-        const likeFound: ISelectLikeDataBaseDTO[] = await this.getConnection()
+        // const likeFound: ISelectLikeDataBaseDTO[] = await this.getConnection().raw(`
+        // .raw(`
+        //     select *
+        //     from ${UserBaseDataBase.TableNameLike}
+        //     where(post_id = '${verifyLike.idPostLiked}' and  user_id = '${verifyLike.idUser}')
+        // `)
+
+        const [likeFound] = await this.getConnection()
+
             .select("*")
             .from(UserBaseDataBase.TableNameLike)
-            .where({ post_id: verifyLike.idUserPost } && { user_id: verifyLike.idUser })
+            .where({ post_id: verifyLike.idPostLiked, user_id: verifyLike.idUser })
 
         return likeFound
+    }
 
+    public selectUnlikePostByUser = async (verifyLike: IVerifyLikeOutDataBaseDTO): Promise<ISelectLikeDataBaseDTO[]> => {
+
+        const [likeFound] = await this.getConnection()
+
+            .select("*")
+            .from(UserBaseDataBase.TableNameLike)
+            .where({ post_id: verifyLike.idPostUnlike, user_id: verifyLike.idUser })
+
+        return likeFound
+    }
+
+    public removeLikePost = async (verifyLike: IVerifyLikeOutDataBaseDTO) => {
+        await this.getConnection()
+
+            .delete("*")
+            .from(UserBaseDataBase.TableNameLike)
+            .where({ post_id: verifyLike.idPostUnlike, user_id: verifyLike.idUser })
     }
 }

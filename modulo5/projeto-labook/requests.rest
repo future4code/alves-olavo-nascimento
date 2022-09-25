@@ -3,9 +3,9 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-    "name":"pedro",
-    "email":"pedro@gmai.com",
-    "password":"pedro"
+    "name":"bruno",
+    "email":"bruno@gmail.com",
+    "password":"bruno12"
 }
 
 ###
@@ -14,8 +14,8 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-    "email":"pedro@gmai.com",
-    "password":"pedro"
+    "email":"bruno@gmail.com",
+    "password":"bruno12"
 }
 
 ###
@@ -25,7 +25,7 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "content":"bolsa ou lula."
+    "content":"correr nu."
 }
 
 ###
@@ -33,13 +33,10 @@ GET http://localhost:3003/user/post
 Authorization: {{token}}
 
 ###  
-DELETE http://localhost:3003/user/post/id/6f559097-9a61-4726-9510-36b33b6d0042
+DELETE http://localhost:3003/user/post/id/053ea13e-5c5e-4668-9cbe-e25ac78f19ff
 Authorization: {{token}}
 
 ###
-
-
-
 POST http://localhost:3003/user/post/like
 Content-Type: application/json
 Authorization: {{token}}
@@ -47,5 +44,11 @@ Authorization: {{token}}
 {
     "idPostLiked":"297934e4-3100-40cd-a35a-26a5a4962543"
 }
+###
+DELETE http://localhost:3003/user/post/like
+Content-Type: application/json
+Authorization: {{token}}
 
-# faltou verificar se a curtida ja existe
+{
+    "idPostUnliked":"297934e4-3100-40cd-a35a-26a5a4962543"
+}

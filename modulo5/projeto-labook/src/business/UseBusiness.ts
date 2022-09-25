@@ -1,5 +1,5 @@
 import { UserBaseDataBase } from "../baseData/UserBaseDataBase"
-import { ILikePostImputDTO, IVerifyLikeDTO, Like } from "../model/Like"
+import { ILikePostImputDTO, IUnlikePostImputDTO, IVerifyLikeInDataBaseDTO, IVerifyLikeOutDataBaseDTO, Like } from "../model/Like"
 import { IPostImputDeletePostsDTO, Post } from "../model/Post"
 import { IUserLoginInputDTO, IUserPostInputDTO, IUserSignupInputDTO, IUserSignupOuputDTO, Role, User } from "../model/User"
 import { Authenticator, IdTokenPayload } from "../services/Authenticator"
@@ -22,7 +22,19 @@ export class UseBusiness {
 
         if (!name || !email || !password) {
             throw new Error('Preencha todos os campos.')
-        }
+        } else
+            if (typeof name !== "string" || typeof email !== "string" || typeof password !== "string") {
+                throw new Error('Todos os campos devem ser do tuipo string.')
+            } else
+                if (name.length < 3) {
+                    throw new Error('O campo name deve ter no mínmo 3 caracteres.')
+                } else
+                    if (password.length < 6) {
+                        throw new Error('O campo password deve ter no mínmo 6 caracteres.')
+                    } else
+                        if (email.length < 6) {
+                            throw new Error('O campo email deve ter no mínmo 6 caracteres.')
+                        }
 
         const userExist = await this.userBaseDataBase.selectAllUserByEmail(email)
 
@@ -61,24 +73,22 @@ export class UseBusiness {
 
         if (!email || !password) {
             throw new Error('Preencha todos os campos.')
-        }
+        } else
+            if (typeof email !== "string" || typeof password !== "string") {
+                throw new Error('Todos os campos devem ser do tuipo string.')
+            } else
+                if (password.length < 6) {
+                    throw new Error('O campo password deve ter no mínmo 6 caracteres.')
+                }
+                if (email.length < 6) {
+                    throw new Error('O campo email deve ter no mínmo 6 caracteres.')
+                }
 
         const userExistDataBase = await this.userBaseDataBase.selectAllUserByEmail(email)
 
         if (!userExistDataBase.length) {
             throw new Error('Usuário não cadastrado.')
         }
-        console.log(userExistDataBase)
-
-        // const idDataBase = userExistDataBase.getId()
-        // const emailDataBase = userExistDataBase.getEMail()
-        // const hashDataBase = userExistDataBase.getPassword()
-        // const roleDataBase = userExistDataBase.getRole()
-
-        const idDataBase = userExistDataBase[0].id
-        const emailDataBase = userExistDataBase[0].email
-        const hashDataBase = userExistDataBase[0].password
-        const roleDataBase = userExistDataBase[0].role
 
         const passwordHash = await this.hashManager.compare(password, userExistDataBase[0].password)
 
@@ -135,19 +145,17 @@ export class UseBusiness {
         const payload = this.authenticator.verifyToken(token)
 
         const userDataBase = await this.userBaseDataBase.selectAllUserById(payload.id)
-        console.log(userDataBase)
 
         if (!userDataBase.length) {
             throw new Error('token inválido.')
         }
 
-        const allPostsDataBase = this.userBaseDataBase.selectAllPosts(payload.id)
+        const allPostsDataBase = await this.userBaseDataBase.selectAllPosts()
 
         return allPostsDataBase
     }
 
     public deletePost = async (imput: IPostImputDeletePostsDTO) => {
-        console.log("entrou em deletePost")
 
         const token = imput.token
         const idPostForDelete = imput.idPostForDelete
@@ -159,10 +167,7 @@ export class UseBusiness {
             throw new Error('Necessário informar o id do post a ser deletado.')
         }
 
-        // console.log(token)
-        // console.log(idPostForDelete)
         const payload = this.authenticator.verifyToken(token)
-        // console.log(payload)
 
         const postDataBase = await this.userBaseDataBase.selectPostById(idPostForDelete)
 
@@ -189,7 +194,6 @@ export class UseBusiness {
     }
 
     public likePost = async (imput: ILikePostImputDTO) => {
-        console.log("entrou em deletePost")
 
         const token = imput.token
         const idPostLiked = imput.idPostLiked
@@ -213,17 +217,15 @@ export class UseBusiness {
 
         const userPostDataBase = await this.userBaseDataBase.selectAllUserById(postDataBase[0].user_id)
 
-        const verifyLike: IVerifyLikeDTO = {
+        const verifyLike: IVerifyLikeInDataBaseDTO = {
             idUser: payload.id,
-            idUserPost: postDataBase[0].user_id
+            idPostLiked: idPostLiked
         }
 
         const likeExist = await this.userBaseDataBase.selectLikePostByUser(verifyLike)
 
-        console.log(likeExist)
-
-        if (!likeExist.length) {
-            throw new Error('Você ja curtiu essa postagem.')
+        if (likeExist) {
+            throw new Error(`Você já curtiu essa postagem do ${userPostDataBase[0].name}.`)
         }
         if (!userDataBase.length) {
             throw new Error('token inválido.')
@@ -236,6 +238,51 @@ export class UseBusiness {
         await this.userBaseDataBase.insertLikePost(newLike)
 
         const response: string = `Você curtiu a postagem de ${userPostDataBase[0].name}.`
+
+        return response
+    }
+
+    public unLikePost = async (imput: IUnlikePostImputDTO) => {
+
+        const token = imput.token
+        const idPostUnlike = imput.idPostUnliked
+
+        if (!token) {
+            throw new Error('Necessário informar o token.')
+        }
+        if (!idPostUnlike) {
+            throw new Error('Necessário informar o id do post.')
+        }
+
+        const payload = this.authenticator.verifyToken(token)
+
+        const postDataBase = await this.userBaseDataBase.selectPostById(idPostUnlike)
+
+        if (!postDataBase.length) {
+            throw new Error('Postagem não encontrada.')
+        }
+
+        const userDataBase = await this.userBaseDataBase.selectAllUserById(payload.id)
+
+        const userPostDataBase = await this.userBaseDataBase.selectAllUserById(postDataBase[0].user_id)
+
+        const verifyLike: IVerifyLikeOutDataBaseDTO = {
+            idUser: payload.id,
+            idPostUnlike: idPostUnlike
+        }
+
+        const likeExist = await this.userBaseDataBase.selectUnlikePostByUser(verifyLike)
+
+        if (!likeExist) {
+            throw new Error(`Você ainda não curtiu essa postagem do ${userPostDataBase[0].name}.`)
+        }
+        if (!userDataBase.length) {
+            throw new Error('token inválido.')
+        }
+
+        await this.userBaseDataBase.removeLikePost(verifyLike)
+
+        const response: string = `Você descurtiu a postagem de ${userPostDataBase[0].name}.`
 
         return response
     }

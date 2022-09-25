@@ -1,8 +1,6 @@
-import { strict } from "assert";
-import { triggerAsyncId } from "async_hooks";
 import { Request, Response } from "express";
 import { UseBusiness } from "../business/UseBusiness";
-import { ILikePostImputDTO } from "../model/Like";
+import { ILikePostImputDTO, IUnlikePostImputDTO } from "../model/Like";
 import { IPostImputDeletePostsDTO } from "../model/Post";
 import { IUserLoginInputDTO, IUserPostInputDTO, IUserSignupInputDTO } from "../model/User";
 
@@ -99,6 +97,22 @@ export class Usercontroller {
             }
 
             const response = await this.useBusiness.likePost(imput)
+
+            res.status(201).send(response)
+
+        } catch (error: any) {
+            res.status(res.statusCode || 500).send({ message: error.message })
+        }
+    }
+
+    public unLikePost = async (req: Request, res: Response) => {
+        try {
+            const imput: IUnlikePostImputDTO = {
+                token: req.headers.authorization as string,
+                idPostUnliked: req.body.idPostUnliked
+            }
+
+            const response = await this.useBusiness.unLikePost(imput)
 
             res.status(201).send(response)
 

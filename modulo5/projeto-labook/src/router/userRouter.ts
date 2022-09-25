@@ -27,6 +27,8 @@ userRouter.post('/post', userController.post)
 
 userRouter.post('/post/like', userController.likePost)
 
+userRouter.delete('/post/like', userController.unLikePost)
+
 userRouter.delete('/post/id/:id', userController.deletePost)
 
 

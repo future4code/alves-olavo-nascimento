@@ -19,6 +19,10 @@ export interface ILikePostImputDTO {
     token: string,
     idPostLiked: string
 }
+export interface IUnlikePostImputDTO {
+    token: string,
+    idPostUnliked: string
+}
 export interface IInsertLikeDataBaseDTO {
     id: string,
     post_id: string,
@@ -29,7 +33,11 @@ export interface ISelectLikeDataBaseDTO {
     post_id: string,
     user_id: string
 }
-export interface IVerifyLikeDTO {
+export interface IVerifyLikeInDataBaseDTO {
     idUser: string,
-    idUserPost: string
+    idPostLiked: string
+}
+export interface IVerifyLikeOutDataBaseDTO {
+    idUser: string,
+    idPostUnlike: string
 }
