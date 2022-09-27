@@ -1,0 +1,54 @@
+### Endpoint de teste
+POST http://localhost:3003/user/signup
+Content-Type: application/json
+
+{
+    "name":"bruno",
+    "email":"bruno@gmail.com",
+    "password":"bruno12"
+}
+
+###
+# @name login
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    "email":"bruno@gmail.com",
+    "password":"bruno12"
+}
+
+###
+@token={{login.response.body.token}}  
+POST http://localhost:3003/user/post
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "content":"correr nu."
+}
+
+###
+GET http://localhost:3003/user/post
+Authorization: {{token}}
+
+###  
+DELETE http://localhost:3003/user/post/id/053ea13e-5c5e-4668-9cbe-e25ac78f19ff
+Authorization: {{token}}
+
+###
+POST http://localhost:3003/user/post/like
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "idPostLiked":"297934e4-3100-40cd-a35a-26a5a4962543"
+}
+###
+DELETE http://localhost:3003/user/post/like
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "idPostUnliked":"297934e4-3100-40cd-a35a-26a5a4962543"
+}
