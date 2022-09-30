@@ -8,31 +8,32 @@ Content-Type: application/json
     "password":"joao123"
 }
 
-# ###
-# # @name login
-# POST http://localhost:3003/user/login
-# Content-Type: application/json
+###
+# @name login
+POST http://localhost:3003/user/login
+Content-Type: application/json
 
-# {
-#     "email":"bruno@gmail.com",
-#     "password":"bruno12"
-# }
+{
+    "email":"joao@gmail.com",
+    "password":"joao123"
+}
 
-# ###
-# @token={{login.response.body.token}}  
-# POST http://localhost:3003/user/post
-# Content-Type: application/json
-# Authorization: {{token}}
+###
+@token={{login.response.body.token}}  
+POST http://localhost:3003/user/show
+Content-Type: application/json
+Authorization: {{token}}
 
-# {
-#     "content":"correr nu."
-# }
+{
+    "band":"Zeca Pagodinho.",
+    "startsAt":"08-12-2022"
+}
 
-# ###
-# GET http://localhost:3003/user/post
-# Authorization: {{token}}
+###
+GET http://localhost:3003/user/show
+Authorization: {{token}}
 
-# ###  
+###  
 # DELETE http://localhost:3003/user/post/id/053ea13e-5c5e-4668-9cbe-e25ac78f19ff
 # Authorization: {{token}}
 

@@ -54,3 +54,12 @@ export interface ISignupOutputDTO {
     token: string,
     message: string
 }
+
+export interface ILoginInputDTO {
+    email: string,
+    password: string
+}
+
+export interface ILoginOutputDTO {
+    token: string
+}
