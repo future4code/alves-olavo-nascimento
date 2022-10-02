@@ -102,7 +102,7 @@ export class UserBusisness {
 
         const payload: IdTokenPayload = {
             id: emailExist.id,
-            role: emailExist.role
+            role: emailExist.role as Role
         }
 
         const token = this.authenticator.generateToken(payload)

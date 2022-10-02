@@ -8,6 +8,9 @@ import { ShowBusiness } from "../business/ShowBusiness"
 import { HashManager } from "../service/HashManager"
 import { GenerateId } from "../service/GenerateId"
 import { Router } from "express"
+import { TicketController } from "../controller/TicketController"
+import { TicketBusiness } from "../business/TicketBusiness"
+import { TicketDataBase } from "../dataBase/TicketDataBase"
 
 export const userRouter = Router()
 
@@ -19,18 +22,29 @@ const userController = new UserController(
         new Authenticator
     )
 )
+
 const showController = new ShowController(
     new ShowBusiness(
-        new HashManager,
         new GenerateId,
         new UserDataBase,
         new ShowDataBase,
-        new Authenticator
+        new Authenticator,
+        new TicketDataBase
     )
 )
 
+const ticketController = new TicketController(
+    new TicketBusiness(
+        new TicketDataBase,
+        new Authenticator,
+        new ShowDataBase,
+        new UserDataBase,
+        new GenerateId
+    )
+)
 
+userRouter.get("/show", showController.getShows)
 userRouter.post("/signup", userController.signup)
 userRouter.post("/login", userController.login)
 userRouter.post("/show", showController.creatShow)
-userRouter.get("/show", showController.getShows)
+userRouter.post("/ticket/id/:id", ticketController.ticket)

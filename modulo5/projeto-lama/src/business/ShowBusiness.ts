@@ -10,14 +10,15 @@ import { AdminsOnly } from "../error/AdminsOnly";
 import { Role } from "../model/User";
 import { DateNotAllowed } from "../error/DateNotAllowed";
 import { DateInUse } from "../error/DateInUse";
+import { TicketDataBase } from "../dataBase/TicketDataBase";
 
 export class ShowBusiness {
     constructor(
-        private hashManager: HashManager,
         private generateId: GenerateId,
         private userDataBase: UserDataBase,
         private showDataBase: ShowDataBase,
-        private authenticator: Authenticator
+        private authenticator: Authenticator,
+        private ticketDataBase: TicketDataBase
     ) { }
 
     public creatShow = async (input: ICreatShowInputDTO) => {
@@ -30,7 +31,13 @@ export class ShowBusiness {
         if (!band || !startsAt) {
             throw new MissingInformation()
         }
-        if (startsAt < "05-12-2022") {
+
+        const startDate1 = new Date("2022-12-05")
+        const startDate = new Date("2022-12-05").toLocaleDateString()
+        console.log("startDate1", startDate1)
+        console.log("startDate", startDate)
+
+        if (startsAt < startDate) {
             throw new DateNotAllowed()
         }
 
@@ -41,22 +48,19 @@ export class ShowBusiness {
         if (userDataBase.role !== Role.ADMIN) {
             throw new AdminsOnly()
         }
-        
-        const idShow = this.generateId.generateId()
-        
-        const new_date = startsAt.split("-")
-        const dateReverse = new_date.reverse()
-        const deteAmerican = dateReverse.join("-")
-        
-        const dateExist = await this.showDataBase.selectShowsByDate(deteAmerican)
-        
-        // const dateExist = showsDataBase.map((show) => show.starts_at === startsAt)
-        
+
+        const newFormatStartsAt = startsAt.split("-").reverse().join()
+        const dateFormateDate = new Date(newFormatStartsAt)
+
+        const dateExist = await this.showDataBase.selectShowsByDate(newFormatStartsAt)
+
         if (dateExist !== undefined) {
             throw new DateInUse()
         }
 
-        const newShow = new Shows(idShow, band, deteAmerican)
+        const idShow = this.generateId.generateId()
+
+        const newShow = new Shows(idShow, band, dateFormateDate)
 
         await this.showDataBase.insertShow(newShow)
 
@@ -77,6 +81,17 @@ export class ShowBusiness {
 
         const showsDataBase = await this.showDataBase.selectAllShows()
 
-        return showsDataBase
+        const shows = showsDataBase.map((show) => {
+            return new Shows(show.id, show.band, show.starts_at,)
+        })
+
+        for (let show of shows) {
+            const idShow = show.getId()
+            const tickets = await this.ticketDataBase.maximumAmount(idShow)
+
+            show.setTicket(show.getTicket() - tickets)
+        }
+
+        return shows
     }
 }

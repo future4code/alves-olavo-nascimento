@@ -63,3 +63,19 @@ export interface ILoginInputDTO {
 export interface ILoginOutputDTO {
     token: string
 }
+
+export interface IUserModelDataBaseDTO {
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    role: string,
+}
+
+export interface IUserOutputDataBaseDTO {
+    id: string,
+    name: string,
+    email: string,
+    password: string,
+    role: string,
+}

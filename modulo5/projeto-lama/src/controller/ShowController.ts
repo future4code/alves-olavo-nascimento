@@ -20,7 +20,7 @@ export class ShowController {
             res.status(201).send(response)
 
         } catch (error: any) {
-            res.status(error.status || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
         }
     }
 
@@ -35,7 +35,7 @@ export class ShowController {
             res.status(201).send(shows)
 
         } catch (error: any) {
-            res.status(error.status || 500).send({ message: error.message })
+            res.status(error.statusCode || 500).send({ message: error.message })
         }
     }
 }
