@@ -25,17 +25,19 @@ Content-Type: application/json
 Authorization: {{token}}
 
 {
-    "band":"banda 5.",
-    "startsAt":"29-12-2022"
+    "band":"banda 6.",
+    "startsAt":"21-12-2022"
 }
 
 ###
 GET http://localhost:3003/user/show
-Authorization: {{token}}
 
 ###  
 POST http://localhost:3003/user/ticket/id/15e5280d-b24a-44cb-8b98-f0bef2900fd7
 Authorization: {{token}}
 
-###
+###  
+DELETE http://localhost:3003/user/ticket/id/15e5280d-b24a-44cb-8b98-f0bef2900fd7
+Authorization: {{token}}
+
 

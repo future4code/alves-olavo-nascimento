@@ -1,16 +1,16 @@
 import { ICreatShowInputDTO, ICreatShowOutputDTO, IGetShowsinputDTO, Shows } from "../model/Shows";
+import { Authenticator, IdTokenPayload } from "../service/Authenticator";
+import { AuthenticationError } from "../error/AuthenticationError";
 import { MissingInformation } from "../error/MissingInformation";
 import { TokenNotInformed } from "../error/TokenNotInformed";
-import { Authenticator } from "../service/Authenticator";
+import { TicketDataBase } from "../dataBase/TicketDataBase";
+import { DateNotAllowed } from "../error/DateNotAllowed";
 import { UserDataBase } from "../dataBase/UserDataBase";
 import { ShowDataBase } from "../dataBase/ShowDataBase";
-import { HashManager } from "../service/HashManager";
 import { GenerateId } from "../service/GenerateId";
 import { AdminsOnly } from "../error/AdminsOnly";
-import { Role } from "../model/User";
-import { DateNotAllowed } from "../error/DateNotAllowed";
 import { DateInUse } from "../error/DateInUse";
-import { TicketDataBase } from "../dataBase/TicketDataBase";
+import { Role } from "../model/User";
 
 export class ShowBusiness {
     constructor(
@@ -32,21 +32,24 @@ export class ShowBusiness {
             throw new MissingInformation()
         }
 
-        const startDate1 = new Date("2022-12-05")
         const startDate = new Date("2022-12-05").toLocaleDateString()
-        console.log("startDate1", startDate1)
-        console.log("startDate", startDate)
 
         if (startsAt < startDate) {
             throw new DateNotAllowed()
         }
 
-        const payload = this.authenticator.verifyToken(token)
+        const payload = this.authenticator.verifyToken(token) 
+
+        if (!payload) {
+            throw new AuthenticationError()
+        }
 
         const userDataBase = await this.userDataBase.selectUserById(payload.id)
-
-        if (userDataBase.role !== Role.ADMIN) {
-            throw new AdminsOnly()
+        
+        if (userDataBase) {
+            if (userDataBase.role !== Role.ADMIN) {
+                throw new AdminsOnly()
+            }
         }
 
         const newFormatStartsAt = startsAt.split("-").reverse().join()
@@ -72,12 +75,6 @@ export class ShowBusiness {
     }
 
     public getShows = async (input: IGetShowsinputDTO) => {
-
-        const { token } = input
-
-        if (!token) {
-            throw new TokenNotInformed()
-        }
 
         const showsDataBase = await this.showDataBase.selectAllShows()
 

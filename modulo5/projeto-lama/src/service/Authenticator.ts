@@ -6,7 +6,7 @@ dotenv.config()
 
 export interface IdTokenPayload {
     id: string,
-    role:Role
+    role: Role
 }
 
 export class Authenticator {
@@ -21,9 +21,19 @@ export class Authenticator {
         return token
     }
 
-    verifyToken = (token: string): IdTokenPayload => {
-        const payload = jwt.verify(token, process.env.JWT_KEY as string) as any
+    verifyToken = (token: string): IdTokenPayload | null => {
+        // const payload = jwt.verify(token, process.env.JWT_KEY as string) as any
 
-        return payload as IdTokenPayload
+        // return payload as IdTokenPayload
+        try {
+            const payload = jwt.verify(
+                token,
+                process.env.JWT_KEY as string
+            )
+
+            return payload as IdTokenPayload
+        } catch (error) {
+            return null
+        }
     }
 }

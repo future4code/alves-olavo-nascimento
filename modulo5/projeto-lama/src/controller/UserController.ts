@@ -1,10 +1,10 @@
 import { ILoginInputDTO, ISignupInputDTO } from "../model/User"
-import { UserBusisness } from "../business/UserBusiness"
+import { UserBusiness } from "../business/UserBusiness"
 import { Request, Response } from "express"
 
 export class UserController {
     constructor(
-        private userBusiness: UserBusisness
+        private userBusiness: UserBusiness
     ) { }
 
     public signup = async (req: Request, res: Response) => {

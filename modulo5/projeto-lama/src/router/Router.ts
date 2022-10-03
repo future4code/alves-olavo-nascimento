@@ -1,6 +1,6 @@
 import { UserController } from "../controller/UserController"
 import { ShowController } from "../controller/ShowController"
-import { UserBusisness } from "../business/UserBusiness"
+import { UserBusiness } from "../business/UserBusiness"
 import { Authenticator } from "../service/Authenticator"
 import { ShowDataBase } from "../dataBase/ShowDataBase"
 import { UserDataBase } from "../dataBase/UserDataBase"
@@ -15,7 +15,7 @@ import { TicketDataBase } from "../dataBase/TicketDataBase"
 export const userRouter = Router()
 
 const userController = new UserController(
-    new UserBusisness(
+    new UserBusiness(
         new HashManager,
         new GenerateId,
         new UserDataBase,
@@ -44,7 +44,10 @@ const ticketController = new TicketController(
 )
 
 userRouter.get("/show", showController.getShows)
+
 userRouter.post("/signup", userController.signup)
 userRouter.post("/login", userController.login)
 userRouter.post("/show", showController.creatShow)
 userRouter.post("/ticket/id/:id", ticketController.ticket)
+
+userRouter.delete("/ticket/id/:id", ticketController.deleteTicket)

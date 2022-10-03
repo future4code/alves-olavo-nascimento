@@ -30,6 +30,11 @@ export interface ITicketInputDTO {
     idShow: string
 }
 
+export interface IDeleteTicketInputDTO {
+    token: string,
+    idShow: string
+}
+
 export interface IInputDataBaseDTO {
     id: string,
     show_id: string,
@@ -39,8 +44,16 @@ export interface IInputDataBaseDTO {
 export interface IOutputTicketDTO {
     message: string
 }
+export interface IOutputDeleteTicketDTO {
+    message: string
+}
 
 export interface IIdsTicketDTO {
+    idShow: string,
+    idUser: string
+}
+
+export interface IIdsDeleteTicketDTO {
     idShow: string,
     idUser: string
 }

@@ -11,7 +11,7 @@ import { UserDataBase } from "../dataBase/UserDataBase";
 import { HashManager } from "../service/HashManager"
 import { GenerateId } from "../service/GenerateId";
 
-export class UserBusisness {
+export class UserBusiness {
     constructor(
         private hashManager: HashManager,
         private generateId: GenerateId,
@@ -86,17 +86,14 @@ export class UserBusisness {
         }
 
         const emailExist = await this.userDataBase.selectUserByEmail(email)
-        console.log(emailExist)
 
         if (!emailExist) {
-            console.log("!emailExist")
             throw new InvalidEmailOrPassword()
         }
-        // console.log(emailExist.password)
+        
         const passwordValid = await this.hashManager.compare(password, emailExist.password)
 
         if (passwordValid !== true) {
-            console.log("passwordValid !== true")
             throw new InvalidEmailOrPassword()
         }
 

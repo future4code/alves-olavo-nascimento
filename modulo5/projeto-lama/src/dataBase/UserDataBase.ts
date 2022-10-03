@@ -1,11 +1,10 @@
-import { Shows } from "../model/Shows";
 import { IUserModelDataBaseDTO, IUserOutputDataBaseDTO, User } from "../model/User";
 import BaseDataBase from "./BaseDataBase";
 
 export class UserDataBase extends BaseDataBase {
     public static TABLE_USERS = "lama_Users"
 
-    private userModelDataBase = async (user: User) => {
+    public userModelDataBase = async (user: User) => {
         const userDataBase: IUserModelDataBaseDTO = {
             id: user.getId(),
             name: user.getName(),
@@ -25,7 +24,7 @@ export class UserDataBase extends BaseDataBase {
             .into(tableUsers)
     }
 
-    public selectUserByEmail = async (email: string) => {
+    public selectUserByEmail = async (email: string): Promise<IUserOutputDataBaseDTO | undefined> => {
         const tableUsers = UserDataBase.TABLE_USERS
 
         const emailFound: IUserOutputDataBaseDTO[] = await this.getConnection()
@@ -36,7 +35,7 @@ export class UserDataBase extends BaseDataBase {
         return emailFound[0]
     }
 
-    public selectUserById = async (id: string) => {
+    public selectUserById = async (id: string): Promise<IUserOutputDataBaseDTO | undefined> => {
         const tableUsers = UserDataBase.TABLE_USERS
 
         const emailFound: IUserOutputDataBaseDTO[] = await this.getConnection()
