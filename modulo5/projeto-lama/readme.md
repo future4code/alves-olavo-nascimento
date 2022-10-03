@@ -37,3 +37,11 @@ Essa API tem como objetivo atender ao back end de um evento onde os usuários po
 ### LinkedIn
 
 [Perfil LinkedIn](https://www.linkedin.com/in/olavo-marques-6421ab123)
+
+### Stacks Usadas
+
+ <img src="https://img.icons8.com/color/50/visual-studio-code-2019.png">
+ <img src="https://img.icons8.com/color/50/typescript.png">
+ <img src="https://img.icons8.com/fluency/50/node-js.png">
+ <img src="https://img.icons8.com/fluency/50/my-sql.png">
+ <img src="https://img.icons8.com/ios-filled/50/github.png">
