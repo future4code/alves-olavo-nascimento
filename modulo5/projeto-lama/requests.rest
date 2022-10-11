@@ -1,0 +1,43 @@
+### Endpoint de teste
+POST http://localhost:3003/user/signup
+Content-Type: application/json
+
+{
+    "name":"zuzu",
+    "email":"zuzu@gmail.com",
+    "password":"zuzu123"
+}
+
+###
+# @name login
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    "email":"joao@gmail.com",
+    "password":"joao123"
+}
+
+###
+@token={{login.response.body.token}}  
+POST http://localhost:3003/user/show
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "band":"banda 6.",
+    "startsAt":"21-12-2022"
+}
+
+###
+GET http://localhost:3003/user/show
+
+###  
+POST http://localhost:3003/user/ticket/id/15e5280d-b24a-44cb-8b98-f0bef2900fd7
+Authorization: {{token}}
+
+###  
+DELETE http://localhost:3003/user/ticket/id/15e5280d-b24a-44cb-8b98-f0bef2900fd7
+Authorization: {{token}}
+
+
