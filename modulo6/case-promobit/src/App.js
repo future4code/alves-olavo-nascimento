@@ -1,11 +1,12 @@
 import FeedPage from "./pages/feed/FeedPage";
 import { Router } from "./router/router";
+import * as S from './styled-App'
 
 function App() {
   return (
-    <div >
+    <S.ContainerApp>
       <Router />
-    </div>
+    </S.ContainerApp>
   );
 }
 
