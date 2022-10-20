@@ -1,12 +1,13 @@
-import FeedPage from "./pages/feed/FeedPage";
+import GlobalStyle from "./router/global_styled/Global";
 import { Router } from "./router/router";
-import * as S from './styled-App'
+
 
 function App() {
   return (
-    <S.ContainerApp>
+    <div>
+      <GlobalStyle />
       <Router />
-    </S.ContainerApp>
+    </div>
   );
 }
 
