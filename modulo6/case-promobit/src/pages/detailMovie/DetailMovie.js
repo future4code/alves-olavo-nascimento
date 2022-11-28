@@ -1,216 +1,234 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
+import { KEY, URL_BASE, URL_BASE_PHOTO, URL_IFRAME } from "../../constants/Constrants"
 import { useNavigate, useParams } from "react-router-dom"
-import { KEY, URL_BASE, URL_BASE_PHOTO } from "../../constants/Constrants"
-import styled from "styled-components"
-
-export const GenresName = styled.div`
-margin: 0 5px 0 5px;
-color: #FFF;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-`
-
-export const ContainerInfo = styled.div`
-display: flex;
-align-items: center;
-`
-export const ContainerGenres = styled.div`
-color: #9B9B9B;
-display: flex;
-align-items: center;
-`
-export const ContainerBody = styled.div`
-border: 1px solid black;
-display: flex;
-justify-content: center;
-flex-direction: column;
-align-items: center;
-height: 100vh; 
-/* background-image: ${props => `url('${props.URL_BASE_PHOTO}${props.poster_path}')`}; */
-background:
-linear-gradient(27deg, #151515 5px, transparent 5px) 0 5px,
-linear-gradient(207deg, #151515 5px, transparent 5px) 10px 0px,
-linear-gradient(27deg, #222 5px, transparent 5px) 0px 10px,
-linear-gradient(207deg, #222 5px, transparent 5px) 10px 5px,
-linear-gradient(90deg, #1b1b1b 10px, transparent 10px),
-linear-gradient(#1d1d1d 25%, #1a1a1a 25%, #1a1a1a 50%, transparent 50%, transparent 75%, #242424 75%, #242424);
-background-color: #131313;
-background-size: 20px 20px;
-`
-
-export const ContainerCard = styled.div`
-display: flex;
-justify-content: center;
-flex-direction: column;
-align-items: center;
-`
-export const AllDetails = styled.div`
-width: 30vw;
-height: 400px;
-margin-left: 20px;
-border-left: 1px solid #FFF;
-padding-left: 10px;
-`
-export const PosterFront = styled.img`
-width: 300px;
-height: 400px;
-border-radius: 5px;
-margin-left: 10px;
-`
-export const Iframe = styled.iframe`
-width: 60vw;
-height: 40vh;
-border-radius: 5px;
-border: none;
-margin-top: 2vh;
-`
-export const ContainerSinopse = styled.div`
-width: 50%;
-height: 400px;
-border-left: 1px solid #FFF;
-`
-export const InfoMovie = styled.p`
-color: #FFF;
-font-size: 15px;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-font-weight: 800;
-`
-export const ValeuInfo = styled.p`
-color: #9B9B9B;
-font-size: 16px;
-margin-left: 5px;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-`
-export const SinopseTitulo = styled.p`
-color: #FFF;
-margin-left: 10px;
-font-size: 23px;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-`
-export const Sinopse = styled.p`
-margin-left: 10px;
-color: #9B9B9B;
-font-size: 18px;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-`
-export const ContainerMovie = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-margin-top: 10vh;
-border-bottom:1px solid #FFF;
-padding-bottom: 10px;
-width: 99%
-`
+import { goToDetailPage, goToFeedPage } from "../../router/Cordinator"
+import { useEffect, useState } from "react"
+import * as S from "./styled-DetailMovie"
+import axios from "axios"
 
 const DetailMovie = () => {
     const [detailMovie, setDetailMovie] = useState({})
     const [genres, setGenres] = useState([])
     const [trailer, setTrailer] = useState([])
-    // const navigate = useNavigate()
+    const [cast, setCast] = useState([])
+    const [similar, setSimilar] = useState([])
+    const [newMovie, setNewMovie] = useState(0)
+    const [person, setPerson] = useState({})
+    const [personConditinal, setPersonConditinal] = useState(false)
     const params = useParams()
+    const navigate = useNavigate()
 
     const getDetailsMovies = () => {
-        console.log("entrei getDetailsMovies")
 
-        axios.get(`${URL_BASE}3/movie/${params.id}?api_key=${KEY}c&language=pt-BR`)
+        axios.get(`${URL_BASE}/movie/${params.id}?api_key=${KEY}&language=pt-BR`)
             .then((res) => {
-                console.log(res)
                 setDetailMovie(res.data)
                 setGenres(res.data.genres)
-                // setCompaniesProduction(res.data.production_companies)
             })
             .catch((error) => {
-                console.log(error)
+                alert('Ocorreu um erro no servidor.')
             })
     }
 
     const getTrailerMovies = () => {
-        console.log("entrei getTrailerMovies")
 
-        axios.get(`${URL_BASE}3/movie/${params.id}/videos?api_key=${KEY}c&language=pt-BR`)
+        axios.get(`${URL_BASE}/movie/${params.id}/videos?api_key=${KEY}&language=pt-BR`)
             .then((res) => {
-                console.log("getTrailerMovies", res)
                 setTrailer(res.data.results)
             })
             .catch((error) => {
-                console.log(error)
+                alert("Ocorreu um erro no servidor.")
             })
+    }
+    const getCast = () => {
+
+        axios.get(`${URL_BASE}/movie/${params.id}/credits?api_key=${KEY}&language=pt-BR`)
+            .then((res) => {
+                setCast(res.data.cast)
+            })
+            .catch((error) => {
+                alert("Ocorreu um erro no servidor.")
+            })
+    }
+    const getSimilarMovie = () => {
+
+        axios.get(`${URL_BASE}/movie/${params.id}/similar?api_key=${KEY}&language=pt-BR`)
+            .then((res) => {
+                // console.log(res.data.results)
+                setSimilar(res.data.results)
+            })
+            .catch((error) => {
+                alert("Ocorreu um erro no servidor.")
+            })
+    }
+    const getDetailsPerson = (presonId) => {
+
+        axios.get(`${URL_BASE}/person/${presonId}?api_key=${KEY}&language=pt-BR`)
+            .then((res) => {
+                console.log(res.data)
+                setPerson(res.data)
+            })
+            .catch((error) => {
+                alert("Ocorreu um erro no servidor.")
+            })
+    }
+
+    const detailsPerson = (personId) => {
+        getDetailsPerson(personId)
+
+        console.log("person.biography", !person.biography)
+        if (person.biography == "" ||person.biography == undefined ||person.biography == "") {
+            setPersonConditinal(true)
+        }
+    }
+
+    const showActors = () => {
+        setPersonConditinal(false)
+    }
+
+    const infoNotFound = () => {
+        setPersonConditinal(false)
+        alert("Não foram encontradas informações deste ator.")
     }
 
     useEffect(() => {
         getDetailsMovies()
         getTrailerMovies()
-    }, [])
+        getCast()
+        getSimilarMovie()
+    }, [newMovie])
 
     const data = detailMovie
-    console.log("data", data)
-    console.log("data.title", data.title)
 
     const allGenders = genres.map((genre) => {
-        return <GenresName>{genre.name}</GenresName>
+        return <S.GenresName key={genre.name}>{genre.name}</S.GenresName>
     })
 
     const dateLocal = new Date(data.release_date).toLocaleDateString().split("/").join("-")
 
-    const trailerFilter = trailer.map((traile) => {
-        const key = traile.key
-        return key
-    })
+    let newDate = 0
+    if (person.birthday) {
+        newDate = person.birthday.split("-")
+    }
+
+    const birthday = `${newDate[2]}/${newDate[1]}/${newDate[0]}`
+
+    const trailerFilter = trailer.map((traile) => traile.key)
+
     const trailerKey = trailerFilter[0]
-    console.log("aqui", trailerKey)
+
+    const castExist = cast.filter((cas) => cas.profile_path !== null)
+
+    const goToNewMovie = (movieId) => {
+        setNewMovie(newMovie + 1)
+        goToDetailPage(navigate, movieId)
+    }
 
     return (
-        <ContainerBody>
-            <ContainerCard>
-                <Iframe src={`https://www.youtube.com/embed/${trailerKey}`} ></Iframe>
+        <S.ContainerBody>
+            <S.ButtonBack onClick={() => goToFeedPage(navigate)}>Voltar</S.ButtonBack>
 
-                <ContainerMovie>
-                    <PosterFront src={`${URL_BASE_PHOTO}${data.poster_path}`} alt={`Capa filme ${data.title}`} />
+            <S.ContainerCard>
+                <S.PosterFront src={`${URL_BASE_PHOTO}${data.poster_path}`} alt={`Capa filme ${data.title}`} />
 
-                    <AllDetails>
-                        <ContainerInfo>
-                            <InfoMovie>Titulo</InfoMovie>
-                            <ValeuInfo>{data.title}</ValeuInfo>
-                        </ContainerInfo>
-                        <ContainerInfo>
-                            <InfoMovie>Titulo Original</InfoMovie>
-                            <ValeuInfo>{data.original_title}</ValeuInfo>
-                        </ContainerInfo>
-                        <ContainerInfo>
-                            <InfoMovie>Data Lançamento</InfoMovie>
-                            <ValeuInfo>{dateLocal}</ValeuInfo>
-                        </ContainerInfo>
-                        <ContainerInfo>
-                            <InfoMovie>Slogan</InfoMovie>
-                            <ValeuInfo>{data.tagline}</ValeuInfo>
-                        </ContainerInfo>
-                        <ContainerInfo>
-                            <InfoMovie>Orçamento</InfoMovie>
-                            <ValeuInfo> {data.budget}</ValeuInfo>
-                        </ContainerInfo>
-                        <ContainerInfo>
-                            <InfoMovie>Arecadou</InfoMovie>
-                            <ValeuInfo>{data.revenue}</ValeuInfo>
-                        </ContainerInfo>
-                        <ContainerInfo>
-                            <InfoMovie>Gênero</InfoMovie>
-                            <ContainerGenres>{allGenders}</ContainerGenres>
-                        </ContainerInfo>
-                        <ContainerInfo>
-                            <InfoMovie>Idioma Original</InfoMovie>
-                            <ValeuInfo>{data.original_language}</ValeuInfo>
-                        </ContainerInfo>
-                    </AllDetails>
+                <S.ContainerMovie>
 
-                    <ContainerSinopse>
-                        <SinopseTitulo>Sinopse</SinopseTitulo>
-                        <Sinopse>{data.overview}</Sinopse>
-                    </ContainerSinopse>
-                </ContainerMovie>
+                    <S.AllDetails>
+                        <S.ContainerInfo>
+                            <S.InfoMovie>Titulo:</S.InfoMovie>
+                            <S.ValueInfo>{data.title}</S.ValueInfo>
+                        </S.ContainerInfo>
+                        <S.ContainerInfo>
+                            <S.InfoMovie>Data Lançamento:</S.InfoMovie>
+                            <S.ValueInfo>{dateLocal}</S.ValueInfo>
+                        </S.ContainerInfo>
+                        <S.ContainerInfo>
+                            <S.InfoMovie>Gênero:</S.InfoMovie>
+                            <S.ContainerGenres>{allGenders}</S.ContainerGenres>
+                        </S.ContainerInfo>
+                    </S.AllDetails>
 
-            </ContainerCard>
-        </ContainerBody>
+                    <S.ContainerSinopse>
+                        <S.SinopseTitulo>Sinopse</S.SinopseTitulo>
+                        <S.Sinopse>{data.overview}</S.Sinopse>
+                    </S.ContainerSinopse>
+                </S.ContainerMovie>
+                {
+                    trailer.length > 0 && <S.Iframe src={`${URL_IFRAME}/${trailerKey}?autoplay=1&mute=1`} title="Trailer de filmes" />
+                }
+                {
+                    personConditinal === false ?
+                        (
+                            <S.ContainerCast>
+                                <S.TitleContainer>Elenco</S.TitleContainer>
+                                <S.ContainerActor>
+                                    {
+                                        castExist.map((cas) => {
+                                            return (
+                                                <S.Teste key={cas.id}>
+                                                    {
+                                                        cas.profile_path &&
+                                                            (
+                                                                <S.CardActor>
+                                                                    <S.ImageActor onClick={() => detailsPerson(cas.id)} src={`${URL_BASE_PHOTO}${cas.profile_path}`} alt={`Imagem de ${cas.name}`} />
+
+                                                                    <S.InfoActor>
+                                                                        <S.NamePersonActor>{`${cas.name} Personagem: ${cas.character}`}</S.NamePersonActor>
+                                                                    </S.InfoActor>
+                                                                </S.CardActor>
+                                                            )
+                                                    }
+                                                </S.Teste>
+                                            )
+                                        })
+                                    }
+                                </S.ContainerActor>
+                            </S.ContainerCast>
+                        )
+                        :
+                        (
+                            <S.ContainerInfoPerson>
+                                <S.TitleContainer>Sobre Ator</S.TitleContainer>
+                                <section>
+                                    {
+                                        person.biography !== "" ?
+                                            (
+                                                <S.ContainerInfoActor>
+                                                    <S.ImageActor src={`${URL_BASE_PHOTO}${person.profile_path}`} alt={`Imagem de ${person.name}`} />
+                                                    <S.ValueInfo>{person.name}</S.ValueInfo>
+                                                    <S.InfoMovie>Nasceu em:</S.InfoMovie>
+                                                    <S.ValueInfo>{person.birthday !== null ? birthday : <p></p>}</S.ValueInfo>
+                                                    <S.InfoMovie>Naturalidade:</S.InfoMovie>
+                                                    <S.ValueInfo>{person.place_of_birth}</S.ValueInfo>
+                                                    <S.InfoMovie>Biografia:</S.InfoMovie>
+                                                    <S.TextBiografia>{person.biography}</S.TextBiografia>
+                                                </S.ContainerInfoActor>
+                                            )
+                                            :
+                                            (
+                                                infoNotFound()
+                                            )
+                                    }
+
+                                </section>
+                                <S.ButtonMoreActor onClick={showActors}>Mais Atores</S.ButtonMoreActor>
+                            </S.ContainerInfoPerson>
+                        )
+                }
+                <S.TitleContainer>Filmes Similares</S.TitleContainer>1
+                <S.ContainerMovieSimilar>
+                    {
+                        similar.map((simila) => {
+                            return (
+                                <S.CardMovieSimilar key={simila.id} onClick={() => goToNewMovie(simila.id)}>
+                                    <S.ImageMovieSimilar src={`${URL_BASE_PHOTO}${simila.poster_path}`} alt={`Imagem de ${simila.title}`} />
+                                    <S.TitleMovieSimilar>{simila.title}</S.TitleMovieSimilar>
+                                </S.CardMovieSimilar>
+                            )
+                        })
+                    }
+                </S.ContainerMovieSimilar>
+            </S.ContainerCard>
+        </S.ContainerBody>
     )
 }
 
