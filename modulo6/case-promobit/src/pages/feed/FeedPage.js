@@ -1,90 +1,101 @@
 import { KEY, URL_BASE, URL_BASE_PHOTO } from "../../constants/Constrants"
+import { goToDetailPage } from "../../router/Cordinator"
+import Header from "../../components/header/Header"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
-import styled from "styled-components"
+import * as S from "./styled-FeedPage"
 import axios from "axios"
-import { goToDetailPage } from "../../router/Cordinator"
-
-export const CardMovies = styled.div`
-/* border: 2px solid red; */
-width: 300px;
-margin: 10px;
-padding: 5px;
-display: flex;
-flex-direction: column;
-align-items:center;
-/* justify-content:center; */
-`
-export const PosterPath = styled.img`
-/* border: 2px solid violet; */
-width: 300px;
-height: 400px;
-box-sizing: border-box;
-&:hover {
-		cursor: pointer;
-    transform: scale(1.1);
-    transition: transform .2s;
-	}
-`
-export const ImagesPoster = styled.div`
-/* border: 2px solid black; */
-box-sizing: border-box;
-height: 400px; 
-display: flex;
-justify-content: center;
-`
-export const Body = styled.div`
-/* border: 2px solid green; */
-box-sizing: border-box;
-width: 100%;
-display: flex;
-flex-wrap: wrap;
-justify-content:center;
-background-color: black;
-`
-export const Title = styled.p`
-color: #FFFFFF;
-font-family:'Arial Narrow Bold', sans-serif;
-`
 
 const FeedPage = () => {
+   const currentPage = localStorage.getItem("currentPage")
+   const lastPage = localStorage.getItem("numberPage")
    const [movie, setMovie] = useState([])
+   const [page, setPage] = useState(1)
    const navigate = useNavigate()
 
    const getMovies = () => {
-      console.log("entrei getMovies")
-
-      axios.get(`${URL_BASE}3/movie/popular?api_key=${KEY}c&language=en-US&page=1`)
+      axios.get(`${URL_BASE}/movie/popular?api_key=${KEY}&language=pt-BR&page=${page}`)
          .then((res) => {
-            console.log(res)
+            // console.log(res.data.results)
             setMovie(res.data.results)
          })
          .catch((error) => {
-            console.log(error)
+            alert('Ocorreu um erro no servidor.')
          })
    }
 
    useEffect(() => {
       getMovies()
-   }, [])
+
+      if (!currentPage === null) {
+         return setPage(1)
+      }
+
+      if (lastPage > 0) {
+         setPage(lastPage)
+         localStorage.removeItem("numberPage")
+      }
+   }, [page])
+
+   const nextPage = (page) => {
+      setPage(Number(page) + 1)
+      localStorage.setItem("currentPage", page)
+   }
+   const nextTenPage = (page) => {
+      setPage(Number(page) + 10)
+      localStorage.setItem("currentPage", page)
+   }
+
+   const previousPage = () => {
+      if (page === 1) return setPage(1)
+      setPage(Number(page) - 1)
+      localStorage.setItem("currentPage", page)
+   }
+
+   const previousTenPage = () => {
+      if (page <= 10) return setPage(1)
+      setPage(Number(page) - 10)
+      localStorage.setItem("currentPage", page)
+   }
+
+   const rememberPage = (movieId) => {
+      localStorage.setItem("numberPage", page)
+      goToDetailPage(navigate, movieId)
+   }
 
    return (
-      <Body>
-         {
-            movie.map((movie) => {
-               return (
-                  <CardMovies onClick={() => goToDetailPage(navigate, movie.id)}>
-                     <ImagesPoster>
-                        <PosterPath src={`${URL_BASE_PHOTO}${movie.poster_path}`} />
-                     </ImagesPoster>
+      <S.Body>
+         <S.ContainerHeader>
+            <Header />
+         </S.ContainerHeader>
 
-                     <Title>{movie.title}</Title>
-                  </CardMovies>
-               )
-            })
-         }
-      </Body>
+         <S.ContainerCard>
+            {
+               movie.map((movie) => {
+                  return (
+                     <S.CardMovies key={movie.id} onClick={() => rememberPage(movie.id)}>
+                        <S.ImagesPoster>
+                           <S.PosterPath src={`${URL_BASE_PHOTO}${movie.poster_path}`} />
+                        </S.ImagesPoster>
+
+                        <S.Title>{movie.title}</S.Title>
+                     </S.CardMovies>
+                  )
+               })
+            }
+         </S.ContainerCard>
+
+         <S.ContainerPagination>
+            <S.ButtonLessTen onClick={() => previousTenPage(page)}>◀◀</S.ButtonLessTen>
+            <S.ButtonLessOne onClick={() => previousPage(page)}>◀</S.ButtonLessOne>
+
+            <S.CurrentPage>{page}</S.CurrentPage>
+
+            <S.ButtonMoreOne onClick={() => nextPage(page)}>▶</S.ButtonMoreOne>
+            <S.ButtonMoreTen onClick={() => nextTenPage(page)}>▶▶</S.ButtonMoreTen>
+         </S.ContainerPagination>
+      </S.Body>
    )
 }
 
-export default FeedPage  
+export default FeedPage    
